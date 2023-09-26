@@ -15,7 +15,7 @@ class ProductManager {
                 return []
             }
         } catch (error) {
-            throw error
+            throw new Error(error.message)
         }
     }
 
@@ -43,7 +43,7 @@ class ProductManager {
             }
     
         } catch (error) {
-            return error;
+            throw new Error(error.message)
         }
     }
     
@@ -60,29 +60,51 @@ class ProductManager {
                 return producto
             }
         } catch (error) {
-            throw error
+            throw new Error(error.message)
+        }
+    }
+
+    async validProductsAdd(prods) {
+        const {title, description, price, code, stock, status, category} = prods
+
+        try {
+            if (!title || !description || !price || !code || !stock || !status || !category) {
+                return false
+            } else {
+                return true
+            }
+        } catch (error) {
+            return error
         }
     }
 
     async addProducts(product) {
         try {
-            const productAr = await this.getProducts()
-            let id
+            const validation = await this.validProductsAdd(product)
 
-            if (!productAr.length) {
-                id = 1
+            if (!validation) {
+                console.log('Some data is missing, please try again')
+                return 'Some data is missing, please try again'
             } else {
-                id = productAr[productAr.length - 1].id + 1
+                const productAr = await this.getProducts()
+                let id
+
+                if (!productAr.length) {
+                    id = 1
+                } else {
+                    id = productAr[productAr.length - 1].id + 1
+                }
+
+                const newProduct = { id, ...product }
+                productAr.push(newProduct)
+
+                await promises.writeFile(this.path, JSON.stringify(productAr), 'utf-8')
+                console.log('Product added');
+                return 'Product added'
             }
 
-            const newProduct = {id, ...product}
-            productAr.push(newProduct)
-
-            await promises.writeFile(this.path, JSON.stringify(productAr),'utf-8')
-            console.log('Product added');
-
         } catch (error) {
-            throw error
+            throw new Error(error.message)
         }
     }
 
@@ -92,6 +114,7 @@ class ProductManager {
 
         await promises.writeFile(this.path, JSON.stringify(nuevoArray),'utf-8')
         console.log('Product removed')
+        return 'Product removed'
     }
 
     async updateProduct(idProducto, dataUpdate) {
@@ -103,8 +126,8 @@ class ProductManager {
                 console.log('Product not found')
                 return 'Product not found'
             } else {
-                dataUpdate.id = idProducto
-                products[index] = dataUpdate
+                const update = {...products[index], ...dataUpdate}
+                products.splice(index, 1, update)
                 await promises.writeFile(this.path, JSON.stringify(products), 'utf-8');
                 console.log('Updated')
                 return 'Updated'
@@ -117,3 +140,4 @@ class ProductManager {
 }
 
 export const manager = new ProductManager();
+
