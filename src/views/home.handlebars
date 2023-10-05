@@ -1,0 +1,18 @@
+<h2 class="title">La lista de productos disponibles son:</h2>
+
+<ul class="people_list">
+  {{#each product}}
+        <div class="productContainer">
+            <div class='itemPicture'>
+                <img src={{thumbnail}} alt={{title}} />
+            </div>
+            <div class='ItemBox_inf'>
+                <h3 class='ItemBox_title'>{{title}}</h3>
+                <p class='ItemBox_point spaceBetw'> <span class="info_span">PRECIO:</span> ${{price}} </p>
+                <p class='ItemBox_point spaceBetw'> <span class="info_span">ID:</span> {{id}} </p>
+                <p class='ItemBox_description spaceBetw'> {{description}} </p>
+                <p class='ItemBox_category spaceBetw'> {{category}} </p>
+            </div>
+        </div>
+  {{/each}}
+</ul>

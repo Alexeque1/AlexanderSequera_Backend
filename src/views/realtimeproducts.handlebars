@@ -1,0 +1,75 @@
+<h2 class="title">La lista de productos disponibles son:</h2>
+
+<div class="buttonAlert" id="buttonAlert">
+    <p>Si deseas agregar un producto, haz click aquí</p>
+</div>
+
+<div class="formProducts" id="formProducts">
+    <form class="form" action="/api/products" method="POST" id="productForm">
+        <div>
+            <input class="item_option item_normal" type="text" id="title" name="title" placeholder="Nombre">
+            <input class="item_option item_small" type="number" id="price" name="price" placeholder="Precio">
+        </div>
+        <div>
+            <input class="item_option item_normal" type="text" id="code" name="code" placeholder="Codigo">
+            <input class="item_option item_small" type="number" id="stock" name="stock" placeholder="Stock">
+        </div>
+        <div>
+            <input class="item_option item_small" type="text" id="status" name="status" placeholder="Status">
+            <label for="category"><span class="info_span">Selecciona una categoria:</span></label>
+            <select class="item_option item_normal" id="category" name="category">
+                <option value="Disney">Disney</option>
+                <option value="Movies">Movies</option>
+                <option value="TV">TV</option>
+                <option value="Otros">Otros</option>
+            </select>
+        </div>
+        <div>
+            <input class="item_option item_large" type="text" id="thumbnail" name="thumbnail" placeholder="Ruta de la imagen">
+        </div>
+        <div>
+            <input class="item_option item_superlarge" type="text" id="description" name="description" placeholder="Descripción">
+        </div>
+
+        <div>
+            <button class="btn" type="submit" id="submitButton">Enviar</button>
+            <input class="btn" type="button" value="Atrás" id="backButton">
+        </div>
+    </form>
+</div>
+
+
+<div class="alertBox" id="alertBox">
+    <div class="alertBox_design">
+        <p>¡Muchas gracias!</p>
+    </div>
+</div>
+
+<div class="alertBox" id="alertBoxDuplicate">
+    <div class="alertBox_design">
+        <p>El codigo que intentas agregar ya está dentro del sistema</p>
+    </div>
+</div>
+
+<div class="alertBox" id="alertBoxUndefined">
+    <div class="alertBox_design">
+        <p>Debes ingresar todos los datos</p>
+    </div>
+</div>
+
+<ul class="people_list" id="productContainer">
+  {{#each product}}
+        <div class="productContainer">
+            <div class='itemPicture'>
+                <img src={{thumbnail}} alt={{title}} />
+            </div>
+            <div class='ItemBox_inf'>
+                <h3 class='ItemBox_title'>{{title}}</h3>
+                <p class='ItemBox_point spaceBetw'> <span class="info_span">PRECIO:</span> ${{price}} </p>
+                <p class='ItemBox_point spaceBetw'> <span class="info_span">ID:</span> {{id}} </p>
+                <p class='ItemBox_description spaceBetw'> {{description}} </p>
+                <p class='ItemBox_category spaceBetw'> {{category}} </p>
+            </div>
+        </div>
+  {{/each}}
+</ul>

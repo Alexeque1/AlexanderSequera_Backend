@@ -113,7 +113,7 @@ class cartManager {
     
             await promises.writeFile(this.path, JSON.stringify(getFullCart), 'utf-8');
     
-            return 'Product added to cart';
+            return `'Product added to cart'`;
         } catch (error) {
             throw error;
         }

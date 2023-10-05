@@ -19,9 +19,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     const response = await manager.getProductsById(+id);
+    res.status(200).json(response);
+});
+
+router.get('/code/:code', async (req, res) => {
+    const { code } = req.params;
+    const response = await manager.getProductsByCode(code);
+    console.log(code)
     res.status(200).json(response);
 });
 

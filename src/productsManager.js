@@ -64,13 +64,36 @@ class ProductManager {
         }
     }
 
+    async getProductsByCode(code) {
+        try {
+            const productsAr = await this.getProducts()
+            const producto = productsAr.find(prod => prod.code === code)
+    
+            if (!producto) {
+                throw new Error('Producto no encontrado');
+            }
+
+            console.log(producto)
+            return producto
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
     async validProductsAdd(prods) {
+        const productsAr = await this.getProducts()
+
         const {title, description, price, code, stock, status, category} = prods
+
+        const producto = productsAr.find(prod => prod.code === code)
 
         try {
             if (!title || !description || !price || !code || !stock || !status || !category) {
                 return false
             } else {
+                if (producto) {
+                    return 'same'
+                }
                 return true
             }
         } catch (error) {
@@ -83,10 +106,13 @@ class ProductManager {
             const validation = await this.validProductsAdd(product)
 
             if (!validation) {
-                console.log('Some data is missing, please try again')
+                console.log({message: 'Some data is missing, please try again', product})
                 return 'Some data is missing, please try again'
-            } else {
-                const productAr = await this.getProducts()
+            } else if (validation === 'same') {
+                return 'El codigo que usted ingresó ya está en sistema'
+            }
+
+            const productAr = await this.getProducts()
                 let id
 
                 if (!productAr.length) {
@@ -101,7 +127,6 @@ class ProductManager {
                 await promises.writeFile(this.path, JSON.stringify(productAr), 'utf-8')
                 console.log('Product added');
                 return 'Product added'
-            }
 
         } catch (error) {
             throw new Error(error.message)
