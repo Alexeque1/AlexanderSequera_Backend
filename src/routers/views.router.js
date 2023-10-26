@@ -1,18 +1,16 @@
  import { Router} from "express";
- import { manager } from "../productsManager.js";
+import { manager } from "../Dao/productsManager.js";
 
 const router = Router()
 
-router.get('/', async (req, res) => {
-    const product = await manager.getProducts()
-    console.log(product)
-    res.render("home", {product: product})
+router.get('/realtimeproducts', async (req, res) => {
+    const products = await manager.getProducts()
+    console.log({product: products})
+    res.render("realtimeproducts", {products})
 })
 
-router.get('/realtimeproducts', async (req, res) => {
-    const product = await manager.getProducts()
-    console.log(product)
-    res.render("realtimeproducts", {product: product})
+router.get('/chat', async (req, res) => {
+    res.render("chat")
 })
 
 export default router

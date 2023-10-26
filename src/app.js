@@ -4,6 +4,7 @@ import cartRouter from './routers/cart.router.js'
 import viewsRouter from './routers/views.router.js';
 import { engine } from 'express-handlebars';
 import { Server } from 'socket.io';
+import "./Dao/configDB.js"
 
 const app = express();
 
@@ -41,7 +42,12 @@ socketServer.on("connection", (socket) => {
     socket.on("Product", (getProduct) => {
       console.log("Datos recibidos del cliente:", getProduct);
       socketServer.emit("ProductAdded", getProduct);
-      });
+    });
+
+    socket.on("newUSer", (user) => {
+      console.log(user)
+      socketServer.emit("newUSernew", user)
+    })
   
     socket.on("disconnect", () => {
       console.log("Cliente desconectado");
