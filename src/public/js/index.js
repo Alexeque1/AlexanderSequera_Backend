@@ -173,3 +173,78 @@ form.onsubmit = (event) => {
             console.error("Error al recuperar datos del archivo JSON:", error);
         });
 };
+
+/// CHAT
+
+let user;
+
+let buttonBack = document.getElementById('buttonAlert-chat');
+let buttonChatShow = document.getElementById('chatButton-show');
+let chatBox = document.getElementById('chat-container-princ');
+let userName = document.getElementById('user');
+let chatBoxMessages = document.getElementById('chat-messages-box');
+let sendMessageBox = document.getElementById('sendMessageChat');
+let chatUSerMessage = document.getElementById('chatUSerMessage').value; 
+
+buttonBack.onclick = () => {
+    setTimeout(function () {
+        window.location.href = 'http://localhost:8080/realtimeproducts';
+    }, 100);
+}
+
+
+buttonChatShow.onclick = () => {
+    if (chatBox.style.display === 'none' || chatBox.style.display === '') {
+        chatBox.style.display = 'flex';
+    } else {
+        chatBox.style.display = 'none';
+    }
+
+    Swal.fire({
+        title: '¡Bienvenido!',
+        text: 'Ingrese su nombre',
+        input: 'text',
+        showCancelButton: true,
+        cancelButtonText: 'Volver',
+        inputPlaceholder: 'Nombre',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Debe escribir un nombre para ingresar al chat';
+            }
+        },
+        confirmButtonText: 'Enter',
+    }).then((input) => {
+        if (input.value) {
+            user = input.value;
+    
+            Swal.fire('Hola', `¡Bienvenido, ${user}!`, 'success');
+    
+            socketClient.emit("NewUser", user);
+        } else if (input.dismiss === Swal.DismissReason.cancel) {
+            setTimeout(function () {
+                window.location.href = 'http://localhost:8080/realtimeproducts';
+            }, 100);
+        }
+    });
+};
+
+
+socketClient.on("NewUsernew", (newuser) => {
+    Toastify({
+        text: `${newuser} se ha conectado`,
+        duration: 3000
+    }).showToast();
+});
+
+sendMessageBox.onsubmit = (e) => {
+    e.preventDefault();
+
+    const infoMensaje = {
+        username: user,
+        message: chatUSerMessage
+    }
+
+    console.log(infoMensaje)
+
+    socketClient.emit("messageSent", infoMensaje)
+}

@@ -44,10 +44,16 @@ socketServer.on("connection", (socket) => {
       socketServer.emit("ProductAdded", getProduct);
     });
 
-    socket.on("newUSer", (user) => {
-      console.log(user)
-      socketServer.emit("newUSernew", user)
-    })
+    socket.on("NewUser", (user) => { 
+      console.log("Usuario conectado:", user);
+      socketServer.emit("NewUsernew", user);
+    });
+
+    socket.on("messageSent", (message) => { 
+      console.log("Usuario conectado:", user);
+      socketServer.emit("NewUsernew", user);
+      console.log(message)
+    });
   
     socket.on("disconnect", () => {
       console.log("Cliente desconectado");

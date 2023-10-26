@@ -1,12 +1,23 @@
+<div class="buttonAlert" id="buttonAlert-chat">
+    <p>Menu principal</p>
+</div>
 
-
-<div>
-    <div>
-        <h3>Ingrese su nombre</h3>
-        <input type="text" placeholder="Nombre">
+<div class="chat-container-princ">
+    <div class="chat-container">
+        <div class="chat-title">
+            Chat
+        </div>
+        <div class="chat-messages">
+            <!-- Mensajes -->
+        </div>
+        <div class="user-input">
+            <input type="text" placeholder="Escribe tu mensaje">
+            <button class="send-message" type="submit">Enviar</button>
+        </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/chat.js"></script>
