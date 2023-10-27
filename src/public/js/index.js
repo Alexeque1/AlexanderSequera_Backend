@@ -184,7 +184,6 @@ let chatBox = document.getElementById('chat-container-princ');
 let userName = document.getElementById('user');
 let chatBoxMessages = document.getElementById('chat-messages-box');
 let sendMessageBox = document.getElementById('sendMessageChat');
-let chatUSerMessage = document.getElementById('chatUSerMessage').value; 
 
 buttonBack.onclick = () => {
     setTimeout(function () {
@@ -236,15 +235,52 @@ socketClient.on("NewUsernew", (newuser) => {
     }).showToast();
 });
 
-sendMessageBox.onsubmit = (e) => {
+sendMessageBox.onclick = (e) => {
     e.preventDefault();
+
+    let chatUSerMessage = document.getElementById('chatUSerMessage').value; 
 
     const infoMensaje = {
         username: user,
-        message: chatUSerMessage
+        message: chatUSerMessage,
     }
 
-    console.log(infoMensaje)
+    renderMessage("my", infoMensaje)
 
     socketClient.emit("messageSent", infoMensaje)
 }
+
+socketClient.on("messageSent", (receivedMessage) => {
+    renderMessage("other", receivedMessage);
+});
+
+const renderMessage = (type, messageUser) => {
+
+    if (type == "my") {
+        const messageLine = document.createElement("div");
+        messageLine.className = "chatLineBoxClient"
+
+        const messageHtml = `
+                        <p> ${messageUser.message} </p>
+                    `;
+
+    messageLine.innerHTML = messageHtml;
+
+    chatBoxMessages.appendChild(messageLine);
+
+    } else if (type == "other") {
+        const messageLine = document.createElement("div");
+        messageLine.className = "chatLineBoxServer";
+
+        const messageHtml = `
+                        <p> ${messageUser.message} </p>
+                    `;
+
+    messageLine.innerHTML = messageHtml;
+
+    chatBoxMessages.appendChild(messageLine);
+    }
+
+}
+
+chatBoxMessages.scrollTop = chatBoxMessages.scrollHeight - chatBoxMessages.clientHeight

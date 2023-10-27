@@ -26,6 +26,8 @@
 }
 
 .chat-container {
+    display: flex;
+    flex-direction: column;
     width: 800px;
     height: 500px;
     border: 1px solid #ccc;
@@ -42,6 +44,9 @@
 }
 
 .chat-messages {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     height: 80%;
     overflow-y: scroll;
     padding: 10px;
@@ -53,6 +58,7 @@
 }
 
 .user-input input {
+    justify-content: flex-end;
     width: 90%;
     height: 20%;
     padding: 5px;
@@ -73,4 +79,27 @@
 .send-message:hover {
     background-color: black;
     color: white;
+}
+
+.chatLineBoxClient {
+    align-self: flex-start;
+    background: rgb(117,132,241);
+    background: radial-gradient(circle, rgba(117,132,241,1) 0%, rgba(90,76,247,1) 100%);
+    padding: 5px 10px; 
+    border-radius: 5px;
+    margin: 5px 10px;
+}
+
+.chatLineBoxServer {
+    align-self: flex-end;
+    background: rgb(241,117,234);
+    background: radial-gradient(circle, rgba(241,117,234,1) 0%, rgba(222,76,247,1) 100%);
+    padding: 5px 10px; 
+    border-radius: 5px;
+    margin: 5px 10px;
+}
+
+.chatLineBoxClient, .chatLineBoxServer {
+    max-width: 70%;
+    word-wrap: break-word; 
 }

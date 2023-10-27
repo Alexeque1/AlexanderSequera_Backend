@@ -50,8 +50,10 @@ socketServer.on("connection", (socket) => {
     });
 
     socket.on("messageSent", (message) => { 
-      console.log("Usuario conectado:", user);
-      socketServer.emit("NewUsernew", user);
+      console.log("Usuario conectado:", message.user);
+
+      socket.broadcast.emit("messageSent", message);
+
       console.log(message)
     });
   
