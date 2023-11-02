@@ -174,113 +174,214 @@ form.onsubmit = (event) => {
         });
 };
 
-/// CHAT
+/// BUTTONS
 
-let user;
+const previousButton = document.getElementById("buttonPrevious");
+const nextButton = document.getElementById("buttonNext");
+const previousButtonOfic = document.getElementById("buttonPrevious_button");
+const nextButtonOfic = document.getElementById("buttonNext_button");
+const pageNumberInfo = document.getElementById("paginationInfo");
+let getData 
 
-let buttonBack = document.getElementById('buttonAlert-chat');
-let buttonChatShow = document.getElementById('chatButton-show');
-let chatBox = document.getElementById('chat-container-princ');
-let userName = document.getElementById('user');
-let chatBoxMessages = document.getElementById('chat-messages-box');
-let sendMessageBox = document.getElementById('sendMessageChat');
+const fetchInfo = () => {
+    fetch(`/api/products`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            getData = data.products.info;
 
-buttonBack.onclick = () => {
-    setTimeout(function () {
-        window.location.href = 'http://localhost:8080/realtimeproducts';
-    }, 100);
+            disableButtonPrevious();
+            disableButtonNext();
+            paginationInfoNumber();
+        })
+        .catch(error => {
+            console.error("Error al recuperar datos del archivo JSON:", error);
+        });
 }
 
+const disableButtonPrevious = () => {
+    const currentUrl = window.location.href;
 
-buttonChatShow.onclick = () => {
-    if (chatBox.style.display === 'none' || chatBox.style.display === '') {
-        chatBox.style.display = 'flex';
+    if (currentUrl === 'http://localhost:8080/realtimeproducts' || currentUrl === 'http://localhost:8080/realtimeproducts?page=1') {
+        previousButton.style.display = 'none';
     } else {
-        chatBox.style.display = 'none';
+        previousButton.style.display = 'block';
     }
+}
 
-    Swal.fire({
-        title: '¡Bienvenido!',
-        text: 'Ingrese su nombre',
-        input: 'text',
-        showCancelButton: true,
-        cancelButtonText: 'Volver',
-        inputPlaceholder: 'Nombre',
-        inputValidator: (value) => {
-            if (!value) {
-                return 'Debe escribir un nombre para ingresar al chat';
-            }
-        },
-        confirmButtonText: 'Enter',
-    }).then((input) => {
-        if (input.value) {
-            user = input.value;
-    
-            Swal.fire('Hola', `¡Bienvenido, ${user}!`, 'success');
-    
-            socketClient.emit("NewUser", user);
-        } else if (input.dismiss === Swal.DismissReason.cancel) {
-            setTimeout(function () {
-                window.location.href = 'http://localhost:8080/realtimeproducts';
-            }, 100);
+const disableButtonNext = () => {
+
+    if (getData) {
+        const totalPages = getData.pages;
+
+        const currentPage = getCurrentPageFromUrl();
+
+        if (currentPage >= totalPages) {
+            nextButton.style.display = 'none';
+        } else {
+            nextButton.style.display = 'block';
         }
-    });
+    }
+}
+
+const getCurrentPageFromUrl = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return parseInt(urlParams.get('page')) || 1;
 };
 
 
-socketClient.on("NewUsernew", (newuser) => {
-    Toastify({
-        text: `${newuser} se ha conectado`,
-        duration: 3000
-    }).showToast();
-});
-
-sendMessageBox.onclick = (e) => {
+previousButtonOfic.onclick = (e) => {
     e.preventDefault();
+    currentPage = getCurrentPageFromUrl();
 
-    let chatUSerMessage = document.getElementById('chatUSerMessage').value; 
+    if (currentPage > 1) {
+        currentPage--;
 
-    const infoMensaje = {
-        username: user,
-        message: chatUSerMessage,
+        const newUrl = `http://localhost:8080/realtimeproducts?page=${currentPage}`;
+        window.location.href = newUrl;
     }
 
-    renderMessage("my", infoMensaje)
+};
 
-    socketClient.emit("messageSent", infoMensaje)
+nextButtonOfic.onclick = (e) => {
+    e.preventDefault()
+    currentPage = getCurrentPageFromUrl() || 1;
+
+    currentPage++;
+
+    const newUrl = `http://localhost:8080/realtimeproducts?page=${currentPage}`;
+    window.location.href = newUrl;
 }
 
-socketClient.on("messageSent", (receivedMessage) => {
-    renderMessage("other", receivedMessage);
+const paginationInfoNumber = () => {
+    const currentPage = getCurrentPageFromUrl();
+    const nextPage = currentPage + 1;
+
+    if (getData) {
+        const totalPages = getData.pages;
+
+        const currentPage = getCurrentPageFromUrl();
+
+        if (currentPage >= totalPages) {
+            paginationInfo.innerHTML = `
+        <p class="paginationInfoNumbers"> <span class="paginationCurrentPage">${currentPage}</span></p>
+    `;
+        } else {
+            paginationInfo.innerHTML = `
+        <p class="paginationInfoNumbers"> <span class="paginationCurrentPage">${currentPage}</span> / ${nextPage}</p>
+    `;
+        }
+    }
+}
+paginationInfoNumber();
+fetchInfo();
+
+// ADD TO CART
+
+let addToCartButtons = document.querySelectorAll('.addToCart');
+let cartID = localStorage.getItem('cartID');
+
+addToCartButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        let idProduct = button.getAttribute('data-product-id');
+
+        if (cartID) {
+            fetch(`/api/cart/${cartID}/products/${idProduct}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ quantity: 1 })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                })
+                .catch(error => {
+                    console.error("Error al enviar los datos:", error);
+                });
+        } else {
+            fetch("/api/cart", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                cartID = data.message._id;
+                localStorage.setItem('cartID', cartID);
+    
+                fetch(`/api/cart/${cartID}/products/${idProduct}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ quantity: 1 })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                    })
+                    .catch(error => {
+                        console.error("Error al enviar los datos:", error);
+                    });
+    
+            })
+            .catch(error => {
+                console.error("Error al enviar los datos:", error);
+            });
+        }
+    });
 });
 
-const renderMessage = (type, messageUser) => {
+/// CART BOX
 
-    if (type == "my") {
-        const messageLine = document.createElement("div");
-        messageLine.className = "chatLineBoxClient"
+let cartNumberProds = document.getElementById("cartNumber");
+const cartContainer = document.getElementById("cartContainer");
+let producCant 
 
-        const messageHtml = `
-                        <p> ${messageUser.message} </p>
-                    `;
-
-    messageLine.innerHTML = messageHtml;
-
-    chatBoxMessages.appendChild(messageLine);
-
-    } else if (type == "other") {
-        const messageLine = document.createElement("div");
-        messageLine.className = "chatLineBoxServer";
-
-        const messageHtml = `
-                        <p> ${messageUser.message} </p>
-                    `;
-
-    messageLine.innerHTML = messageHtml;
-
-    chatBoxMessages.appendChild(messageLine);
+const toggleCartContainer = () => {
+    if (!cartID) {
+        cartContainer.style.display = 'none';
+    } else {
+        cartContainer.style.display = 'block';
+        showCantProds();
     }
-
 }
 
-chatBoxMessages.scrollTop = chatBoxMessages.scrollHeight - chatBoxMessages.clientHeight
+const showCantProds = async () => {
+    try {
+        const response = await fetch(`/api/cart/${cartID}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const data = await response.json();
+        const productsList = data.getProducts.products;
+
+        producCant = 0;
+
+        for (const product of productsList) {
+            producCant += product.quantity;
+        }
+
+        cartNumberProds.innerText = producCant;
+    } catch (error) {
+        console.error("Error al recuperar datos del archivo JSON:", error);
+    }
+}
+
+cartContainer.onclick = () => {
+    window.location.href = `http://localhost:8080/cart/${cartID}`;
+}
+
+
+toggleCartContainer();

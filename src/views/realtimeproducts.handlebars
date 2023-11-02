@@ -4,6 +4,19 @@
     <p>Si deseas agregar un producto, haz click aquí</p>
 </div>
 
+<div class="buttonAlert-Chat" id="buttonAlert">
+    <a href="http://localhost:8080/chat">
+        <p>Ingresa al chat</p>
+    </a>
+</div>
+
+<div class="cartContainer" id="cartContainer">
+    <div class="cartBox">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"><path fill="white" d="M17 18c-1.11 0-2 .89-2 2a2 2 0 0 0 2 2a2 2 0 0 0 2-2a2 2 0 0 0-2-2M1 2v2h2l3.6 7.59l-1.36 2.45c-.15.28-.24.61-.24.96a2 2 0 0 0 2 2h12v-2H7.42a.25.25 0 0 1-.25-.25c0-.05.01-.09.03-.12L8.1 13h7.45c.75 0 1.41-.42 1.75-1.03l3.58-6.47c.07-.16.12-.33.12-.5a1 1 0 0 0-1-1H5.21l-.94-2M7 18c-1.11 0-2 .89-2 2a2 2 0 0 0 2 2a2 2 0 0 0 2-2a2 2 0 0 0-2-2Z"/></svg>
+    </div>
+    <p class="cartNumber" id="cartNumber">  </p>
+</div>
+
 <div class="formProducts" id="formProducts">
     <form class="form" action="/api/products" method="POST" id="productForm">
         <div>
@@ -25,10 +38,12 @@
             </select>
         </div>
         <div>
-            <input class="item_option item_large" type="text" id="thumbnail" name="thumbnail" placeholder="Ruta de la imagen">
+            <input class="item_option item_large" type="text" id="thumbnail" name="thumbnail"
+                placeholder="Ruta de la imagen">
         </div>
         <div>
-            <input class="item_option item_superlarge" type="text" id="description" name="description" placeholder="Descripción">
+            <input class="item_option item_superlarge" type="text" id="description" name="description"
+                placeholder="Descripción">
         </div>
 
         <div>
@@ -58,44 +73,48 @@
 </div>
 
 <ul class="people_list" id="productContainer">
-  {{#each products}}
+    {{#each productsResult}}
     <div class="productContainer">
-      <div class='itemPicture'>
-        <img src={{thumbnail}} alt={{title}} />
-      </div>
-      <div class='ItemBox_inf'>
-        <h3 class='ItemBox_title'>{{title}}</h3>
-        <p class='ItemBox_point spaceBetw'> <span class="info_span">PRECIO:</span> ${{price}} </p>
-        <p class='ItemBox_point spaceBetw'> <span class="info_span">ID:</span> {{_id}} </p>
-        <p class='ItemBox_description spaceBetw'> {{description}} </p>
-        <p class='ItemBox_category spaceBetw'> {{category}} </p>
-      </div>
+        <div class='itemPicture'>
+            <img src={{thumbnail}} alt={{title}} />
+        </div>
+        <div class='ItemBox_inf'>
+            <h3 class='ItemBox_title'>{{title}}</h3>
+            <p class='ItemBox_point spaceBetw'> <span class="info_span">PRECIO:</span> ${{price}} </p>
+            <p class='ItemBox_point spaceBetw'> <span class="info_span">ID:</span> {{_id}} </p>
+            <p class='ItemBox_description spaceBetw'> {{description}} </p>
+            <p class='ItemBox_category spaceBetw'> {{category}} </p>
+        </div>
+        <div>
+            <button class="btn spaceBetw addToCart" data-product-id="{{_id}}">
+                Agregar al carrito
+            </button>
+        </div>
     </div>
-  {{/each}}
+    {{/each}}
 </ul>
 
-<div class="buttonAlert" id="buttonAlert-chat">
-    <p>Menu principal</p>
-</div>
-
-<div class="chatButton-show" id="chatButton-show">
-    <div class="chatButton-show-box">
-        <p>Empezar chat</p>
-    </div>
-</div>
-
-<div class="chat-container-princ" id="chat-container-princ">
-    <div class="chat-container">
-        <h3 id="user"></h3>
-        <div class="chat-title">
-            Chat
+<div>
+    <div class="buttonPagesContainer">
+        <div class="buttonContainer">
+            <div class="buttonPages buttonPrevious" id="buttonPrevious">
+                <a href="">
+                    <button class="btn" id="buttonPrevious_button">
+                        Previo
+                    </button>
+                </a>
+            </div>
+            <div class="buttonPages buttonNext" id="buttonNext">
+                <a href="">
+                    <button class="btn" id="buttonNext_button">
+                        Proximo
+                    </button>
+                </a>
+            </div>
         </div>
-        <div class="chat-messages" id="chat-messages-box">
-            <!-- Mensajes -->
-        </div>
-        <div class="user-input">
-            <input type="text" placeholder="Escribe tu mensaje" id="chatUSerMessage">
-            <button class="send-message" type="submit" id="sendMessageChat">Enviar</button>
+
+        <div id="paginationInfo">
+            
         </div>
     </div>
 </div>

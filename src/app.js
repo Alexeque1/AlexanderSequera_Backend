@@ -2,6 +2,7 @@ import express from 'express';
 import productsRouter from './routers/products.router.js'
 import cartRouter from './routers/cart.router.js'
 import viewsRouter from './routers/views.router.js';
+import chatRouter from './routers/chat.router.js'
 import { engine } from 'express-handlebars';
 import { Server } from 'socket.io';
 import "./Dao/configDB.js"
@@ -30,6 +31,7 @@ const httpServer = app.listen(8080, () => {
   app.use('/api/products', productsRouter)
   app.use('/api/cart', cartRouter)
   app.use('/', viewsRouter)
+  app.use('/chat', chatRouter)
   
 
 //Socket.io
@@ -50,7 +52,6 @@ socketServer.on("connection", (socket) => {
     });
 
     socket.on("messageSent", (message) => { 
-      console.log("Usuario conectado:", message.user);
 
       socket.broadcast.emit("messageSent", message);
 
@@ -59,5 +60,6 @@ socketServer.on("connection", (socket) => {
   
     socket.on("disconnect", () => {
       console.log("Cliente desconectado");
+      socket.emit("userOff");
     });
   });

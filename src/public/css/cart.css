@@ -1,0 +1,86 @@
+.cartFullContainer {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.cartFullContainer_products {
+    width: 70%;
+    background-color: rgb(127, 127, 232);
+    border-radius: 10px;
+}
+
+.cartFullContainer_info {
+    width: 25%;
+    background-color: rgb(76, 216, 179);
+    border-radius: 10px;
+}
+
+.cartFullContainer_products_title {
+    font-family: 'Snippet', sans-serif;
+    border-radius: 10px 10px 0px 0px;
+    font-size: 1.5em;
+    text-align: center;
+    background-color: rgb(110, 110, 215);
+    padding: 10px;
+}
+
+.cartFullContainer_products_list {
+    display: flex;
+}
+
+.products_list_box {
+    background-color: rgba(255, 255, 255, 0.371);
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    margin: 10px 20px;
+    width: 250px;
+    height: 100%;
+    border-radius: 20px;
+}
+
+.products_list_icons {
+    position: absolute;
+    display: flex;
+    margin: 5px;
+}
+
+.products_list_icons_click {
+    margin: 0px 5px;
+    cursor: pointer;
+}
+
+.delete:hover {
+    background-color: rgb(233, 187, 187);
+    border-radius: 10px;
+}
+
+.plus:hover {
+    background-color: rgb(197, 236, 197);
+    border-radius: 10px;
+}
+
+.products_list_picture {
+    width: 100%;
+}
+
+.products_list_image {
+    width: 100%;
+    height: 100%;
+}
+
+.products_list_info {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.product_list_title {
+    font-family: 'Saira Stencil One', cursive;
+    font-size: 1.2em;
+}
+
+.product_list_rest {
+    font-family: 'Saira Stencil One', cursive;
+    font-size: 1em;
+}
+

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const productsSchema = new mongoose.Schema({
-    user: {
+    username: {
         type: String,
         requried: true
     },
@@ -11,4 +11,4 @@ const productsSchema = new mongoose.Schema({
     }
 })
 
-export const productsModel = mongoose.model('Messages', productsSchema)
+export const messagesModel = mongoose.model('Messages', productsSchema)

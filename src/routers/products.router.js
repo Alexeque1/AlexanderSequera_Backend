@@ -4,18 +4,11 @@ import { manager } from "../Dao/productsManager.js";
 const router = Router();
 
 router.get('/', async (req, res) => {
-    const {limit} = req.query
-
     try {
-        if (!limit) {
-            const products = await manager.getProducts();
-            return res.status(200).json({products});
-        } else {
-            const filter = await manager.getProductsByQuant(+limit)
-            return res.status(200).json(filter)
-        }
+        const products = await manager.getProducts(req.query);
+        return res.status(200).json({ products });
     } catch (error) {
-        return res.status(500).json('Products not found')
+        return res.status(500).json({ error: 'An error occurred while fetching products' });
     }
 });
 

@@ -2,17 +2,24 @@
     <p>Menu principal</p>
 </div>
 
-<div class="chat-container-princ">
+<div class="chatButton-show" id="chatButton-show">
+    <div class="chatButton-show-box">
+        <p>Empezar chat</p>
+    </div>
+</div>
+
+<div class="chat-container-princ" id="chat-container-princ">
     <div class="chat-container">
+        <h3 id="user"></h3>
         <div class="chat-title">
             Chat
         </div>
-        <div class="chat-messages">
+        <div class="chat-messages" id="chat-messages-box">
             <!-- Mensajes -->
         </div>
         <div class="user-input">
-            <input type="text" placeholder="Escribe tu mensaje">
-            <button class="send-message" type="submit">Enviar</button>
+            <input type="text" placeholder="Escribe tu mensaje" id="chatUSerMessage">
+            <button class="send-message" type="submit" id="sendMessageChat">Enviar</button>
         </div>
     </div>
 </div>
@@ -21,3 +28,4 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/chat.js"></script>
+<script src="/js/index.js"></script>

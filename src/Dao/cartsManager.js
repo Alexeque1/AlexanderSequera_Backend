@@ -1,5 +1,6 @@
 import { existsSync, promises } from 'fs'
 import { cartsModels } from './Models/carts.models.js'
+import { manager } from './productsManager.js'
 
 class cartManager {
     constructor() {
@@ -13,7 +14,7 @@ class cartManager {
       
       async getCartById(idCart) {
         try {
-          const cart = await cartsModels.findById(idCart);
+          const cart = await cartsModels.findById(idCart).populate('products.product');
           return cart;
         } catch (error) {
           throw new Error(error.message);
@@ -32,59 +33,117 @@ class cartManager {
         }
       }
     
-    // async getProductsById(id) {
-    //     try {
-    //         const cartInfo = await this.getCartInfo();
-    //         const index = cartInfo.findIndex(cart => cart.id === id);
-    
-    //         if (index === -1) {
-    //             throw new Error('Cart not found');
-    //         }
-    
-    //         const products = cartInfo[index].products;
-    //         return products;
-    //     } catch (error) {
-    //         console.error(error);
-    //         throw error;
-    //     }
-    // }
-    
-    async updateProduct(cid, productId, quantity) {
-        try {
-            const cart = await cartsModels.findById(cid);
+  async updateProduct(cid, productId, quantity) {
+    try {
+      const cart = await cartsModels.findById(cid);
 
-            if (!cart) {
-                return 'Carrito no encontrado';
-            }
+      if (!cart) {
+        return 'Carrito no encontrado';
+      }
 
-            console.log('Cart:', cart);
+      console.log('Cart:', cart);
 
-            const existingProduct = cart.products.find((product) => product.productId === productId);
+      const existingProduct = cart.products.find(
+        (product) => product.product.equals(productId)
+      );
 
-            console.log('Existing Product:', existingProduct);
+      console.log('Existing Product:', existingProduct);
 
-            if (existingProduct) {
-                console.log('Updating quantity...');
-                existingProduct.quantity += quantity;
-                console.log('Actualizado:', existingProduct);
-                await cart.save(); 
-                return 'Carrito actualizado exitosamente'; 
-            } else {
-                console.log('Adding new product...');
-                const productToAdd = {
-                    productId: productId,
-                    quantity: quantity
-                };
-                cart.products.push(productToAdd);
-                await cart.save(); 
-                return 'Producto agregado al carrito exitosamente';
-            }
+      if (existingProduct) {
+        console.log('Updating quantity...');
+        existingProduct.quantity += quantity;
+        console.log('Actualizado:', existingProduct);
+      } else {
+        console.log('Adding new product...');
+        const productToAdd = {
+          product: productId,
+          quantity: quantity,
+        };
+        cart.products.push(productToAdd);
+      }
 
-        } catch (error) {
-            console.error('Error:', error);
-            throw new Error(error.message);
-        }
+      // Guarda los cambios en el carrito
+      await cart.save();
+
+      return 'Carrito actualizado exitosamente';
+    } catch (error) {
+      console.error('Error:', error);
+      throw new Error(error.message);
     }
+  }
+
+    async deleteProduct(cartID, prodID) {
+      try {
+        const cart = await this.getCartById(cartID);
+
+        if (!cart) {
+            return 'Carrito no encontrado';
+        }
+
+        const productIndex = cart.products.findIndex((product) => product.productId === prodID);
+
+        if (productIndex === -1) {
+            return 'Producto no encontrado en el carrito';
+        }
+
+        cart.products.splice(productIndex, 1); 
+        await cart.save();
+
+        return 'Producto eliminado del carrito exitosamente';
+
+      } catch (error) {
+          console.error('Error:', error);
+          throw new Error(error.message);
+      }
+  }
+
+  async deleteCart(cartID) {
+    try {
+      const cart = await this.getCartById(cartID);
+
+      if (!cart) {
+          return 'Carrito no encontrado';
+      }
+
+      const result = await cartsModels.deleteOne({ _id: cartID });
+
+      return {'Carrito eliminado exitosamente:': result};
+
+    } catch (error) {
+        console.error('Error:', error);
+        throw new Error(error.message);
+    }
+}
+
+  async updateQuantity(cartID, prodID, quantityAct) {
+    try {
+      const cart = await this.getCartById(cartID);
+
+      if (!cart) {
+        return 'Carrito no encontrado';
+      }
+
+      const product = await manager.getProductsById(prodID)
+
+      if (!product) {
+        return 'Producto no encontrado';
+      }
+
+      const existingProduct = cart.products.find((prod) => prod.product === prodID);
+
+      if (!existingProduct) {
+        return 'Producto no encontrado';
+      } else {
+        existingProduct.quantity += quantityAct;
+        await cart.save();
+        return 'Carrito actualizado exitosamente';
+      }
+
+    } catch (error) {
+      console.error('Error:', error);
+      throw new Error(error.message);
+    }
+  }
 
 }
 

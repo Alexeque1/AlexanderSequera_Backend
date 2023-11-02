@@ -3,12 +3,49 @@ import { productsModel } from './Models/products.models.js'
 
 class ProductManager {
     constructor() {
-        this.path = 'Products.JSON'
+        this.path = 'Page.JSON'
     }
 
-    async getProducts() {
-        const response = await productsModel.find().lean()
-        return response
+    async getProducts(obj) {
+        try {
+            const { limit = 10, page = 1, sort, query, ...filter } = obj || {};
+
+            const options = {
+                limit,        
+                page,      
+                sort: sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : null, 
+            };
+
+        const queryObj = {};
+
+        if (query) {
+            queryObj.$or = [
+                { title: { $regex: query, $options: 'i' } },
+                { category: { $regex: query, $options: 'i' } }
+            ];
+        }
+
+            const response = await productsModel.paginate(queryObj, options);
+    
+            const info = {
+                count: response.totalDocs,
+                pages: response.totalPages,
+                nextPage: response.hasNextPage
+                    ? `http://localhost:8080/realtimeproducts/?page=${response.nextPage}`
+                    : null,
+                prevPage: response.hasPrevPage
+                    ? `http://localhost:8080/realtimeproducts/?page=${response.prevPage}`
+                    : null,
+            };
+    
+            const results = response.docs.map(doc => doc.toObject({ getters: true }));
+
+            await promises.writeFile(this.path, JSON.stringify(info), 'utf-8');
+
+            return { info, results };
+        } catch (error) {
+            throw error;
+        }
     }
 
     async getProductsByQuant(number) {
@@ -42,7 +79,7 @@ class ProductManager {
 
     async getProductsById(idProducto) {
         try {
-            const productsAr = await this.getProducts()
+            const productsAr = await productsModel.find()
             const producto = productsAr.find(prod => prod.id === idProducto)
     
             if (!producto) {
@@ -58,7 +95,7 @@ class ProductManager {
 
     async getProductsByCode(code) {
         try {
-            const productsAr = await this.getProducts()
+            const productsAr = await productsModel.find()
             const producto = productsAr.find(prod => prod.code === code)
     
             if (!producto) {
@@ -73,7 +110,7 @@ class ProductManager {
     }
 
     async validProductsAdd(prods) {
-        const productsAr = await this.getProducts()
+        const productsAr = await productsModel.find()
 
         const {title, description, price, code, stock, status, category} = prods
 
