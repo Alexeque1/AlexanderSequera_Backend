@@ -22,4 +22,11 @@ router.get('/cart/:id', async (req, res) => {
     res.render("cart", { results: productsList });
 });
 
+router.get('/products/:id', async (req, res) => {
+    const { id } = req.params;
+    const response = await manager.getProductsById(id);
+    console.log({ prods: response })
+    res.render("products", { prods: response });
+});
+
 export default router

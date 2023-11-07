@@ -6,6 +6,8 @@ import chatRouter from './routers/chat.router.js'
 import { engine } from 'express-handlebars';
 import { Server } from 'socket.io';
 import "./Dao/configDB.js"
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 const app = express();
 
@@ -13,6 +15,15 @@ const app = express();
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url))
+
+//Session
+app.use(session({
+  store: new MongoStore({
+    mongoUrl: "mongodb+srv://alexeque1:alex15981478sequera@ecommerce.dvv9u6y.mongodb.net/CoderHouse_backend?retryWrites=true&w=majority"
+  }),
+  secret: "secretSession",
+  cookie: { maxAge: 60000 }
+}));
 
 //Handlebars
 app.engine('handlebars', engine());

@@ -1,0 +1,86 @@
+.infoProduct_Container {
+    width: 90%;
+    max-height: 90vh;
+    display: flex;
+    background-color: rgb(124, 124, 222);
+    box-shadow: 14px 9px 17px -1px rgba(0,0,0,0.54);
+    -webkit-box-shadow: 14px 9px 17px -1px rgba(0,0,0,0.54);
+    -moz-box-shadow: 14px 9px 17px -1px rgba(0,0,0,0.54);
+    border-radius: 20px;
+    margin: auto;
+    justify-content: space-evenly;
+    position: relative;
+}
+
+.infoProduct_Icon {
+    position: absolute;
+    left: 20px;
+}
+
+.infoProduct_Icon:hover {
+    cursor: pointer;
+}
+
+.infoProduct_Picture {
+    max-width: 50%;
+    height: 100%;
+    margin: auto;
+}
+
+.infoProduct_Picture img {
+    width: 50vw;
+    height: 100%;
+}
+
+.infoProduct_InfoBox {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+    margin: auto;
+}
+
+.infoProduct_InfoBox_Details {
+    display: flex;
+    flex-direction: column;
+}
+
+.InfoBox_Details_Title h2 {
+    font-family: 'Saira Stencil One', cursive;
+    font-size: 4em;
+    text-align: center;
+    color: #fff;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-shadow: 0 0 0.15em #1da9cc;
+    user-select: none;
+    white-space: nowrap;
+    filter: blur(0.007em);
+}
+
+.InfoBox_Details_Subtitle {
+    margin: 30px 0px;
+}
+
+.InfoBox_Details_Description {
+    font-family: 'Snippet', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.InfoBox_Details_Price {
+    font-family: 'Saira Stencil One', cursive;
+    font-size: 2em;
+    text-align: center;
+    color: #fff;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-shadow: 0 0 0.15em #a72ac6;
+    user-select: none;
+    white-space: nowrap;
+    filter: blur(0.007em);
+}

@@ -385,3 +385,22 @@ cartContainer.onclick = () => {
 
 
 toggleCartContainer();
+
+//PRODUCTS
+
+let productContainer = document.getElementById("productContainer");
+
+productContainer.onclick = (e) => {
+    let target = e.target;
+
+    while (target !== productContainer) {
+        if (target.getAttribute('data-product-id')) {
+            let idProduct = target.getAttribute('data-product-id');
+
+            window.location.href = `http://localhost:8080/products/${idProduct}`;
+            return;
+        }
+
+        target = target.parentNode;
+    }
+};

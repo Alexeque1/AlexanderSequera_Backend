@@ -1,0 +1,55 @@
+<div class="cartContainer" id="cartContainer">
+    <div class="cartBox">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
+            <path fill="white"
+                d="M17 18c-1.11 0-2 .89-2 2a2 2 0 0 0 2 2a2 2 0 0 0 2-2a2 2 0 0 0-2-2M1 2v2h2l3.6 7.59l-1.36 2.45c-.15.28-.24.61-.24.96a2 2 0 0 0 2 2h12v-2H7.42a.25.25 0 0 1-.25-.25c0-.05.01-.09.03-.12L8.1 13h7.45c.75 0 1.41-.42 1.75-1.03l3.58-6.47c.07-.16.12-.33.12-.5a1 1 0 0 0-1-1H5.21l-.94-2M7 18c-1.11 0-2 .89-2 2a2 2 0 0 0 2 2a2 2 0 0 0 2-2a2 2 0 0 0-2-2Z" />
+        </svg>
+    </div>
+    <p class="cartNumber" id="cartNumber"> </p>
+</div>
+
+<h2> HOla</h2>
+
+<ul class="infoProduct_Container">
+    {{#each prods}}
+    <svg class="infoProduct_Icon" id="infoProduct_Icon_Back" xmlns="http://www.w3.org/2000/svg" width="50" height="50"
+        viewBox="0 0 24 24">
+        <g transform="translate(24 0) scale(-1 1)">
+            <path fill="black"
+                d="M18.4 10.6C16.55 9 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16a8.002 8.002 0 0 1 7.6-5.5c1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6Z" />
+        </g>
+    </svg>
+    <picture class="infoProduct_Picture">
+        <img src={{thumbnail}}>
+    </picture>
+    <div class="infoProduct_InfoBox">
+        <div class="infoProduct_InfoBox_Details">
+            <div class="InfoBox_Details_Title">
+                <h2> {{title}} </h2>
+            </div>
+            <div class="InfoBox_Details_Subtitle">
+                <p class="InfoBox_Details_Description">
+                    {{description}}
+                </p>
+                <p class="InfoBox_Details_Price">
+                    {{price}}
+                </p>
+                <p class="InfoBox_Details_Price">
+                    {{stock}}
+                </p>
+            </div>
+        </div>
+        <div class="infoProduct_InfoBox_Button">
+            <button class="btn spaceBetw addToCart" data-product-id="{{_id}}">
+                Agregar al carrito
+            </button>
+        </div>
+    </div>
+    {{/each}}
+</ul>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/products.js"></script>
+<script src="/js/index.js"></script>
