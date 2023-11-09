@@ -1,0 +1,141 @@
+<div class="login_entirebox">
+    <div class="login_contenedor">
+        <div class="login_titleBox">
+            <h1 class="title-text">FunkoPop Argentina</h1>
+        </div>
+        <div class="login_loginBox">
+            <a class="positionBox" href="http://localhost:8080/realtimeproducts">
+                <svg class="btn" xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24">
+                    <g transform="rotate(180 12 12) translate(0 24) scale(1 -1)">
+                        <path fill="#ade0db"
+                            d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" />
+                    </g>
+                </svg>
+            </a>
+            <div class="login_loginBox_img imgFull">
+                <!---->
+            </div>
+            <div class="loginBox_loginInfo">
+                <form id="formVisible1" class="formDisplay">
+                    <div class="form_loginBox">
+                        <fieldset class="form_loginBox_field">
+                            <legend class="hidden">Sign In</legend>
+                            <div class="formAlign">
+                                <label class="formLabel" for="email_login">Correo Electronico</label>
+                                <div class="formAlign_second">
+                                    <input class="formInput" type="email" name="correo_electronico" id="login_email">
+                                </div>
+                            </div>
+                            <div class="formAlign">
+                                <label class="formLabel" for="password_login">Contraseña</label>
+                                <div class="formAlign_second">
+                                    <input id="login_password" class="formInput_pas" type="password" name="password">
+                                    <div>
+                                        <button id="btn_button" class="btn_white" type="button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24">
+                                                <g fill="none" stroke="currentColor" stroke-width="1.5">
+                                                    <path stroke-linecap="round"
+                                                        d="M9 4.46A9.84 9.84 0 0 1 12 4c4.182 0 7.028 2.5 8.725 4.704C21.575 9.81 22 10.361 22 12c0 1.64-.425 2.191-1.275 3.296C19.028 17.5 16.182 20 12 20c-4.182 0-7.028-2.5-8.725-4.704C2.425 14.192 2 13.639 2 12c0-1.64.425-2.191 1.275-3.296A14.465 14.465 0 0 1 5 6.821" />
+                                                    <path d="M15 12a3 3 0 1 1-6 0a3 3 0 0 1 6 0Z" />
+                                                </g>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn_align">
+                                <div>
+                                    <button class="btn btn_gray" type="button" id="login_button">Iniciar sesión</button>
+                                </div>
+                                <div class="btn_align_second">
+                                    <div class="space_margin">
+                                        <button id="signUp" class="btn btn_green" type="button">Registrarse</button>
+                                    </div>
+                                    <div class="space_margin">
+                                        <button class="btn btn_green" type="button">Olvidé mi contraseña</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formAlign textAlign">
+                                <p>Al iniciar sesión, estás aceptando nuestros Términos y Condiciones y nuestra política
+                                    sobre Protección de Datos.</p>
+                            </div>
+                        </fieldset>
+                    </div>
+                </form>
+                <div id="welcomeDiv" class="formDisplay_signUp">
+                    <p></p>
+                </div>
+                <form id="formVisible2" class="formDisplay_signUp" action="/api/sessions/signup" method="POST" class="loginBox_form">
+                    <div class="form_loginBox">
+                        <fieldset class="form_loginBox_field">
+                            <legend class="hidden">Sign In</legend>
+                            <svg class="btn" id="btn" class="svg_form" xmlns="http://www.w3.org/2000/svg" width="60"
+                                height="60" viewBox="0 0 24 24">
+                                <g transform="rotate(180 12 12) translate(0 24) scale(1 -1)">
+                                    <path fill="#ade0db"
+                                        d="M18.4 10.6C16.55 9 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16a8.002 8.002 0 0 1 7.6-5.5c1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6Z" />
+                                </g>
+                            </svg>
+                            <div class="formAlign">
+                                <div class="formMargin">
+                                    <label class="formLabel" for="loginName">Nombre</label>
+                                    <div class="formAlign_second">
+                                        <input id="loginName" class="formInput" type="text" name="first_name">
+                                    </div>
+                                </div>
+                                <div class="formMargin">
+                                    <label class="formLabel" for="loginLastName">Apellido</label>
+                                    <div class="formAlign_second">
+                                        <input id="loginLastName" class="formInput" type="text"
+                                            name="last_name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formAlign">
+                                <label class="formLabel" for="loginEmail">Correo Electronico</label>
+                                <div class="formAlign_second">
+                                    <input id="loginEmail" class="formInput" type="email" name="email">
+                                </div>
+                            </div>
+                            <div class="formAlign">
+                                <label class="formLabel" for="loginPassword">Contraseña</label>
+                                <div class="formAlign_second">
+                                    <input id="loginPassword" class="formInput_pas" type="password"
+                                        name="password">
+                                    <div>
+                                        <button id="btn_buttonLogin" class="btn_white" type="button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24">
+                                                <g fill="none" stroke="currentColor" stroke-width="1.5">
+                                                    <path stroke-linecap="round"
+                                                        d="M9 4.46A9.84 9.84 0 0 1 12 4c4.182 0 7.028 2.5 8.725 4.704C21.575 9.81 22 10.361 22 12c0 1.64-.425 2.191-1.275 3.296C19.028 17.5 16.182 20 12 20c-4.182 0-7.028-2.5-8.725-4.704C2.425 14.192 2 13.639 2 12c0-1.64.425-2.191 1.275-3.296A14.465 14.465 0 0 1 5 6.821" />
+                                                    <path d="M15 12a3 3 0 1 1-6 0a3 3 0 0 1 6 0Z" />
+                                                </g>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formAlign">
+                                <div class="textAlign">
+                                    <input type="checkbox" name="" id="">
+                                    Acepto los <a href="">Terminos y Condiciones</a>
+                                </div>
+                                <div class="textAlign formMargin">
+                                    <button id="signnUpButton" class="btn btn_green" type="submit">Registrarse</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/login.js"></script>

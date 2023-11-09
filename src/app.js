@@ -3,6 +3,7 @@ import productsRouter from './routers/products.router.js'
 import cartRouter from './routers/cart.router.js'
 import viewsRouter from './routers/views.router.js';
 import chatRouter from './routers/chat.router.js'
+import sessionsRouter from './routers/sessions.router.js'
 import { engine } from 'express-handlebars';
 import { Server } from 'socket.io';
 import "./Dao/configDB.js"
@@ -41,6 +42,7 @@ const httpServer = app.listen(8080, () => {
   // Routes
   app.use('/api/products', productsRouter)
   app.use('/api/cart', cartRouter)
+  app.use('/api/sessions', sessionsRouter)
   app.use('/', viewsRouter)
   app.use('/chat', chatRouter)
   
