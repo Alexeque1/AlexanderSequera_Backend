@@ -81,7 +81,6 @@ class ProductManager {
         try {
             const productsAr = await productsModel.find()
             const producto = productsAr.find(prod => prod.id == idProducto)
-            console.log(producto)
     
             if (!producto) {
                 console.log('Not found')

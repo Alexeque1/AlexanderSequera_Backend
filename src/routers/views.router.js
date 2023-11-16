@@ -1,6 +1,8 @@
  import { Router} from "express";
 import { manager } from "../Dao/productsManager.js";
 import { cartManagerInfo } from "../Dao/cartsManager.js";
+import { userManagerInfo } from "../Dao/usersManager.js";
+import passport from "passport";
 
 const router = Router()
 
@@ -43,12 +45,12 @@ router.get('/cart/:id', async (req, res) => {
 router.get('/products/:id', async (req, res) => {
     const { id } = req.params;
     const response = await manager.getProductsById(id);
-    console.log({ prods: response })
+    const responseAct = [response]
 
     if (req.session.user) {
         res.render("products", { prods: response, layout: 'mainlogin' });
     } else {
-        res.render("products", { prods: response });
+        res.render("products", { prods: responseAct });
     }
 
 });

@@ -8,8 +8,6 @@
     <p class="cartNumber" id="cartNumber"> </p>
 </div>
 
-<h2> HOla</h2>
-
 <ul class="infoProduct_Container">
     {{#each prods}}
     <svg class="infoProduct_Icon" id="infoProduct_Icon_Back" xmlns="http://www.w3.org/2000/svg" width="50" height="50"
@@ -40,7 +38,7 @@
             </div>
         </div>
         <div class="infoProduct_InfoBox_Button">
-            <button class="btn spaceBetw addToCart" data-product-id="{{_id}}">
+            <button class="btn spaceBetw addToCart" data-product-id="{{prods._id}}">
                 Agregar al carrito
             </button>
         </div>

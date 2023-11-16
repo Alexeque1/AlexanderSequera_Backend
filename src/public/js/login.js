@@ -109,6 +109,49 @@
         });
 }
 
+// LOGIN GITHUB
+
+//   let btnLoginGithub = document.getElementById('login_button_github');
+
+// btnLoginGithub.onclick = () => {
+//   fetch("/api/sessions/auth/github", {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json"
+//     },
+//   })
+//     .then(response => response.json())
+//     .then(data => {
+//       if (data.state == "errorlogin") {
+//         Swal.fire({
+//           icon: "error",
+//           title: data.message,
+//           text: "Hay un error de nuestro lado",
+//           timer: 3000
+//         });
+//       } else if (data.state == "githublogin") {
+//         const user = data.name
+//         userName = data.name
+//         showLogin(user);
+  
+//         setTimeout(function () {
+//           window.location.href = 'http://localhost:8080/realtimeproducts';
+//         }, 1500);
+//       } else if (data.state == "alreadysignup") {
+//         Swal.fire({
+//           icon: "success",
+//           title: data.message,
+//           timer: 2000
+//         });
+//       }
+  
+//     })
+//     .catch(error => {
+//       console.error("Error al enviar los datos:", error);
+//     });
+// }
+
+
   // SING UP
 
   let btnBack = document.getElementById('btn');

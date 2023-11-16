@@ -162,6 +162,10 @@ position: relative
     width: 70%;
     text-align: center;
 }
+.btn_login_box {
+    display: flex;
+    justify-content: center;
+}
 
 .btn_align_second {
     margin: 20px 0px;
@@ -188,6 +192,7 @@ position: relative
     -webkit-box-shadow: 0px 14px 31px -9px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 14px 31px -9px rgba(0,0,0,0.75);
     cursor: pointer;
+    margin: 10px 5px;
 }
 
 .btn_gray {

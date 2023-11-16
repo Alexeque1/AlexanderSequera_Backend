@@ -9,6 +9,10 @@ import { Server } from 'socket.io';
 import "./Dao/configDB.js"
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import bcrypt from 'bcrypt'
+import passport from 'passport';
+import cors from 'cors';
+import './passportConfig.js'
 
 const app = express();
 
@@ -25,6 +29,12 @@ app.use(session({
   secret: "secretSession",
   cookie: { maxAge: 60000 }
 }));
+
+//Passport
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use(cors());
 
 //Handlebars
 app.engine('handlebars', engine());
@@ -46,6 +56,15 @@ const httpServer = app.listen(8080, () => {
   app.use('/', viewsRouter)
   app.use('/chat', chatRouter)
   
+  // Bcrypt
+
+  export const hashData = async(data) => {
+    return bcrypt.hash(data, 10)
+  }
+
+  export const compareData = async (data, hashedData) => {
+    return bcrypt.compare(data, hashedData);
+}
 
 //Socket.io
 
