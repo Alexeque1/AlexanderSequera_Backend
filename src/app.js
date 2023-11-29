@@ -11,10 +11,11 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import bcrypt from 'bcrypt'
 import passport from 'passport';
-import cors from 'cors';
+import jwt from 'jsonwebtoken'
 import './passportConfig.js'
 
 const app = express();
+const SECRET_KEY = "secretKey"
 
 //Dirname
 import { dirname } from 'path';
@@ -34,8 +35,12 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use(cors());
-
+//JWT
+export const generateToken = (user) => {
+  const token = jwt.sign(user, SECRET_KEY, { expiresIn: 300 })
+  return token
+}
+ 
 //Handlebars
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');

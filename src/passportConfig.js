@@ -2,6 +2,7 @@ import passport from "passport";
 import { userManagerInfo } from "./Dao/usersManager.js";
 import { Strategy as localStrategy } from "passport-local";
 import { Strategy as gitHubStrategy } from "passport-github2";
+import { Strategy as googleStrategy } from "passport-google-oauth20";
 import { hashData, compareData } from "./app.js";
 
 //Local
@@ -13,6 +14,7 @@ passport.use('signup', new localStrategy(
     async (req, email, password, done) => {
         try {
             const { first_name, last_name } = req.body
+            let userRole 
 
             if (!first_name || !last_name || !email || !password) {
                 return done(null, false, { message: "Debe completar todos los datos", state: "incompleted" });
@@ -26,9 +28,14 @@ passport.use('signup', new localStrategy(
 
             const hashedPassword = await hashData(password)
 
+            if (email.includes("@admin.com")) {
+                userRole = "ADMIN";
+              } 
+
             const createData = await userManagerInfo.createOne({
                 ...req.body,
-                password: hashedPassword
+                password: hashedPassword,
+                role: userRole
             })
 
             return done(null, createData, { message: "Usuario creado", state: "alreadysign" });
@@ -97,6 +104,35 @@ passport.use('github',
     }
 ));
 
+// Google
+passport.use('google', new googleStrategy({
+    clientID: "199260124299-tkd0tcc8sdr1s4qaun571covhl0ifk6m.apps.googleusercontent.com",
+    clientSecret: "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",
+    callbackURL: "http://localhost:8080/api/sessions/auth/google/callback"
+    },
+    async (accessToken, refreshToken, profile, done) => {
+        try {
+            const user = await userManagerInfo.findByEmail(profile._json.email);
+
+            if (user) {
+                // Usuario existe, iniciar sesión
+                return done(null, user);
+            } else {
+                // Usuario no existe, registrar
+                const infoUser = {
+                    first_name: profile._json.given_name,
+                    last_name: profile._json.family_name,
+                    email: profile._json.email,
+                    fromGoogle: true
+                };
+                const createdUser = await userManagerInfo.createOne(infoUser);
+                return done(null, createdUser);
+            }
+        } catch (error) {
+            return done(error);
+        }
+    }
+));
 
 passport.serializeUser((user, done) => {
     done(null, user._id)

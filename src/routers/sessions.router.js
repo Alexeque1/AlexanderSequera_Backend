@@ -112,6 +112,18 @@ router.get('/callback',
     res.redirect('http://localhost:8080/realtimeproducts')
   });
 
+// GOOGLE PASSPORT
+
+router.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    req.session.user = req.user;
+    res.redirect('http://localhost:8080/realtimeproducts')
+  });
+
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
@@ -122,5 +134,14 @@ router.get('/logout', (req, res) => {
         return res.status(200).json({ message: 'Se ha deslogeado con exito', state: 'logout'})
     });
 });
+
+///CURRENT USER
+router.get('/current', (req, res) => {
+    if (req.isAuthenticated()) {
+      res.json({ user: req.user });
+    } else {
+      res.status(401).json({ error: 'No autenticado' });
+    }
+  });
 
 export default router

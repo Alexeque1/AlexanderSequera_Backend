@@ -18,7 +18,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         requried: true,
     },
+    role: {
+        type: String,
+        enum: ["ADMIN", "USER"],
+        default: "USER"
+    },
+    cart: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: "Carts",
+    },
     fromGithub: {
+        type: Boolean,
+        default: false,
+    },
+    fromGoogle: {
         type: Boolean,
         default: false,
     }
