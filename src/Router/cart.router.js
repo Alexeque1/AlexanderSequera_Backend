@@ -1,28 +1,28 @@
 import { Router } from "express";
-import { cartManagerInfo } from "../Dao/cartsManager.js";
+import { cartsController } from "../Controllers/cartController.js";
 
 const router = Router();
 
 router.get('/', async (req, res) => {
-    const cartInfo = await cartManagerInfo.getCartInfo()
+    const cartInfo = await cartsController.getCartInfo()
     res.status(200).json({message: cartInfo})
 });
 
 router.post('/', async (req, res) => {
-    const createCart = await cartManagerInfo.createCart()
+    const createCart = await cartsController.createCart()
     res.status(200).json({message: createCart})
 });
 
 router.get('/:id', async (req, res) => {
     const {id} = req.params 
-    const getProducts = await cartManagerInfo.getCartById(id)
+    const getProducts = await cartsController.getCartById(id)
     res.json({message: `Products from cart ID: ${id}`, getProducts})
 });
 
 router.post('/:cid/products/:pid', async (req, res) => {
     const { cid, pid } = req.params;
     const { quantity } = req.body;
-    const result = await cartManagerInfo.updateProduct(cid, pid, quantity);
+    const result = await cartsController.updateProduct(cid, pid, quantity);
     res.json({ message: result });
   });
 
@@ -30,7 +30,7 @@ router.post('/:cid/products/:pid', async (req, res) => {
     const { cid, pid } = req.params;
 
     try {
-        const result = await cartManagerInfo.deleteProduct(cid, pid);
+        const result = await cartsController.deleteProduct(cid, pid);
 
         if (result === 'Producto eliminado del carrito exitosamente') {
             return res.status(200).json({ message: result });
@@ -46,7 +46,7 @@ router.delete('/:cid', async (req, res) => {
     const { cid } = req.params;
 
     try {
-        const result = await cartManagerInfo.deleteCart(cid);
+        const result = await cartsController.deleteCart(cid);
 
         res.json({ message: result });
 
@@ -58,7 +58,7 @@ router.delete('/:cid', async (req, res) => {
 router.put('/:cid/products/:pid', async (req, res) => {
     const { cid, pid } = req.params;
     const { quantity } = req.body;
-    const result = await cartManagerInfo.updateProduct(cid, pid, quantity);
+    const result = await cartsController.updateProduct(cid, pid, quantity);
     res.json({ message: result });
   });
 

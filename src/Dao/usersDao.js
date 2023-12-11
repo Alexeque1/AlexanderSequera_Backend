@@ -1,6 +1,6 @@
-import { usersModel } from './Models/users.models.js'
+import { usersModel } from '../Models/users.models.js'
 
-class userManager {
+class usersDao {
 
     async findUserById(id) {
         const response = await usersModel.findById(id)
@@ -19,4 +19,4 @@ class userManager {
 
 }
 
-export const userManagerInfo = new userManager();
+export const userDao = new usersDao();

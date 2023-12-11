@@ -1,7 +1,6 @@
-import { existsSync, promises } from 'fs'
-import { messagesModel } from './Models/messages.models.js'
+import { messagesModel } from '../Models/messages.models.js'
 
-class chatManager {
+class chatsDao {
 
     async getProducts() {
         const response = await messagesModel.find().lean()
@@ -21,4 +20,4 @@ class chatManager {
 
 }
 
-export const chatManagerInfo = new chatManager()
+export const chatDao = new chatsDao()

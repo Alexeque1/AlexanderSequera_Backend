@@ -1,8 +1,9 @@
 import passport from "passport";
-import { userManagerInfo } from "./Dao/usersManager.js";
+import { userController } from "./Controllers/userController.js";
 import { Strategy as localStrategy } from "passport-local";
 import { Strategy as gitHubStrategy } from "passport-github2";
 import { Strategy as googleStrategy } from "passport-google-oauth20";
+import config from "./config.js";
 import { hashData, compareData } from "./app.js";
 
 //Local
@@ -20,7 +21,7 @@ passport.use('signup', new localStrategy(
                 return done(null, false, { message: "Debe completar todos los datos", state: "incompleted" });
             }
 
-            const user = await userManagerInfo.findByEmail(email)
+            const user = await userController.findByEmail(email)
 
             if (user) {
                 return done(null, false, { message: "El email ya está registrado", state: "registered" });
@@ -32,7 +33,7 @@ passport.use('signup', new localStrategy(
                 userRole = "ADMIN";
               } 
 
-            const createData = await userManagerInfo.createOne({
+            const createData = await userController.createOne({
                 ...req.body,
                 password: hashedPassword,
                 role: userRole
@@ -53,7 +54,7 @@ passport.use('login', new localStrategy(
     },
     async (req, email, password, done) => {
         try {
-            const user = await userManagerInfo.findByEmail(email);
+            const user = await userController.findByEmail(email);
             if (!user) {
                 return done(null, false, { message: 'El email no está registrado', state: 'noregistered' });
             }
@@ -76,13 +77,13 @@ passport.use('login', new localStrategy(
 // GitHub
 passport.use('github',
     new gitHubStrategy({
-        clientID: "Iv1.7b9adb1fbb8b5b80",
-        clientSecret: "5599ad5575fbb28618e872cb55383244a950b4b7",
+        clientID: config.github_id,
+        clientSecret: config.github_client,
         callbackURL: "http://localhost:8080/api/sessions/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
         try {
-            const user = await userManagerInfo.findByEmail(profile._json.email);
+            const user = await userController.findByEmail(profile._json.email);
 
             if (user) {
                 // Usuario existe, iniciar sesión
@@ -95,7 +96,7 @@ passport.use('github',
                     email: profile._json.email,
                     fromGithub: true
                 };
-                const createdUser = await userManagerInfo.createOne(infoUser);
+                const createdUser = await userController.createOne(infoUser);
                 return done(null, createdUser);
             }
         } catch (error) {
@@ -106,13 +107,13 @@ passport.use('github',
 
 // Google
 passport.use('google', new googleStrategy({
-    clientID: "199260124299-tkd0tcc8sdr1s4qaun571covhl0ifk6m.apps.googleusercontent.com",
-    clientSecret: "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",
+    clientID: config.github_id,
+    clientSecret: config.github_client,
     callbackURL: "http://localhost:8080/api/sessions/auth/google/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
         try {
-            const user = await userManagerInfo.findByEmail(profile._json.email);
+            const user = await userController.findByEmail(profile._json.email);
 
             if (user) {
                 // Usuario existe, iniciar sesión
@@ -125,7 +126,7 @@ passport.use('google', new googleStrategy({
                     email: profile._json.email,
                     fromGoogle: true
                 };
-                const createdUser = await userManagerInfo.createOne(infoUser);
+                const createdUser = await userController.createOne(infoUser);
                 return done(null, createdUser);
             }
         } catch (error) {
@@ -140,7 +141,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const findUser = await userManagerInfo.findUserById(id)
+        const findUser = await userController.findUserById(id)
         done(null, findUser)
     } catch (error) {
         done(null)

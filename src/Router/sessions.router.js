@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { userManagerInfo } from "../Dao/usersManager.js";
 import { hashData, compareData } from "../app.js";
 import passport from "passport";
 

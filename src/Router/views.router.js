@@ -1,14 +1,12 @@
- import { Router} from "express";
-import { manager } from "../Dao/productsManager.js";
-import { cartManagerInfo } from "../Dao/cartsManager.js";
-import { userManagerInfo } from "../Dao/usersManager.js";
-import passport from "passport";
+import { Router} from "express";
+import { productsController } from "../Controllers/productsController.js";
+import { cartsController } from "../Controllers/cartController.js";
 
 const router = Router()
 
 router.get('/realtimeproducts', async (req, res) => {
 
-    const products = await manager.getProducts(req.query);
+    const products = await productsController.getProducts(req.query);
 
     if (req.session.user) {
         res.render("realtimeproducts", { productsResult: products.results, layout: 'mainlogin'});
@@ -30,7 +28,7 @@ router.get('/chat', async (req, res) => {
 
 router.get('/cart/:id', async (req, res) => {
     const { id } = req.params;
-    const result = await cartManagerInfo.getCartById(id);
+    const result = await cartsController.getCartById(id);
     const productsList = result.products;
     console.log(productsList)
 
@@ -44,7 +42,7 @@ router.get('/cart/:id', async (req, res) => {
 
 router.get('/products/:id', async (req, res) => {
     const { id } = req.params;
-    const response = await manager.getProductsById(id);
+    const response = await productsController.getProductsById(id);
     const responseAct = [response]
 
     if (req.session.user) {

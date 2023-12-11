@@ -1,11 +1,7 @@
-import { existsSync, promises } from 'fs'
-import { cartsModels } from './Models/carts.models.js'
-import { manager } from './productsManager.js'
+import { cartsModels } from '../Models/carts.models.js'
+import { productDao } from './productsDao.js'
 
-class cartManager {
-    constructor() {
-        this.path = 'Cart.JSON'
-    }
+class cartsDao {
 
     async getCartInfo() {
         const response = await cartsModels.find()
@@ -123,7 +119,7 @@ class cartManager {
         return 'Carrito no encontrado';
       }
 
-      const product = await manager.getProductsById(prodID)
+      const product = await productDao.getProductsById(prodID)
 
       if (!product) {
         return 'Producto no encontrado';
@@ -147,4 +143,4 @@ class cartManager {
 
 }
 
-export const cartManagerInfo = new cartManager()
+export const cartDao = new cartsDao()

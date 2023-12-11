@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { manager } from "../Dao/productsManager.js";
+import { productsController } from "../Controllers/productsController.js";
 
 const router = Router();
 
 router.get('/', async (req, res) => {
     try {
-        const products = await manager.getProducts(req.query);
+        const products = await productsController.getProducts(req.query);
         return res.status(200).json({ products });
     } catch (error) {
         return res.status(500).json({ error: 'An error occurred while fetching products' });
@@ -15,13 +15,13 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
-    const response = await manager.getProductsById(id);
+    const response = await productsController.getProductsById(id);
     res.status(200).json(response);
 });
 
 router.get('/code/:code', async (req, res) => {
     const { code } = req.params;
-    const response = await manager.getProductsByCode(code);
+    const response = await productsController.getProductsByCode(code);
     console.log(code)
     res.status(200).json(response);
 });
@@ -29,7 +29,7 @@ router.get('/code/:code', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const data = req.body
-        const insertData = await manager.addProducts(data)
+        const insertData = await productsController.addProducts(data)
         return res.json({message: "Product added", insertData})
     } catch (error) {
         return res.status(500).json('Cannot create file.')
@@ -40,8 +40,8 @@ router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const data = req.body
     try {
-        const putData = await manager.updateProduct(id, data)
-        const getProduct = await manager.getProductsById(id)
+        const putData = await productsController.updateProduct(id, data)
+        const getProduct = await productsController.getProductsById(id)
         return res.json({message: putData, getProduct})
     } catch (error) {
         return res.status(500).json('Cannot create file.')
@@ -51,7 +51,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const removeData = await manager.removeProduct(id)
+        const removeData = await productsController.removeProduct(id)
         return res.json({message: removeData})
     } catch (error) {
         return res.status(500).json('Cannot remove product.')

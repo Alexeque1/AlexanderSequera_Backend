@@ -1,21 +1,23 @@
 import express from 'express';
-import productsRouter from './routers/products.router.js'
-import cartRouter from './routers/cart.router.js'
-import viewsRouter from './routers/views.router.js';
-import chatRouter from './routers/chat.router.js'
-import sessionsRouter from './routers/sessions.router.js'
+import productsRouter from './Router/products.router.js'
+import cartRouter from './Router/cart.router.js'
+import viewsRouter from './Router/views.router.js';
+import chatRouter from './Router/chat.router.js'
+import sessionsRouter from './Router/sessions.router.js'
 import { engine } from 'express-handlebars';
 import { Server } from 'socket.io';
-import "./Dao/configDB.js"
+import "./Models/configDB.js"
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import bcrypt from 'bcrypt'
 import passport from 'passport';
 import jwt from 'jsonwebtoken'
+import cookieParser from 'cookie-parser';
+import config from './config.js';
 import './passportConfig.js'
 
 const app = express();
-const SECRET_KEY = "secretKey"
+const SECRET_KEY = config.secret_key
 
 //Dirname
 import { dirname } from 'path';
@@ -25,7 +27,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 //Session
 app.use(session({
   store: new MongoStore({
-    mongoUrl: "mongodb+srv://alexeque1:alex15981478sequera@ecommerce.dvv9u6y.mongodb.net/CoderHouse_backend?retryWrites=true&w=majority"
+    mongoUrl: config.mongo_uri
   }),
   secret: "secretSession",
   cookie: { maxAge: 60000 }
@@ -50,18 +52,21 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static(__dirname + '/public'))
 
-const httpServer = app.listen(8080, () => {
+const httpServer = app.listen(config.port, () => {
     console.log('Server is running on port 8080');
 });
 
-  // Routes
+//Cookies
+app.use(cookieParser());
+
+// Routes
   app.use('/api/products', productsRouter)
   app.use('/api/cart', cartRouter)
   app.use('/api/sessions', sessionsRouter)
   app.use('/', viewsRouter)
   app.use('/chat', chatRouter)
   
-  // Bcrypt
+// Bcrypt
 
   export const hashData = async(data) => {
     return bcrypt.hash(data, 10)

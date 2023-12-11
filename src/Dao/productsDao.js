@@ -1,10 +1,6 @@
-import { existsSync, promises } from 'fs'
-import { productsModel } from './Models/products.models.js'
+import { productsModel } from '../Models/products.models.js'
 
-class ProductManager {
-    constructor() {
-        this.path = 'Page.JSON'
-    }
+class productsDao {
 
     async getProducts(obj) {
         try {
@@ -40,7 +36,6 @@ class ProductManager {
     
             const results = response.docs.map(doc => doc.toObject({ getters: true }));
 
-            await promises.writeFile(this.path, JSON.stringify(info), 'utf-8');
 
             return { info, results };
         } catch (error) {
@@ -174,5 +169,5 @@ class ProductManager {
       }
 }
 
-export const manager = new ProductManager();
+export const productDao = new productsDao();
 
