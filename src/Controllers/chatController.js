@@ -1,4 +1,4 @@
-import { chatDao } from "../Dao/chatDao.js";
+import { chatDao } from "../Dao/Mongo/chatDao.mongo.js";
 
 class ChatController {
   async getProducts() {

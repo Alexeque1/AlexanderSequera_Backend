@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { hashData, compareData } from "../app.js";
+import userDTO from "../DTO/userDTO.js";
 import passport from "passport";
 
 const router = Router();
@@ -96,6 +97,7 @@ router.post('/login', (req, res, next) => {
             return res.status(401).json({ message: info.message, state: info.state });
         }
 
+        res.cookie('email', req.user.email)
         return res.status(200).json({ message: 'Usted ha ingresado con éxito', state: 'login', user: req.body, name: user.first_name });
     })(req, res, next);
 });
@@ -108,6 +110,7 @@ router.get('/auth/github',
 router.get('/callback', 
   passport.authenticate('github'), (req, res) => {
     req.session.user = req.user;
+    res.cookie('email', req.user.email)
     res.redirect('http://localhost:8080/realtimeproducts')
   });
 
@@ -120,6 +123,7 @@ router.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
     req.session.user = req.user;
+    res.cookie('email', req.user.email)
     res.redirect('http://localhost:8080/realtimeproducts')
   });
 
@@ -137,7 +141,8 @@ router.get('/logout', (req, res) => {
 ///CURRENT USER
 router.get('/current', (req, res) => {
     if (req.isAuthenticated()) {
-      res.json({ user: req.user });
+      const userData = new userDTO(req.user)
+      res.json({ user: userData });
     } else {
       res.status(401).json({ error: 'No autenticado' });
     }

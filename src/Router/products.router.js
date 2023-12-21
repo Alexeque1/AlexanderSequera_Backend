@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { productsController } from "../Controllers/productsController.js";
+import { authorizeAdmin } from "../middlewares/Authorize.middleware.js";
 
 const router = Router();
 
@@ -26,7 +27,7 @@ router.get('/code/:code', async (req, res) => {
     res.status(200).json(response);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', authorizeAdmin, async (req, res) => {
     try {
         const data = req.body
         const insertData = await productsController.addProducts(data)
@@ -36,7 +37,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authorizeAdmin, async (req, res) => {
     const { id } = req.params;
     const data = req.body
     try {
@@ -48,7 +49,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authorizeAdmin, async (req, res) => {
     const { id } = req.params;
     try {
         const removeData = await productsController.removeProduct(id)

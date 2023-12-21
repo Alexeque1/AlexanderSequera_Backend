@@ -1,4 +1,4 @@
-import { messagesModel } from '../Models/messages.models.js'
+import { messagesModel } from '../../Models/messages.models.js'
 
 class chatsDao {
 

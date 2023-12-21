@@ -1,4 +1,4 @@
-import { usersModel } from '../Models/users.models.js'
+import { usersModel } from '../../Models/users.models.js'
 
 class usersDao {
 

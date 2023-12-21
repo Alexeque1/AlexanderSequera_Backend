@@ -1,4 +1,4 @@
-import { userDao } from "../Dao/usersDao.js";
+import { userDao } from "../Dao/Mongo/usersDao.mongo.js";
 
 class UserController {
   async findUserById(id) {

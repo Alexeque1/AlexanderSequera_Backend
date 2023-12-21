@@ -10,4 +10,5 @@ export default {
     github_client: process.env.GITHUB_CLIENT,
     google_id: process.env.GOOGLE_ID,
     google_client: process.env.GOOGLE_CLIENT,
+    persistence: process.env.PERSISTENCE
 }

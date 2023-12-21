@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const productsSchema = new mongoose.Schema({
+const messageSchema = new mongoose.Schema({
     username: {
         type: String,
         requried: true
@@ -11,4 +11,4 @@ const productsSchema = new mongoose.Schema({
     }
 })
 
-export const messagesModel = mongoose.model('Messages', productsSchema)
+export const messagesModel = mongoose.model('Messages', messageSchema)

@@ -4,6 +4,7 @@ import cartRouter from './Router/cart.router.js'
 import viewsRouter from './Router/views.router.js';
 import chatRouter from './Router/chat.router.js'
 import sessionsRouter from './Router/sessions.router.js'
+import mailRouter from './Router/mail.router.js'
 import { engine } from 'express-handlebars';
 import { Server } from 'socket.io';
 import "./Models/configDB.js"
@@ -15,6 +16,8 @@ import jwt from 'jsonwebtoken'
 import cookieParser from 'cookie-parser';
 import config from './config.js';
 import './passportConfig.js'
+import nodemailer from 'nodemailer'
+import { carts } from './Dao/factory.js';
 
 const app = express();
 const SECRET_KEY = config.secret_key
@@ -65,6 +68,18 @@ app.use(cookieParser());
   app.use('/api/sessions', sessionsRouter)
   app.use('/', viewsRouter)
   app.use('/chat', chatRouter)
+  app.use('/mail', mailRouter)
+
+// Mail
+  
+  export const transport = nodemailer.createTransport({
+    service:'gmail',
+    port:587,
+    auth: {
+      user:'alexandersequera97@gmail.com',
+      pass:'cggo cfzc lejw uxth'
+    }
+  })
   
 // Bcrypt
 

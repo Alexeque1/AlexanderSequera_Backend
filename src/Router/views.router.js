@@ -1,6 +1,7 @@
 import { Router} from "express";
 import { productsController } from "../Controllers/productsController.js";
 import { cartsController } from "../Controllers/cartController.js";
+import { authorizeUser } from "../middlewares/Authorize.middleware.js";
 
 const router = Router()
 
@@ -16,7 +17,7 @@ router.get('/realtimeproducts', async (req, res) => {
 
 })
 
-router.get('/chat', async (req, res) => {
+router.get('/chat', authorizeUser,  async (req, res) => {
 
     if (req.session.user) {
         res.render("chat", { layout: 'mainlogin' });

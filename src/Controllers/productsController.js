@@ -1,4 +1,4 @@
-import { productDao } from "../Dao/productsDao.js";
+import { productDao } from "../Dao/Mongo/productsDao.mongo.js";
 
 class ProductsController {
   async getProducts(obj) {
