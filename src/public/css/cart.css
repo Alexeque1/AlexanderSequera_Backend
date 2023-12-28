@@ -1,4 +1,5 @@
 .cartFullContainer {
+    margin-top: 20px;
     display: flex;
     justify-content: space-evenly;
 }
@@ -21,6 +22,15 @@
     font-size: 1.5em;
     text-align: center;
     background-color: rgb(110, 110, 215);
+    padding: 10px;
+}
+
+.cartFullContainer_info_title {
+    font-family: 'Snippet', sans-serif;
+    border-radius: 10px 10px 0px 0px;
+    font-size: 1.5em;
+    text-align: center;
+    background-color: rgb(56, 156, 129);
     padding: 10px;
 }
 

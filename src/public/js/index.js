@@ -290,6 +290,7 @@ addToCartButtons.forEach(button => {
         e.preventDefault();
 
         let idProduct = button.getAttribute('data-product-id');
+        console.log(idProduct)
 
         if (cartID) {
             fetch(`/api/cart/${cartID}/products/${idProduct}`, {
@@ -388,19 +389,11 @@ toggleCartContainer();
 
 //PRODUCTS
 
-let productContainer = document.getElementById("productContainer");
+let showMoreButtons = document.querySelectorAll(".showMoreBtn");
 
-productContainer.onclick = (e) => {
-    let target = e.target;
-
-    while (target !== productContainer) {
-        if (target.getAttribute('data-product-id')) {
-            let idProduct = target.getAttribute('data-product-id');
-
-            window.location.href = `http://localhost:8080/products/${idProduct}`;
-            return;
-        }
-
-        target = target.parentNode;
-    }
-};
+showMoreButtons.forEach(button => {
+    button.addEventListener("click", (e) => {
+        let idProduct = e.currentTarget.getAttribute('data-product-id');
+        window.location.href = `http://localhost:8080/products/${idProduct}`;
+    });
+});

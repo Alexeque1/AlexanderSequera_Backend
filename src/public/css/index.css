@@ -137,16 +137,14 @@ body {
     width: 400px;
     margin: 20px;
     border-radius: 20px;
-    transition: 1s;
-}
-
-.productContainer:hover {
-    transform: scale(1.1);
-    cursor: pointer;
 }
 
 .itemPicture img {
     width: 100%;
+}
+
+.itemPicture:hover {
+    cursor: pointer;
 }
 
 .ItemBox_title {
@@ -306,10 +304,11 @@ body {
     font-size: 1em;
     border-radius: 10px;
     cursor: pointer;
+    text-align: center;
 }
 
-.btn-cart {
-    
+.btn:hover {
+    transform: scale(1.1,1.1);
 }
 
 .alertBox {
@@ -350,6 +349,7 @@ body {
 
 .buttonContainer {
     display: flex;
+    justify-content: center;
 }
 
 .buttonPages {

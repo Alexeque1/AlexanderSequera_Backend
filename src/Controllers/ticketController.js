@@ -4,7 +4,7 @@ class ticketController {
 
     async createTicket(obj) {
         try {
-            const newTicket = await ticketDao.create(obj);
+            const newTicket = await ticketDao.createTicket(obj);
             return newTicket;
             
           } catch (error) {

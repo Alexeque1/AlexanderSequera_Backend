@@ -34,7 +34,7 @@ class cartsDao {
       const cart = await cartsModels.findById(cid);
 
       if (!cart) {
-        return 'Carrito no encontrado';
+        return false;
       }
 
       console.log('Cart:', cart);
@@ -98,7 +98,7 @@ class cartsDao {
       const cart = await this.getCartById(cartID);
 
       if (!cart) {
-          return 'Carrito no encontrado';
+          return false;
       }
 
       const result = await cartsModels.deleteOne({ _id: cartID });

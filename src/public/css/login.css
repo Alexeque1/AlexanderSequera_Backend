@@ -258,3 +258,15 @@ position: relative
     background: radial-gradient(circle, rgba(148,240,228,1) 0%, rgba(128,207,196,1) 35%, rgba(94,154,146,1) 100%);
     padding: 10px;
 }
+
+/* FORGOT PASSWORD */
+.forgotpassword_container {
+    display: none;
+}
+
+.forgotpassword_box {
+    padding: 20px;
+    border-radius: 16px;
+    background-color: rgb(165, 148, 227);
+    min-width: 400px;
+}

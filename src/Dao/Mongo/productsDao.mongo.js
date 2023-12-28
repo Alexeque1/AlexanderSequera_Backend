@@ -78,8 +78,7 @@ class productsDao {
             const producto = productsAr.find(prod => prod.id == idProducto)
     
             if (!producto) {
-                console.log('Not found')
-                return 'Not found'
+                return false
             } else {
                 return producto
             }
@@ -130,10 +129,9 @@ class productsDao {
             const validation = await this.validProductsAdd(product)
 
             if (!validation) {
-                console.log({message: 'Some data is missing, please try again', product})
-                return 'Some data is missing, please try again'
+                return 'missingData'
             } else if (validation === 'same') {
-                return 'El codigo que usted ingresó ya está en sistema'
+                return 'alreadycode'
             }
 
             const response = await productsModel.create(product);

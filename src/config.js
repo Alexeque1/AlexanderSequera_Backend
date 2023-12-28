@@ -10,5 +10,8 @@ export default {
     github_client: process.env.GITHUB_CLIENT,
     google_id: process.env.GOOGLE_ID,
     google_client: process.env.GOOGLE_CLIENT,
-    persistence: process.env.PERSISTENCE
+    persistence: process.env.PERSISTENCE,
+    twilio_sid: process.env.TWILIO_SID,
+    twilio_auth: process.env.TWILIO_AUTH_TOKEN,
+    twilio_phone: process.env.TWILIO_PHONENUMBER,
 }

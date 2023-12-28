@@ -75,7 +75,7 @@
 <ul class="people_list" id="productContainer">
     {{#each productsResult}}
     <div class="productContainer" data-product-id="{{_id}}">
-        <div class='itemPicture'>
+        <div class='itemPicture showMoreBtn' data-product-id="{{_id}}">
             <img src={{thumbnail}} alt={{title}} />
         </div>
         <div class='ItemBox_inf'>
@@ -88,6 +88,9 @@
         <div>
             <button class="btn spaceBetw addToCart" data-product-id="{{_id}}">
                 Agregar al carrito
+            </button>
+            <button class="btn showMoreBtn" data-product-id="{{_id}}">
+                Ver más
             </button>
         </div>
     </div>

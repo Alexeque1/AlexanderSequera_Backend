@@ -31,7 +31,8 @@ router.get('/cart/:id', async (req, res) => {
     const { id } = req.params;
     const result = await cartsController.getCartById(id);
     const productsList = result.products;
-    console.log(productsList)
+      
+    console.log(productsList);
 
     if (req.session.user) {
         res.render("cart", { results: productsList, layout: 'mainlogin' });

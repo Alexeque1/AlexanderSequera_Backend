@@ -5,6 +5,7 @@ import viewsRouter from './Router/views.router.js';
 import chatRouter from './Router/chat.router.js'
 import sessionsRouter from './Router/sessions.router.js'
 import mailRouter from './Router/mail.router.js'
+import MockingRouter from './Router/mocking.router.js'
 import { engine } from 'express-handlebars';
 import { Server } from 'socket.io';
 import "./Models/configDB.js"
@@ -17,7 +18,7 @@ import cookieParser from 'cookie-parser';
 import config from './config.js';
 import './passportConfig.js'
 import nodemailer from 'nodemailer'
-import { carts } from './Dao/factory.js';
+import { errorMiddleware } from './middlewares/errors.middleware.js';
 
 const app = express();
 const SECRET_KEY = config.secret_key
@@ -69,6 +70,9 @@ app.use(cookieParser());
   app.use('/', viewsRouter)
   app.use('/chat', chatRouter)
   app.use('/mail', mailRouter)
+  app.use('/mockingproducts', MockingRouter)
+
+  app.use(errorMiddleware)
 
 // Mail
   

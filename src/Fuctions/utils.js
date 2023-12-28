@@ -1,3 +1,4 @@
+
 export function generateRandomCode(length) {
     const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let code = '';
@@ -6,5 +7,14 @@ export function generateRandomCode(length) {
       code += charset[randomIndex];
     }
     return code;
-  }
-  
+}
+
+export const generateAlertMessage = (icon, title, message) => {
+    Swal.fire({
+        icon: icon,
+        title: title,
+        text: message,
+        timer: 3000
+      });
+}
+
