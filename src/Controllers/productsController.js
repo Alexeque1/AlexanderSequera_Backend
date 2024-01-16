@@ -6,6 +6,7 @@ class ProductsController {
       const response = await productDao.getProducts(obj);
       return response;
     } catch (error) {
+      logger.error(`Error en ProductsController (getProducts): ${error.message}`);
       throw new Error(`Error en el controlador al obtener productos: ${error.message}`);
     }
   }
@@ -15,6 +16,7 @@ class ProductsController {
       const response = await productDao.getProductsByQuant(number);
       return response;
     } catch (error) {
+      logger.error(`Error en ProductsController (getProductsByQuant): ${error.message}`);
       throw new Error(`Error en el controlador al obtener productos por cantidad: ${error.message}`);
     }
   }
@@ -24,6 +26,7 @@ class ProductsController {
       const response = await productDao.getProductsById(idProducto);
       return response;
     } catch (error) {
+      logger.error(`Error en ProductsController (getProductsById): ${error.message}`);
       throw new Error(`Error en el controlador al obtener productos por ID: ${error.message}`);
     }
   }
@@ -33,6 +36,7 @@ class ProductsController {
       const response = await productDao.getProductsByCode(code);
       return response;
     } catch (error) {
+      logger.error(`Error en ProductsController (getProductsByCode): ${error.message}`);
       throw new Error(`Error en el controlador al obtener productos por código: ${error.message}`);
     }
   }
@@ -42,6 +46,7 @@ class ProductsController {
       const response = await productDao.validProductsAdd(prods);
       return response;
     } catch (error) {
+      logger.error(`Error en ProductsController (validProductsAdd): ${error.message}`);
       throw new Error(`Error en el controlador al validar productos antes de agregar: ${error.message}`);
     }
   }
@@ -51,6 +56,7 @@ class ProductsController {
       const response = await productDao.addProducts(product);
       return response;
     } catch (error) {
+      logger.error(`Error en ProductsController (addProducts): ${error.message}`);
       throw new Error(`Error en el controlador al agregar productos: ${error.message}`);
     }
   }
@@ -60,6 +66,7 @@ class ProductsController {
       const response = await productDao.removeProduct(idProducto);
       return response;
     } catch (error) {
+      logger.error(`Error en ProductsController (removeProduct): ${error.message}`);
       throw new Error(`Error en el controlador al eliminar un producto: ${error.message}`);
     }
   }
@@ -69,6 +76,7 @@ class ProductsController {
       const response = await productDao.updateProduct(idProd, dataUpdate);
       return response;
     } catch (error) {
+      logger.error(`Error en ProductsController (updateProduct): ${error.message}`);
       throw new Error(`Error en el controlador al actualizar un producto: ${error.message}`);
     }
   }

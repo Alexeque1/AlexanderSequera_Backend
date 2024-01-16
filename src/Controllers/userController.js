@@ -6,6 +6,7 @@ class UserController {
       const response = await userDao.findUserById(id);
       return response;
     } catch (error) {
+      logger.error(`Error en ProductsController (findUserById): ${error.message}`);
       throw new Error(`Error en el controlador al buscar usuario por ID: ${error.message}`);
     }
   }
@@ -15,6 +16,7 @@ class UserController {
       const response = await userDao.findByEmail(email);
       return response;
     } catch (error) {
+      logger.error(`Error en ProductsController (findByEmail): ${error.message}`);
       throw new Error(`Error en el controlador al buscar usuario por email: ${error.message}`);
     }
   }
@@ -24,6 +26,7 @@ class UserController {
       const response = await userDao.createOne(obj);
       return response;
     } catch (error) {
+      logger.error(`Error en ProductsController (createOne): ${error.message}`);
       throw new Error(`Error en el controlador al crear un usuario: ${error.message}`);
     }
   }

@@ -8,6 +8,7 @@ class ticketsDao {
             return newTicket;
 
           } catch (error) {
+            logger.error("Hubo un error en DAO")
             throw new Error(error.message);
           }
     }

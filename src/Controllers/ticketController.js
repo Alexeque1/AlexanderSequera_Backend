@@ -8,6 +8,7 @@ class ticketController {
             return newTicket;
             
           } catch (error) {
+            logger.error(`Error en ProductsController (createTicket): ${error.message}`);
             throw new Error(error.message);
           }
     }

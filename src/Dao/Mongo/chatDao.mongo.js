@@ -3,8 +3,13 @@ import { messagesModel } from '../../Models/messages.models.js'
 class chatsDao {
 
     async getProducts() {
-        const response = await messagesModel.find().lean()
-        return response
+        try {
+            const response = await messagesModel.find().lean()
+            return response
+        } catch (error) {
+            logger.error("Hubo un error en DAO")
+            throw new Error(error.message);
+        }
     }
 
     async addMessage(message) {
@@ -14,7 +19,8 @@ class chatsDao {
             return response
 
         } catch (error) {
-            throw new Error(error.message)
+            logger.error("Hubo un error en DAO")
+            throw new Error(error.message);
         }
     }
 

@@ -1,4 +1,5 @@
 import { productsModel } from '../../Models/products.models.js'
+import { logger } from '../../Fuctions/logger.js';
 
 class productsDao {
 
@@ -39,7 +40,8 @@ class productsDao {
 
             return { info, results };
         } catch (error) {
-            throw error;
+            logger.error("Hubo un error en DAO")
+            throw new Error(error.message);
         }
     }
 
@@ -67,7 +69,8 @@ class productsDao {
             }
     
         } catch (error) {
-            throw new Error(error.message)
+            logger.error("Hubo un error en DAO")
+            throw new Error(error.message);
         }
     }
     
@@ -83,7 +86,8 @@ class productsDao {
                 return producto
             }
         } catch (error) {
-            throw new Error(error.message)
+            logger.error("Hubo un error en DAO")
+            throw new Error(error.message);
         }
     }
 
@@ -99,7 +103,8 @@ class productsDao {
             console.log(producto)
             return producto
         } catch (error) {
-            throw new Error(error.message)
+            logger.error("Hubo un error en DAO")
+            throw new Error(error.message);
         }
     }
 
@@ -120,7 +125,8 @@ class productsDao {
                 return true
             }
         } catch (error) {
-            return error
+            logger.error("Hubo un error en DAO")
+            throw new Error(error.message);
         }
     }
 
@@ -138,7 +144,8 @@ class productsDao {
             return response
 
         } catch (error) {
-            throw new Error(error.message)
+            logger.error("Hubo un error en DAO")
+            throw new Error(error.message);
         }
     }
 
@@ -147,8 +154,8 @@ class productsDao {
           const result = await productsModel.deleteOne({ _id: idProducto });
           return result;
         } catch (error) {
-          console.error('Error al eliminar el producto:', error);
-          throw new Error(error.message);
+            logger.error("Hubo un error en DAO")
+            throw new Error(error.message);
         }
       }
 
@@ -161,8 +168,8 @@ class productsDao {
 
           return resultado
         } catch (error) {
-          console.error('Error al actualizar el producto:', error);
-          throw new Error(error.message);
+            logger.error("Hubo un error en DAO")
+            throw new Error(error.message);
         }
       }
 }

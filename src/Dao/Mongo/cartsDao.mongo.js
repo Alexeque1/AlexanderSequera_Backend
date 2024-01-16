@@ -1,11 +1,17 @@
 import { cartsModels } from '../../Models/carts.models.js'
 import { productDao } from './productsDao.mongo.js';
+import { logger } from '../../Fuctions/logger.js';
 
 class cartsDao {
 
     async getCartInfo() {
-        const response = await cartsModels.find()
-        return response
+        try {
+          const response = await cartsModels.find()
+          return response
+        } catch (error) {
+          logger.error("Hubo un error en DAO")
+          throw new Error(error.message);
+        }
       }
       
       async getCartById(idCart) {
@@ -13,6 +19,7 @@ class cartsDao {
           const cart = await cartsModels.findById(idCart).populate('products.product');
           return cart;
         } catch (error) {
+          logger.error("Hubo un error en DAO")
           throw new Error(error.message);
         }
       }
@@ -25,6 +32,7 @@ class cartsDao {
       
           return newCart;
         } catch (error) {
+          logger.error("Hubo un error en DAO")
           throw new Error(error.message);
         }
       }
@@ -37,20 +45,18 @@ class cartsDao {
         return false;
       }
 
-      console.log('Cart:', cart);
+      logger.debug('Cart:', cart);
 
       const existingProduct = cart.products.find(
         (product) => product.product.equals(productId)
       );
 
-      console.log('Existing Product:', existingProduct);
+      logger.debug('Existing Product:', existingProduct);
 
       if (existingProduct) {
-        console.log('Updating quantity...');
         existingProduct.quantity += quantity;
-        console.log('Actualizado:', existingProduct);
+        logger.debug('Actualizado:', existingProduct);
       } else {
-        console.log('Adding new product...');
         const productToAdd = {
           product: productId,
           quantity: quantity,
@@ -63,7 +69,7 @@ class cartsDao {
 
       return 'Carrito actualizado exitosamente';
     } catch (error) {
-      console.error('Error:', error);
+      logger.error("Hubo un error en DAO")
       throw new Error(error.message);
     }
   }
@@ -88,8 +94,8 @@ class cartsDao {
         return 'Producto eliminado del carrito exitosamente';
 
       } catch (error) {
-          console.error('Error:', error);
-          throw new Error(error.message);
+        logger.error("Hubo un error en DAO")
+        throw new Error(error.message);
       }
   }
 
@@ -106,8 +112,8 @@ class cartsDao {
       return {'Carrito eliminado exitosamente:': result};
 
     } catch (error) {
-        console.error('Error:', error);
-        throw new Error(error.message);
+      logger.error("Hubo un error en DAO")
+      throw new Error(error.message);
     }
 }
 
@@ -136,7 +142,7 @@ class cartsDao {
       }
 
     } catch (error) {
-      console.error('Error:', error);
+      logger.error("Hubo un error en DAO")
       throw new Error(error.message);
     }
   }

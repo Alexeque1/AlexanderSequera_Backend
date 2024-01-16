@@ -5,23 +5,42 @@ import { ticketsController } from "../Controllers/ticketController.js";
 import { generateRandomCode } from "../Fuctions/utils.js";
 import CustomError from "../Errors/customErrors.js";
 import { ErrorsMessage, ErrorsName } from "../Errors/error.enum.js";
+import { logger } from "../Fuctions/logger.js";
 
 const router = Router();
 
 router.get('/', async (req, res) => {
-    const cartInfo = await cartsController.getCartInfo()
-    res.status(200).json({message: cartInfo})
+    try {
+      const cartInfo = await cartsController.getCartInfo()
+      logger.debug('Información del carrito obtenida exitosamente: ', cartInfo);
+      res.status(200).json({message: cartInfo})
+    } catch (error) {
+      logger.error(`Error en la ruta /: ${error.message}`)
+      return res.status(500).json('Ha habido un error en la ruta')
+    }
 });
 
 router.post('/', async (req, res) => {
-    const createCart = await cartsController.createCart()
-    res.status(200).json({message: createCart})
+    try {
+      const createCart = await cartsController.createCart()
+      logger.debug('Carrito creado exitosamente: ', createCart);
+      res.status(200).json({message: createCart})
+    } catch (error) {
+      logger.error(`Error en la ruta /: ${error.message}`)
+      return res.status(500).json('Ha habido un error en la ruta')
+    }
 });
 
 router.get('/:id', async (req, res) => {
-    const {id} = req.params 
-    const getProducts = await cartsController.getCartById(id)
-    res.json({message: `Products from cart ID: ${id}`, getProducts})
+    try {
+      const {id} = req.params 
+      const getProducts = await cartsController.getCartById(id)
+      logger.debug('Carrito por ID obtenido exitosamente', getProducts);
+      res.json({message: `Products from cart ID: ${id}`, getProducts})
+    } catch (error) {
+      logger.error(`Error en la ruta /: ${error.message}`)
+      return res.status(500).json('Ha habido un error en la ruta')
+    }
 });
 
 router.post('/:cid/purchase', async (req, res) => {
@@ -30,14 +49,18 @@ router.post('/:cid/purchase', async (req, res) => {
       let email;
   
       if (req.isAuthenticated()) {
+        logger.debug("Usuario loggeado, se avanza con el proceso")
         email = req.user.email;
       } else {
+        logger.error("Usuario no loggeado, no se avanza")
         return res.status(401).json({ error: 'No autenticado', message: "Error" });
       }
   
       const cart = await cartsController.getCartById(cid);
+      
   
       if (!cart) {
+        logger.error("Carrito no encontrado, no se avanza")
         return res.status(404).json({ error: 'Carrito no encontrado', message: "Error" });
       }
   
@@ -59,7 +82,7 @@ router.post('/:cid/purchase', async (req, res) => {
         }
       
         if (product.stock >= requestedQuantity) {
-          console.log(`Antes de restar stock del producto (${productId}):`, product.stock);
+          logger.debug(`Antes de restar stock del producto (${productId}):`, product.stock);
           product.stock -= requestedQuantity;
       
           ticketProducts.push({
@@ -71,22 +94,19 @@ router.post('/:cid/purchase', async (req, res) => {
       
           await product.save();
       
-          console.log(`Después de restar stock del producto (${productId}):`, product.stock);
+          logger.debug(`Después de restar stock del producto (${productId}):`, product.stock);
       
-          // Elimina el producto del carrito, ya que se compró con éxito
           cart.products.splice(i, 1);
           i--; 
         } else {
-          // Agrega el ID del producto al array de productos no comprados
           productsNotPurchased.push(productId);
-          console.log(`Stock insuficiente para el producto (${productId})`);
+          logger.warning(`Stock insuficiente para el producto (${productId})`);
         }
       }
   
       const generatedCode = generateRandomCode(8);
   
       if (productsNotPurchased.length > 0) {
-        // Actualiza el carrito eliminando los productos comprados
         cart.products = cart.products.filter((cartProduct) => !productsNotPurchased.includes(cartProduct.product._id.toString()));
         await cart.save();
   
@@ -95,10 +115,10 @@ router.post('/:cid/purchase', async (req, res) => {
   
       if (ticketProducts.length > 0) {
         const ticketAmount = ticketProducts.reduce((total, product) => total + product.quantity * product.price, 0);
-        console.log('Monto total del ticket:', ticketAmount);
+        logger.info('Monto total del ticket:', ticketAmount);
   
         const ticketPurchaser = email;
-        console.log("Email del usuario: " + ticketPurchaser);
+        logger.info("Email del usuario: " + ticketPurchaser);
   
         await ticketsController.createTicket({
           code: generatedCode,
@@ -113,8 +133,8 @@ router.post('/:cid/purchase', async (req, res) => {
   
       return res.json({ message: '¡Hecho!' });
     } catch (error) {
-      console.error('Error al realizar la compra:', error);
-      res.status(500).json({ error: 'Error interno del servidor' });
+      logger.error(`Error en la ruta /: ${error.message}`)
+      return res.status(500).json('Ha habido un error en la ruta')
     }
   });
   
@@ -133,7 +153,8 @@ router.delete('/:cid/products/:pid', async (req, res) => {
             CustomError.generateError(result, 404, ErrorsName.PRODUCT_NOT_FOUND);
         }
     } catch (error) {
-        return res.status(500).json({ message: 'Error al eliminar el producto del carrito' });
+      logger.error(`Error en la ruta /: ${error.message}`)
+      return res.status(500).json('Ha habido un error en la ruta')
     }
 });
 
@@ -150,20 +171,25 @@ router.delete('/:cid', async (req, res) => {
         res.json({ message: result });
 
     } catch (error) {
-        return res.status(500).json({ message: 'Error al eliminar el producto del carrito' });
+      logger.error(`Error en la ruta /: ${error.message}`)
+      return res.status(500).json('Ha habido un error en la ruta')
     }
 });
 
 router.post('/:cid/products/:pid', async (req, res) => {
-    const { cid, pid } = req.params;
-    const { quantity } = req.body;
-    const result = await cartsController.updateProduct(cid, pid, quantity);
-
-    if (!result) {
-        CustomError.generateError(ErrorsMessage.CART_NOT_FOUND, 404, ErrorsName.CART_NOT_FOUND)
+    try {
+      const { cid, pid } = req.params;
+      const { quantity } = req.body;
+      const result = await cartsController.updateProduct(cid, pid, quantity);
+  
+      if (!result) {
+          CustomError.generateError(ErrorsMessage.CART_NOT_FOUND, 404, ErrorsName.CART_NOT_FOUND)
+      }
+  
+      res.json({ title: "¡Hecho!",  message: "El producto ha sido agregado al carrito", result: result});
+    } catch (error) {
+      
     }
-
-    res.json({ title: "¡Hecho!",  message: "El producto ha sido agregado al carrito", result: result});
   });
 
 export default router

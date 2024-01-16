@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 dotenv.config()
 
 export default {
+    enviroment: process.env.ENVIROMENT,
     port: process.env.PORT,
     mongo_uri: process.env.DB_URI,
     secret_key: process.env.SECRET_KEY,
