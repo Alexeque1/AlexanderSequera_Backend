@@ -44,20 +44,21 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/:cid/purchase', async (req, res) => {
+    const { cid } = req.params;
+    const user = req.session.user
+
     try {
-      const { cid } = req.params;
       let email;
   
-      if (req.isAuthenticated()) {
+      if (user) {
         logger.debug("Usuario loggeado, se avanza con el proceso")
-        email = req.user.email;
+        email = user.email;
       } else {
         logger.error("Usuario no loggeado, no se avanza")
         return res.status(401).json({ error: 'No autenticado', message: "Error" });
       }
   
       const cart = await cartsController.getCartById(cid);
-      
   
       if (!cart) {
         logger.error("Carrito no encontrado, no se avanza")
@@ -131,7 +132,7 @@ router.post('/:cid/purchase', async (req, res) => {
       cart.products = cart.products.filter((cartProduct) => !productsNotPurchased.includes(cartProduct.product._id.toString()));
       await cart.save();
   
-      return res.json({ message: '¡Hecho!' });
+      return res.status(200).json({ message: '¡Hecho!' });
     } catch (error) {
       logger.error(`Error en la ruta /: ${error.message}`)
       return res.status(500).json('Ha habido un error en la ruta')
@@ -180,6 +181,12 @@ router.post('/:cid/products/:pid', async (req, res) => {
     try {
       const { cid, pid } = req.params;
       const { quantity } = req.body;
+      const productCheck = await productsController.getProductsById(productId)
+
+      if (user.role === 'PREMIUM' && productCheck.owner.toString() === user.email.toString()) {
+        return res.status(403).json({ message: 'No puedes agregar tu propio producto al carrito', status: "error" });
+      }
+
       const result = await cartsController.updateProduct(cid, pid, quantity);
   
       if (!result) {

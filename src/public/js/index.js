@@ -115,6 +115,15 @@ form.onsubmit = (event) => {
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
+                        if (data !== "ok") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: data.message,
+                                timer: 3000
+                              })
+                        }
+
                         formProductsShow.style.display = 'none';
                         if (alertBox.style.display === 'none' || alertBox.style.display === '') {
                             alertBox.style.display = 'flex';
@@ -287,12 +296,15 @@ let cartID = localStorage.getItem('cartID');
 
 addToCartButtons.forEach(button => {
     button.addEventListener('click', (e) => {
+        console.log("Button clicked!");
         e.preventDefault();
 
         let idProduct = button.getAttribute('data-product-id');
         console.log(idProduct)
+        console.log(cartID)
 
         if (cartID) {
+            console.log("Making request to add product to cart...");
             fetch(`/api/cart/${cartID}/products/${idProduct}`, {
                 method: "POST",
                 headers: {
@@ -303,11 +315,28 @@ addToCartButtons.forEach(button => {
                 .then(response => response.json())
                 .then(data => {
                     console.log(data)
+                    if (data.status == "error") {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: data.message,
+                            timer: 3000
+                          })
+                    } else {
+                        Swal.fire({
+                            icon: "success",
+                            title: data.title,
+                            text: data.message,
+                            timer: 3000
+                          })
+                    }
                 })
                 .catch(error => {
+                    console.log(error)
                     console.error("Error al enviar los datos:", error);
                 });
         } else {
+            console.log("Creating a new cart and adding product...");
             fetch("/api/cart", {
                 method: "POST",
                 headers: {

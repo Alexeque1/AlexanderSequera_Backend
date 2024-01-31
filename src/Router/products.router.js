@@ -32,7 +32,7 @@ router.get('/:id', async (req, res, next) => {
         res.status(200).json(response);
     } catch (error) {
         logger.error(`Error en la ruta /: ${error.message}`);
-        next(new Error);
+        return res.status(500).json('Ha habido un error en la ruta');
     }
 });
 
@@ -58,7 +58,8 @@ router.get('/code/:code', async (req, res) => {
 router.post('/', authorizeAdmin, async (req, res) => {
     try {
         const data = req.body;
-        const insertData = await productsController.addProducts(data);
+        const user = req.user
+        const insertData = await productsController.addProducts(data, user);
 
         if (insertData === "missingData") {
             logger.error('Datos faltantes al intentar agregar un producto');
@@ -66,10 +67,16 @@ router.post('/', authorizeAdmin, async (req, res) => {
         } else if (insertData === "alreadycode") {
             logger.error('Intento de agregar un producto con un código ya existente');
             return res.status(400).json({ message: insertData });
+        } else if (insertData === "noUser") {
+            logger.error('Estas intentando agregar un producto sin correo electronico');
+            return res.status(400).json({ message: 'Estas intentando agregar un producto sin correo electronico', status: "noPremium" });
+        } else if (insertData === "noPremium") {
+            logger.error('No estás autorizado a realizar esta acción');
+            return res.status(400).json({ message: 'No estás autorizado a realizar esta acción', status: "noPremium" });
         }
 
         logger.info('Producto agregado exitosamente');
-        return res.json({ message: "Product added", insertData });
+        return res.json({ message: "Product added", satus: "ok", insertData });
     } catch (error) {
         logger.error(`Error en la ruta /: ${error.message}`);
         return res.status(500).json('Ha habido un error en la ruta');
@@ -89,7 +96,7 @@ router.put('/:id', authorizeAdmin, async (req, res) => {
         }
 
         logger.info(`Producto con ID ${id} actualizado exitosamente`);
-        return res.json({ message: putData, getProduct });
+        return res.status(200).json({ message: putData, getProduct });
     } catch (error) {
         logger.error(`Error en la ruta /: ${error.message}`);
         return res.status(500).json('Ha habido un error en la ruta');
@@ -98,8 +105,21 @@ router.put('/:id', authorizeAdmin, async (req, res) => {
 
 router.delete('/:id', authorizeAdmin, async (req, res) => {
     const { id } = req.params;
+    const user = req.user
+
     try {
+        const findProduct = await productsController.getProductsById(id)
+
+        if (!findProduct) {
+            return res.status(404).json({ message: 'Producto no encontrado' });
+        }
+
+        if (user.role === 'PREMIUM' && product.owner.toString() !== user.email.toString()) {
+            return res.status(403).json({ message: 'No tienes permisos para eliminar este producto' });
+          }
+
         const removeData = await productsController.removeProduct(id);
+
         logger.info(`Producto con ID ${id} eliminado exitosamente`);
         return res.json({ message: removeData });
     } catch (error) {

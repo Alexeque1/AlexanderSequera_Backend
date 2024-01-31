@@ -1,0 +1,258 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtener todos los productos
+      tags:
+        - Products  
+      responses:
+        '200':
+          description: Todos los productos fueron obtenidos
+          content:
+            application/json:
+              example:  
+        '500':
+          description: Hubo un error en la ruta
+    post:
+      summary: Agregar un nuevo producto
+      tags:
+        - Products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/addProduct" 
+      responses:
+        '200':
+          description: Producto agregado exitosamente
+          content:
+            application/json:
+              example:
+                message: Producto agregado
+                status: ok
+                insertData: {}  
+        '400':
+          description: Error al agregar el producto
+          content:
+            application/json:
+              example:
+                message: Datos faltantes al intentar agregar un producto
+                status: error
+                errorType: DATA_MISSING
+        '403':
+          description: No estás autorizado a realizar esta acción
+          content:
+            application/json:
+              example:
+                error: Acceso prohibido para este usuario
+        '500':
+          description: Hubo un error en la ruta
+          content:
+            application/json:
+              example:
+                message: Ha habido un error en la ruta
+                status: error
+                errorType: SERVER_ERROR
+  /api/products/{id}:
+    get:
+      summary: Obtener un producto por ID
+      tags:
+        - Products  
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del producto a buscar
+          schema:
+            type: string  
+      responses:
+        '200':
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product" 
+              example:
+                _id: "653725063e8c4ee955e8676d"
+                title: Chucky
+                description: A Chucky no le interesa jugar. ¡Está decidido a abrirse camino hasta llegar al frente de tu colección de horrores con este Child's Play 2 Pop! de Chucky. El coleccionable mide aproximadamente 3,75 pulgadas de alto.
+                price: 8500
+                thumbnail: /IMG/Chuky.png
+                code: abc123
+                stock: 20
+                status: true
+                category: Movies
+                owner: Alex
+        '404':
+          description: Producto no encontrado con el ID proporcionado
+        '500':
+          description: Hubo un error en la ruta
+    put:
+      summary: Obtener un producto por ID y actualizarlo
+      tags:
+        - Products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/addProduct" 
+      responses:
+        '200':
+          description: Producto actualizado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product" 
+              example:
+                message: {}
+                getProdut: {}
+        '404':
+          description: Producto no encontrado con el ID proporcionado
+        '500':
+          description: Hubo un error en la ruta 
+    delete:
+      summary: Eliminar un producto por ID
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del producto a eliminar
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto eliminado correctamente
+          content:
+            application/json:
+              example:
+                message: Producto eliminado correctamente
+        '403':
+          description: No estás autorizado a realizar esta acción
+          content:
+            application/json:
+              example:
+                message: No tienes permisos para eliminar este producto
+        '404':
+          description: Producto no encontrado con el ID proporcionado
+          content:
+            application/json:
+              example:
+                message: Producto no encontrado
+        '500':
+          description: Hubo un error en la ruta
+          content:
+            application/json:
+              example:
+                message: Ha habido un error en la ruta
+
+
+  /api/products/code/{code}:
+    get:
+      summary: Obtener un producto por código
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: code
+          required: true
+          description: Código del producto a buscar
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product" 
+              example:
+                _id: "653725063e8c4ee955e8676d"
+                title: Chucky
+                description: A Chucky no le interesa jugar. ¡Está decidido a abrirse camino hasta llegar al frente de tu colección de horrores con este Child's Play 2 Pop! de Chucky. El coleccionable mide aproximadamente 3,75 pulgadas de alto.
+                price: 8500
+                thumbnail: /IMG/Chuky.png
+                code: abc123
+                stock: 20
+                status: true
+                category: Movies
+                owner: Alex
+        '404':
+          description: Producto no encontrado con el código proporcionado
+        '500':
+          description: Hubo un error en la ruta
+
+components:
+  schemas:
+    Product:  
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID autogenerado de Mongo
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: Descripción del producto
+        price:
+          type: number
+          description: Precio del producto
+        thumbnail:
+          type: string
+          description: Ruta o path de la imagen del producto
+        code:
+          type: string
+          description: Codigo alfa-numérico del producto
+        stock:
+          type: number
+          description: Cantidad en stock del producto
+        status:
+          type: boolean
+          description: Estatus del producto (activo/inactivo)
+        category:
+          type: string
+          description: Categoría del producto
+        owner:
+          type: string
+          description: Creador del producto
+      example:
+        _id: "653725063e8c4ee955e8676d"
+        title: Chucky
+        description: A Chucky no le interesa jugar. ¡Está decidido a abrirse camino hasta llegar al frente de tu colección de horrores con este Child's Play 2 Pop! de Chucky. El coleccionable mide aproximadamente 3,75 pulgadas de alto.
+        price: 8500
+        thumbnail: /IMG/Chuky.png
+        code: abc123
+        stock: 20
+        status: true
+        category: Movies
+        owner: Alex
+  requestBodies:
+    addProduct:  
+      type: object
+      properties:
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: Descripción del producto
+        price:
+          type: number
+          description: Precio del producto
+        thumbnail:
+          type: string
+          description: Ruta o path de la imagen del producto
+        code:
+          type: string
+          description: Codigo alfa-numérico del producto
+        stock:
+          type: number
+          description: Cantidad en stock del producto
+        status:
+          type: boolean
+          description: Estatus del producto (activo/inactivo)
+        category:
+          type: string
+          description: Categoría del producto

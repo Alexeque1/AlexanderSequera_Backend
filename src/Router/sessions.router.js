@@ -2,9 +2,11 @@ import { Router } from "express";
 import { hashData, compareData } from "../app.js";
 import CustomError from "../Errors/customErrors.js";
 import { ErrorsMessage, ErrorsName } from "../Errors/error.enum.js";
+import { userController } from "../Controllers/userController.js";
 import userDTO from "../DTO/userDTO.js";
 import passport from "passport";
 import { logger } from "../Fuctions/logger.js";
+import { isTokenValid } from "../Fuctions/utils.js";
 
 const router = Router();
 
@@ -22,43 +24,56 @@ router.get('/getUserName', async (req, res) => {
 
 router.post('/signup', (req, res, next) => {
     passport.authenticate('signup', (err, user, info) => {
-        if (err) {
-            logger.error(`Error en la ruta /signup: ${error.message}`);
-            CustomError.generateError(ErrorsMessage.ERROR_SYSTEM, 500, ErrorsName.ERROR_SYSTEM);
-        }
-        if (!user) {
-            if (info.state === "incompleted") {
-                logger.error('Datos faltantes al intentar agregar un usuario');
-                CustomError.generateError(ErrorsMessage.DATA_MISSING, 400, ErrorsName.DATA_MISSING);
-            } else if (info.state === "registered") {
-                logger.error('Intento de registrar un usuario con un email ya registrado');
-                CustomError.generateError(ErrorsMessage.USER_ALREADY_LOGGED, 400, ErrorsName.USER_ALREADY_LOGGED);
+        try {
+            if (err) {
+                logger.error(`Error en la ruta /signup: ${err.message}`);
+                CustomError.generateError(ErrorsMessage.ERROR_SYSTEM, 500, ErrorsName.ERROR_SYSTEM);
             }
-        }
+            if (!user) {
+                if (info.state === "incompleted") {
+                    logger.error('Datos faltantes al intentar agregar un usuario');
+                    CustomError.generateError(ErrorsMessage.DATA_MISSING, 400, ErrorsName.DATA_MISSING);
+                } else if (info.state === "registered") {
+                    logger.error('Intento de registrar un usuario con un email ya registrado');
+                    CustomError.generateError(ErrorsMessage.USER_ALREADY_LOGGED, 400, ErrorsName.USER_ALREADY_LOGGED);
+                }
+            }
 
-        logger.info(`El email ${req.user.email} se ha registrado`);
-        return res.status(200).json({ message: 'Usuario creado', user, state: 'alreadysign' });
+            logger.info(`El email se ha registrado`);
+            return res.status(200).json({ message: 'Usuario creado', user, state: 'alreadysign' });
+        } catch (error) {
+            return res.status(error.code || 500).json({ error: error.message, name: error.name });
+        }
     })(req, res, next);
 });
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('login', (err, user, info) => {
         if (err) {
-            logger.error(`Error en la ruta /login: ${error.message}`);
-            return res.status(500).json({ message: 'Error interno del servidor', state: 'error' });
-        }
-        if (!user) {
-            if (info.state === "noregistered") {
-                logger.error('Intento de inicio de sesión con un email no registrado');
-                CustomError.generateError(ErrorsMessage.USER_NOT_LOGGED, 401, ErrorsName.USER_NOT_LOGGED);
-            } else if (info.state === "nopassword") {
-                logger.error('Intento de inicio de sesión con contraseña incorrecta');
-                CustomError.generateError(ErrorsMessage.PASSWORD_NOT_ACCEPTED, 401, ErrorsName.PASSWORD_NOT_ACCEPTED);
-            }
+            logger.error(`Error en la ruta /login: ${err.message}`);
+            return next(err); 
         }
 
-        res.cookie('email', req.user.email);
-        logger.info(`El email ${req.user.email} se ha logeado`);
+        if (!user) {
+            let errorInfo;
+
+            if (info.state === "noregistered") {
+                logger.error('Intento de inicio de sesión con un email no registrado');
+                errorInfo = { message: 'Email no registrado', state: 'error', errorCode: 'USER_NOT_LOGGED' };
+            } else if (info.state === "nopassword") {
+                logger.error('Intento de inicio de sesión con contraseña incorrecta');
+                errorInfo = { message: 'Contraseña incorrecta', state: 'error', errorCode: 'PASSWORD_NOT_ACCEPTED' };
+            }
+
+            return res.status(401).json(errorInfo);
+        }
+
+        res.cookie('email', user.email);
+        logger.info(user)
+
+        req.session.user = user
+
+        logger.info(`El email ${user.email} se ha logeado`);
         return res.status(200).json({ message: 'Usted ha ingresado con éxito', state: 'login', user: req.body, name: user.first_name });
     })(req, res, next);
 });
@@ -99,13 +114,58 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/current', (req, res) => {
-    if (req.isAuthenticated()) {
-      const userData = new userDTO(req.user);
-      logger.info('Información de usuario obtenida exitosamente');
-      res.json({ user: userData });
-    } else {
-      logger.error('Error en la ruta /current: Usuario no loggeado');
-      CustomError.generateError(ErrorsMessage.USER_NOT_LOGGED, 401, ErrorsName.USER_NOT_LOGGED);
+    try {
+        if (req.session.user) { 
+            const userData = new userDTO(req.session.user);
+            logger.info('Información de usuario obtenida exitosamente');
+            res.json({ user: userData });
+        } else {
+            logger.error('Error en la ruta /current: Usuario no loggeado');
+            return res.status(401).json({ error: 'Usuario no loggeado' });
+        }
+    } catch (error) {
+        return res.status(error.code || 500).json({ error: error.message, name: error.name });
+    }
+});
+
+router.post('/resetpassword', async (req, res) => {
+    try {
+        const { email, newPassword } = req.body;
+        const token = req.cookies.token;
+
+        const findUser = await userController.findByEmail(email);
+
+        if (!findUser) {
+            return res.status(400).json({ message: 'El correo es incorrecto o no existe.', state: "noEmail", error: "Error" });
+        }
+
+        if (!token) {
+            return res.redirect('http://localhost:8080/login');
+        }
+
+        const resetToken = JSON.parse(token);
+        const createdAt = resetToken.createdAt;
+
+        if (!isTokenValid(token, createdAt)) {
+            return res.redirect('http://localhost:8080/login');
+        }
+
+        const passwordMatch = await compareData(newPassword, findUser.password);
+
+        if (passwordMatch) {
+            return res.status(401).json({ message: 'La contraseña no puede ser igual a la anterior.',  state: "noPassword", error: "Error"});
+        }
+
+        const hashPassword = await hashData(newPassword)
+        findUser.password = hashPassword
+        await findUser.save();
+
+        res.clearCookie('token');
+
+        return res.status(200).json({ message: 'Contraseña restablecida con éxito.', state: "resetpas" });
+    } catch (error) {
+        logger.error(`Error en la ruta /resetpassword: ${error.message}`);
+        return res.status(500).json('Ha habido un error en la ruta');
     }
 });
 

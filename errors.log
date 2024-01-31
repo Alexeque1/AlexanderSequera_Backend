@@ -1,2 +1,152 @@
 {"level":"error","message":"Este es un mensaje de error"}
 {"level":"fatal","message":"Este es un mensaje fatal"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /: Expected \"payload\" to be a plain object."}
+{"level":"error","message":"Error en la ruta /: Expected \"payload\" to be a plain object."}
+{"level":"error","message":"Error en la ruta /: Expected \"payload\" to be a plain object."}
+{"level":"error","message":"Error en la ruta /: Expected \"payload\" to be a plain object."}
+{"level":"error","message":"Error en la ruta /: Expected \"payload\" to be a plain object."}
+{"level":"error","message":"Error en la ruta /: Expected \"payload\" to be a plain object."}
+{"level":"error","message":"Error en la ruta /: Expected \"payload\" to be a plain object."}
+{"level":"error","message":"Error en la ruta /: Expected \"payload\" to be a plain object."}
+{"level":"error","message":"Error en la ruta /: Expected \"payload\" to be a plain object."}
+{"level":"error","message":"Error en la ruta /: Expected \"payload\" to be a plain object."}
+{"level":"error","message":"Error en la ruta /: Expected \"payload\" to be a plain object."}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /: resetLink is not defined"}
+{"level":"error","message":"Error en la ruta /: resetLink is not defined"}
+{"level":"error","message":"Error en la ruta /login: Cannot read properties of undefined (reading 'token')"}
+{"level":"error","message":"Error en la ruta /login: resetTokenString is not defined"}
+{"level":"error","message":"Error en la ruta /login: resetTokenString is not defined"}
+{"level":"error","message":"Error en la ruta /resetpassword: product is not defined"}
+{"level":"error","message":"Error en la ruta /resetpassword: product is not defined"}
+{"level":"error","message":"Intento de inicio de sesión con contraseña incorrecta"}
+{"level":"error","message":"Intento de registrar un usuario con un email ya registrado"}
+{"level":"error","message":"Error en la ruta /signup: Cannot read properties of undefined (reading 'email')"}
+{"level":"error","message":"Intento de registrar un usuario con un email ya registrado"}
+{"level":"error","message":"Error en la ruta /resetpassword: Users validation failed: password: Cast to string failed for value \"Promise { <pending> }\" (type Promise) at path \"password\""}
+{"level":"error","message":"Error en la ruta /resetpassword: Users validation failed: password: Cast to string failed for value \"Promise { <pending> }\" (type Promise) at path \"password\""}
+{"level":"error","message":"Intento de inicio de sesión con un email no registrado"}
+{"level":"error","message":"Intento de inicio de sesión con un email no registrado"}
+{"level":"error","message":"Error en la ruta /login: El usuario o email no está registrado o logeado"}
+{"level":"error","message":"Intento de inicio de sesión con contraseña incorrecta"}
+{"level":"error","message":"Error en la ruta /login: La contraseña es incorrecta"}
+{"level":"error","message":"Intento de inicio de sesión con contraseña incorrecta"}
+{"level":"error","message":"Error en la ruta /login: La contraseña es incorrecta"}
+{"level":"error","message":"Intento de inicio de sesión con contraseña incorrecta"}
+{"level":"error","message":"Error en la ruta /login: La contraseña es incorrecta"}
+{"level":"error","message":"Intento de inicio de sesión con contraseña incorrecta"}
+{"level":"error","message":"Error en la ruta /login: La contraseña es incorrecta"}
+{"level":"error","message":"Intento de inicio de sesión con contraseña incorrecta"}
+{"level":"error","message":"Error en la ruta /login: La contraseña es incorrecta"}
+{"level":"error","message":"Error en la ruta /login: Cannot read properties of undefined (reading 'email')"}
+{"level":"error","message":"Error en la ruta /login: Cannot read properties of undefined (reading 'email')"}
+{"level":"error","message":"Intento de inicio de sesión con contraseña incorrecta"}
+{"level":"error","message":"Error en la ruta /login: La contraseña es incorrecta"}
+{"level":"error","message":"Intento de inicio de sesión con contraseña incorrecta"}
+{"level":"error","message":"Intento de inicio de sesión con contraseña incorrecta"}
+{"level":"error","message":"Intento de inicio de sesión con un email no registrado"}
+{"level":"error","message":"Intento de inicio de sesión con un email no registrado"}
+{"level":"error","message":"Error en la ruta /login: Cannot read properties of undefined (reading 'email')"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Intento de inicio de sesión con contraseña incorrecta"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /login: u is not defined"}
+{"level":"error","message":"Error en la ruta /login: u is not defined"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Hubo un error en DAO"}
+{"level":"error","message":"Error en la ruta /: logger is not defined"}
+{"level":"error","message":"Hubo un error en DAO"}
+{"level":"error","message":"Error en la ruta /: logger is not defined"}
+{"level":"error","message":"Hubo un error en DAO"}
+{"level":"error","message":"Error en la ruta /: logger is not defined"}
+{"level":"error","message":"Hubo un error en DAO:  Cannot read properties of undefined (reading 'email')","stack":"TypeError: Cannot read properties of undefined (reading 'email')\n    at productsDao.addProducts (file:///C:/Users/alexa/Backend_Ofic/src/Dao/Mongo/productsDao.mongo.js:136:36)\n    at ProductsController.addProducts (file:///C:/Users/alexa/Backend_Ofic/src/Controllers/productsController.js:56:41)\n    at file:///C:/Users/alexa/Backend_Ofic/src/Router/products.router.js:61:53\n    at Layer.handle [as handle_request] (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\express\\lib\\router\\route.js:144:13)\n    at authorizeAdmin (file:///C:/Users/alexa/Backend_Ofic/src/middlewares/Authorize.middleware.js:3:9)\n    at Layer.handle [as handle_request] (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\express\\lib\\router\\route.js:144:13)\n    at Route.dispatch (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\express\\lib\\router\\route.js:114:3)\n    at Layer.handle [as handle_request] (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\express\\lib\\router\\layer.js:95:5)"}
+{"level":"error","message":"Error en la ruta /: logger is not defined"}
+{"level":"error","message":"Hubo un error en DAO:  Cannot read properties of undefined (reading 'email')","stack":"TypeError: Cannot read properties of undefined (reading 'email')\n    at productsDao.addProducts (file:///C:/Users/alexa/Backend_Ofic/src/Dao/Mongo/productsDao.mongo.js:136:36)\n    at ProductsController.addProducts (file:///C:/Users/alexa/Backend_Ofic/src/Controllers/productsController.js:56:41)\n    at file:///C:/Users/alexa/Backend_Ofic/src/Router/products.router.js:62:53\n    at Layer.handle [as handle_request] (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\express\\lib\\router\\route.js:144:13)\n    at authorizeAdmin (file:///C:/Users/alexa/Backend_Ofic/src/middlewares/Authorize.middleware.js:3:9)\n    at Layer.handle [as handle_request] (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\express\\lib\\router\\route.js:144:13)\n    at Route.dispatch (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\express\\lib\\router\\route.js:114:3)\n    at Layer.handle [as handle_request] (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\express\\lib\\router\\layer.js:95:5)"}
+{"level":"error","message":"Error en la ruta /: logger is not defined"}
+{"_message":"Products validation failed","errors":{"owner":{"kind":"ObjectId","message":"Cast to ObjectId failed for value \"ADMIN\" (type string) at path \"owner\" because of \"BSONError\"","name":"CastError","path":"owner","reason":{},"stringValue":"\"ADMIN\"","value":"ADMIN","valueType":"string"}},"level":"error","message":"Hubo un error en DAO:  Products validation failed: owner: Cast to ObjectId failed for value \"ADMIN\" (type string) at path \"owner\" because of \"BSONError\"","stack":"ValidationError: Products validation failed: owner: Cast to ObjectId failed for value \"ADMIN\" (type string) at path \"owner\" because of \"BSONError\"\n    at Document.invalidate (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\mongoose\\lib\\document.js:3173:32)\n    at applyDefaults (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\mongoose\\lib\\helpers\\document\\applyDefaults.js:101:17)\n    at model.Document (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\mongoose\\lib\\document.js:156:7)\n    at model.Model (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\mongoose\\lib\\model.js:123:12)\n    at new model (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\mongoose\\lib\\model.js:4707:15)\n    at C:\\Users\\alexa\\Backend_Ofic\\node_modules\\mongoose\\lib\\model.js:2911:18\n    at Array.map (<anonymous>)\n    at Function.create (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\mongoose\\lib\\model.js:2900:30)\n    at productsDao.addProducts (file:///C:/Users/alexa/Backend_Ofic/src/Dao/Mongo/productsDao.mongo.js:157:50)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error en la ruta /: logger is not defined"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /login: data and hash arguments required"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Intento de inicio de sesión con contraseña incorrecta"}
+{"level":"error","message":"Intento de inicio de sesión con contraseña incorrecta"}
+{"level":"error","message":"Intento de inicio de sesión con contraseña incorrecta"}
+{"level":"error","message":"Intento de inicio de sesión con contraseña incorrecta"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /current: Usuario no loggeado"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Producto no encontrado con ID: 2"}
+{"level":"error","message":"Error en la ruta /: El producto no se encuentra o no existe"}
+{"level":"error","message":"Producto no encontrado con ID: 2"}
+{"level":"error","message":"Error en la ruta /: El producto no se encuentra o no existe"}

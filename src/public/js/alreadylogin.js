@@ -1,8 +1,4 @@
 //ALREADY LOG IN
-import { logger } from "../../Fuctions/logger.js";
-
- // Esta sección tiene la logica para la vista "mainlogin", el cual aparece cuando la sessión está abierta con el usuario ya logeado.
-
  let userLogged = '';
 
 fetch("/api/sessions/getUserName", {
@@ -21,7 +17,7 @@ fetch("/api/sessions/getUserName", {
     })
     .catch(error => {
         // Registra un mensaje de log de nivel 'error'
-        logger.error("Error al enviar los datos:", error);
+        console.log("Error al enviar los datos:", error);
     });
 
 let logOutIcon = document.getElementById("logOutIcon");
@@ -43,7 +39,6 @@ logOutIcon.onclick = () => {
                     timer: 3000
                 });
             } else {
-
                 Swal.fire({
                     icon: "success",
                     title: data.message,
@@ -56,7 +51,6 @@ logOutIcon.onclick = () => {
             }
         })
         .catch(error => {
-            // Registra un mensaje de log de nivel 'error'
-            logger.error("Error al enviar los datos:", error);
+            console.log("Error al enviar los datos:", error);
         });
 };

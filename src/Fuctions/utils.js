@@ -1,4 +1,3 @@
-
 export function generateRandomCode(length) {
     const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let code = '';
@@ -18,3 +17,22 @@ export const generateAlertMessage = (icon, title, message) => {
       });
 }
 
+export const generateToken = (user) => {
+  return jwt.sign(user, config.jwt_key)
+}
+
+export const isTokenValid = (token, createdAt) => {
+  if (!token) {
+      return false;
+  }
+
+  const expirationTime = new Date(createdAt).getTime() + 3600000; // 1 hora en milisegundos
+  const currentTime = new Date().getTime();
+
+  if (currentTime > expirationTime) {
+      return false;
+  }
+
+  // El token es válido
+  return true;
+};

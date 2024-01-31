@@ -1,0 +1,80 @@
+paths:
+  /api/users/premium/{id}:
+    put:
+      summary: Actualizar el rol del usuario a premium
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del usuario a actualizar
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Rol del usuario actualizado correctamente
+          content:
+            application/json:
+              example:
+                message: "Rol del usuario john.doe@example.com actualizado a PREMIUM."
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              example:
+                message: "Usuario no encontrado."
+        '500':
+          description: Error al cambiar el rol del usuario
+          content:
+            application/json:
+              example:
+                message: "Error al cambiar el rol del usuario."
+
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID autogenerado de Mongo
+        first_name:
+          type: string
+          description: Nombre del usuario
+        last_name:
+          type: string
+          description: Apellido del usuario
+        email:
+          type: string
+          description: Correo electrónico del usuario
+        password:
+          type: string
+          description: Contraseña del usuario
+        role:
+          type: string
+          description: Rol del usuario
+          enum: ["ADMIN", "USER", "PREMIUM"]
+          default: "USER"
+        cart:
+          type: string
+          description: ID del carrito asociado al usuario
+        fromGithub:
+          type: boolean
+          description: Indica si el usuario se registró desde GitHub
+          default: false
+        fromGoogle:
+          type: boolean
+          description: Indica si el usuario se registró desde Google
+          default: false
+      example:
+        _id: "653725063e8c4ee955e8676d"
+        first_name: "John"
+        last_name: "Doe"
+        email: "john.doe@example.com"
+        password: "hashed_password"
+        role: "USER"
+        cart: "6542e50c45a027a9399a73da"
+        fromGithub: false
+        fromGoogle: true

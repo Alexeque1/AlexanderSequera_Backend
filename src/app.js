@@ -5,6 +5,7 @@ import viewsRouter from './Router/views.router.js';
 import chatRouter from './Router/chat.router.js';
 import sessionsRouter from './Router/sessions.router.js';
 import mailRouter from './Router/mail.router.js';
+import userRouter from './Router/user.router.js';
 import MockingRouter from './Router/mocking.router.js';
 import LoggerTest from './Router/loggertest.router.js';
 import { engine } from 'express-handlebars';
@@ -14,13 +15,14 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import bcrypt from 'bcrypt';
 import passport from 'passport';
-import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import config from './config.js';
 import './passportConfig.js';
 import nodemailer from 'nodemailer';
 import { errorMiddleware } from './middlewares/errors.middleware.js';
 import { logger } from "./Fuctions/logger.js";
+import swaggerUi from 'swagger-ui-express'
+import swaggerJSDoc from "swagger-jsdoc";
 
 const app = express();
 const SECRET_KEY = config.secret_key;
@@ -29,6 +31,7 @@ const SECRET_KEY = config.secret_key;
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
+export default __dirname
 
 // Session
 app.use(session({
@@ -45,7 +48,7 @@ app.use(passport.session());
 
 // JWT
 export const generateToken = (user) => {
-  const token = jwt.sign(user, SECRET_KEY, { expiresIn: 300 });
+  const token = jwt.sign(user, SECRET_KEY, { expiresIn: '1h' });
   return token;
 };
  
@@ -72,8 +75,26 @@ app.use('/api/sessions', sessionsRouter);
 app.use('/', viewsRouter);
 app.use('/chat', chatRouter);
 app.use('/mail', mailRouter);
+app.use('/api/user', userRouter);
 app.use('/mockingproducts', MockingRouter);
 app.use('/loggerTest', LoggerTest);
+
+//SWAGGER
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'FunkoPop - Argentina DOCs',
+      version: '1.0.0',
+      description: "Documentación para FunkoPop"
+    },
+  },
+  apis: [`${__dirname}/Docs/*.yaml`], // files containing annotations as above
+};
+
+const swaggerSetup = swaggerJSDoc(swaggerOptions);
+
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSetup));
 
 app.use(errorMiddleware);
 

@@ -88,20 +88,14 @@ loginButton.onclick = () => {
   })
     .then(response => response.json())
     .then(data => {
-      if (data.state == "noregistered") {
+      if (data.state == "error") {
         Swal.fire({
           icon: "error",
-          title: data.message,
-          text: "Por favor, verifique el email",
+          title: "Error",
+          text: data.message,
           timer: 3000
         });
-      } else if (data.state == "nopassword") {
-        Swal.fire({
-          icon: "error",
-          title: data.message,
-          text: "Por favor, verifique la contraseña",
-          timer: 3000
-        });
+        return "Ups"
       } else if (data.state == "login") {
         const user = data.name
         userName = data.name
@@ -271,10 +265,6 @@ forgotPassword.onclick = () => {
           <div class="formAlign_second">
               <input class="formInput" type="email" name="correo_electronico_forgot" id="login_email_forgot">
           </div>
-          <label class="formLabel" for="password_login">Nueva contraseña</label>
-          <div class="formAlign_second">
-              <input class="formInput" type="password" name="contrasena_forgot" id="login_password_forgot">
-          </div>
           <div>
               <button class="btn btn_gray" type="button" id="forgotpassword_button_send">Mandar email</button>
               <button class="btn btn_gray" type="button" id="forgotpassword_button_back">Atrás</button>
@@ -299,11 +289,9 @@ forgotPassword.onclick = () => {
 
       forgotpassword_button_send.onclick = async () => {
         let login_email_forgot = document.getElementById('login_email_forgot').value;
-        let login_password_forgot = document.getElementById('login_password_forgot').value;
     
         let formDataForgot = {
             email: login_email_forgot,
-            password: login_password_forgot
         };
     
         try {
@@ -321,6 +309,10 @@ forgotPassword.onclick = () => {
                 alertMessage("error", data.error, data.message);
             } else if (data.message === "¡Hecho!") {
                 alertMessage("success", data.message, "El email ha sido enviado");
+                if (forgotPasswordContainer.style.display === 'flex') {
+                  forgotPasswordContainer.style.display = 'none';
+                  forgotPasswordContainer.innerHTML = '';
+                }
             }
         } catch (error) {
             console.error("Error al enviar los datos:", error);
@@ -334,4 +326,5 @@ forgotPassword.onclick = () => {
     }
   }
 };
+
 

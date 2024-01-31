@@ -1,4 +1,5 @@
 import { productsModel } from '../../Models/products.models.js'
+import { userDao } from './usersDao.mongo.js';
 import { logger } from '../../Fuctions/logger.js';
 
 class productsDao {
@@ -78,7 +79,7 @@ class productsDao {
     async getProductsById(idProducto) {
         try {
             const productsAr = await productsModel.find()
-            const producto = productsAr.find(prod => prod.id == idProducto)
+            const producto = productsAr.find(prod => prod._id.equals(idProducto))
     
             if (!producto) {
                 return false
@@ -130,8 +131,21 @@ class productsDao {
         }
     }
 
-    async addProducts(product) {
+    async addProducts(product, user) {
         try {
+            const userEmail = user.email
+            const findUser = await userDao.findByEmail(userEmail);
+
+            if (!findUser) {
+                return 'noUser';
+            }
+            
+            let userRole = findUser.role;
+            
+            if (userRole !== "PREMIUM") {
+                return 'noPremium';
+            }
+
             const validation = await this.validProductsAdd(product)
 
             if (!validation) {
@@ -141,10 +155,13 @@ class productsDao {
             }
 
             const response = await productsModel.create(product);
+            response.owner = userEmail;
+            await response.save();
+
             return response
 
         } catch (error) {
-            logger.error("Hubo un error en DAO")
+            logger.error("Hubo un error en DAO: ", error)
             throw new Error(error.message);
         }
     }

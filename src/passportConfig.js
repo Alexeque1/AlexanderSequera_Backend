@@ -5,6 +5,7 @@ import { Strategy as gitHubStrategy } from "passport-github2";
 import { Strategy as googleStrategy } from "passport-google-oauth20";
 import config from "./config.js";
 import { hashData, compareData } from "./app.js";
+import { logger } from "./Fuctions/logger.js";
 
 //Local
 passport.use('signup', new localStrategy(
@@ -15,7 +16,7 @@ passport.use('signup', new localStrategy(
     async (req, email, password, done) => {
         try {
             const { first_name, last_name } = req.body
-            let userRole 
+            let userRole = "USER"; 
 
             if (!first_name || !last_name || !email || !password) {
                 return done(null, false, { message: "Debe completar todos los datos", state: "incompleted" });
@@ -42,11 +43,11 @@ passport.use('signup', new localStrategy(
             return done(null, createData, { message: "Usuario creado", state: "alreadysign" });
 
         } catch (error) {
+            logger.error("Error en la estrategia passport:", error)
             return done(error);
         }
     }
 ));
-
 passport.use('login', new localStrategy(
     {
         usernameField: 'email',
@@ -63,8 +64,6 @@ passport.use('login', new localStrategy(
             if (!isPasswordValid) {
                 return done(null, false, { message: 'La contraseña es incorrecta', state: 'nopassword' });
             }
-
-            req.session.user = user;
 
             return done(null, user);
         } catch (error) {

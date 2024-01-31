@@ -3,6 +3,7 @@ import { productsController } from "../Controllers/productsController.js";
 import { cartsController } from "../Controllers/cartController.js";
 import { authorizeUser } from "../middlewares/Authorize.middleware.js";
 import { logger } from "../Fuctions/logger.js";
+import { isTokenValid } from "../Fuctions/utils.js";
 
 const router = Router();
 
@@ -79,6 +80,29 @@ router.get('/login', async (req, res) => {
         } else {
             res.render("login");
         }
+    } catch (error) {
+        logger.error(`Error en la ruta /login: ${error.message}`);
+        return res.status(500).json('Ha habido un error en la ruta');
+    }
+});
+
+router.get('/resetpassword', async (req, res) => {
+    try {
+        const tokenCookie = req.cookies.token;
+
+        if (!tokenCookie) {
+            return res.redirect('/login');
+        }
+        
+        const resetToken = JSON.parse(tokenCookie);
+        const createdAt = resetToken.createdAt;
+
+        if (!isTokenValid(resetToken.token, createdAt)) {
+            return res.redirect('/login');
+        }
+
+        return res.render('resetpassword', { token: resetToken.token });
+
     } catch (error) {
         logger.error(`Error en la ruta /login: ${error.message}`);
         return res.status(500).json('Ha habido un error en la ruta');

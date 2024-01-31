@@ -15,4 +15,7 @@ export default {
     twilio_sid: process.env.TWILIO_SID,
     twilio_auth: process.env.TWILIO_AUTH_TOKEN,
     twilio_phone: process.env.TWILIO_PHONENUMBER,
+    jwt_key: process.env.JWT_SECRET_KEY,
+    gmail_user: process.env.GMAIL_USER,
+    gmail_password: process.env.GMAIL_PASSWORD
 }

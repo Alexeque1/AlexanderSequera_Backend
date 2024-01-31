@@ -48,7 +48,7 @@ class cartsDao {
       logger.debug('Cart:', cart);
 
       const existingProduct = cart.products.find(
-        (product) => product.product.equals(productId)
+        (productSearch) => productSearch.product.equals(productId)
       );
 
       logger.debug('Existing Product:', existingProduct);
@@ -64,7 +64,6 @@ class cartsDao {
         cart.products.push(productToAdd);
       }
 
-      // Guarda los cambios en el carrito
       await cart.save();
 
       return 'Carrito actualizado exitosamente';

@@ -1,0 +1,331 @@
+paths:
+  /api/cart:
+    get:
+      summary: Obtener información del carrito
+      tags:
+        - Cart
+      responses:
+        '200':
+          description: Información del carrito obtenida exitosamente
+          content:
+            application/json:
+              example:
+                message: # Puedes ajustar este campo según la respuesta real de tu controlador
+                  _id: "6542e50c45a027a9399a73da"
+                  products:
+                    - product:
+                        owner: "ADMIN"
+                        _id: "653725063e8c4ee955e8676d"
+                        title: "Chucky"
+                        description: "A Chucky no le interesa jugar. ¡Está decidido a abrirse camino hasta llegar al frente de tu colección de horrores con este Child's Play 2 Pop! de Chucky. El coleccionable mide aproximadamente 3,75 pulgadas de alto."
+                        price: 8500
+                        thumbnail: "/IMG/ChuckySale.png"
+                        code: "ueys874"
+                        stock: 25
+                        status: "true"
+                        category: "Movies"
+                      quantity: 1
+        '500':
+          description: Hubo un error en la ruta
+          content:
+            application/json:
+              example:
+                message: Ha habido un error en la ruta
+    post:
+      summary: Crear un nuevo carrito
+      tags:
+        - Cart
+      responses:
+        '200':
+          description: Carrito creado exitosamente
+          content:
+            application/json:
+              example:
+                message:
+                  _id: "65b9b6b24571185a4d504350"
+                  products: []
+        '500':
+          description: Hubo un error en la ruta
+          content:
+            application/json:
+              example:
+                message: Ha habido un error en la ruta 
+  /api/cart/{id}:
+    get:
+      summary: Obtener un carrito por ID
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del carrito a buscar
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Carrito obtenido exitosamente por ID
+          content:
+            application/json:
+              example:
+                message: "Products from cart ID: 65b9b6b24571185a4d504350"
+                getProducts: [] 
+        '500':
+          description: Hubo un error en la ruta
+          content:
+            application/json:
+              example:
+                message: Ha habido un error en la ruta
+    delete:
+      summary: Eliminar carrito por ID
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Carrito eliminado exitosamente
+          content:
+            application/json:
+              example:
+                message: Carrito eliminado exitosamente
+        '404':
+          description: Carrito no encontrado
+          content:
+            application/json:
+              example:
+                error: Carrito no encontrado
+                message: Error
+        '500':
+          description: Hubo un error en la ruta
+          content:
+            application/json:
+              example:
+                message: Ha habido un error en la ruta
+  /api/cart/{cid}/purchase:
+    post:
+      summary: Realizar compra desde el carrito
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Compra realizada exitosamente
+          content:
+            application/json:
+              example:
+                message: ¡Hecho!
+        '400':
+          description: Error en la compra
+          content:
+            application/json:
+              example:
+                error: "Stock insuficiente para los productos: abc123, xyz456"
+                message: Error
+        '401':
+          description: Usuario no autenticado
+          content:
+            application/json:
+              example:
+                error: No autenticado
+                message: Error
+        '404':
+          description: Carrito no encontrado o producto no encontrado
+          content:
+            application/json:
+              example:
+                error: Carrito no encontrado
+                message: Error
+        '500':
+          description: Hubo un error en la ruta
+          content:
+            application/json:
+              example:
+                message: Ha habido un error en la ruta
+  /api/cart/{cid}/products/{pid}:
+    delete:
+      summary: Eliminar producto del carrito
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+        - in: path
+          name: pid
+          required: true
+          description: ID del producto a eliminar
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto eliminado del carrito exitosamente
+          content:
+            application/json:
+              example:
+                message: Producto eliminado del carrito exitosamente
+        '404':
+          description: Carrito no encontrado o producto no encontrado
+          content:
+            application/json:
+              examples:
+                CartNotFound:
+                  value:
+                    error: Carrito no encontrado
+                    message: Error
+                ProductNotFound:
+                  value:
+                    error: Producto no encontrado
+                    message: Error
+        '500':
+          description: Hubo un error en la ruta
+          content:
+            application/json:
+              example:
+                message: Ha habido un error en la ruta
+    post:
+      summary: Agregar producto al carrito
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+        - in: path
+          name: pid
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/addProductToCart"
+      responses:
+        '200':
+          description: Producto agregado al carrito exitosamente
+          content:
+            application/json:
+              example:
+                title: ¡Hecho!
+                message: El producto ha sido agregado al carrito
+                result: {}  
+        '403':
+          description: No puedes agregar tu propio producto al carrito
+          content:
+            application/json:
+              example:
+                message: No puedes agregar tu propio producto al carrito
+                status: error
+        '404':
+          description: Carrito no encontrado
+          content:
+            application/json:
+              example:
+                error: Carrito no encontrado
+                message: Error
+        '500':
+          description: Hubo un error en la ruta
+          content:
+            application/json:
+              example:
+                message: Ha habido un error en la ruta
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID autogenerado de Mongo
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              product:
+                type: object
+                properties:
+                  owner:
+                    type: string
+                    description: Propietario del producto
+                  _id:
+                    type: string
+                    description: ID del producto
+                  title:
+                    type: string
+                    description: Nombre del producto
+                  description:
+                    type: string
+                    description: Descripción del producto
+                  price:
+                    type: number
+                    description: Precio del producto
+                  thumbnail:
+                    type: string
+                    description: Ruta o path de la imagen del producto
+                  code:
+                    type: string
+                    description: Código alfa-numérico del producto
+                  stock:
+                    type: number
+                    description: Cantidad en stock del producto
+                  status:
+                    type: string
+                    description: Estatus del producto (activo/inactivo)
+                  category:
+                    type: string
+                    description: Categoría del producto
+              quantity:
+                type: number
+                description: Cantidad del producto en el carrito
+            required:
+              - product
+              - quantity
+          description: Lista de productos en el carrito
+      example:
+        _id: "6542e50c45a027a9399a73da"
+        products:
+          - product:
+              owner: "ADMIN"
+              _id: "653725063e8c4ee955e8676d"
+              title: "Chucky"
+              description: "A Chucky no le interesa jugar. ¡Está decidido a abrirse camino hasta llegar al frente de tu colección de horrores con este Child's Play 2 Pop! de Chucky. El coleccionable mide aproximadamente 3,75 pulgadas de alto."
+              price: 8500
+              thumbnail: "/IMG/ChuckySale.png"
+              code: "ueys874"
+              stock: 25
+              status: "true"
+              category: "Movies"
+            quantity: 1
+  requestBodies:
+    addProductToCart:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              quantity:
+                type: number
+                description: Cantidad del producto a agregar al carrito
+            required:
+              - quantity
+          example:
+            quantity: 2  # Puedes ajustar según tus necesidades
+        

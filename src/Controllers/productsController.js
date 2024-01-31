@@ -51,9 +51,9 @@ class ProductsController {
     }
   }
 
-  async addProducts(product) {
+  async addProducts(product, user) {
     try {
-      const response = await productDao.addProducts(product);
+      const response = await productDao.addProducts(product, user);
       return response;
     } catch (error) {
       logger.error(`Error en ProductsController (addProducts): ${error.message}`);
