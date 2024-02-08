@@ -16,7 +16,7 @@ resetPasswordButton.onclick = () => {
     let resetPassword = document.getElementById("login_newpassword_reset").value;
 
     if (resetEmail == "" || resetPassword == "") {
-       alertMessage("error", "Error", "Está faltando algún dato");
+       return alertMessage("error", "Error", "Está faltando algún dato");
     }
 
     const formDataJson = {

@@ -98,7 +98,7 @@ class productsDao {
             const producto = productsAr.find(prod => prod.code === code)
     
             if (!producto) {
-                return ('Producto no encontrado');
+                return false;
             }
 
             console.log(producto)

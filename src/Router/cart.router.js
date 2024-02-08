@@ -32,9 +32,14 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
+    const {id} = req.params 
+
     try {
-      const {id} = req.params 
       const getProducts = await cartsController.getCartById(id)
+      
+      if (!getProducts) {
+        return res.status(404).json({ error: 'Producto no encontrado', message: "Error" });
+      }
       logger.debug('Carrito por ID obtenido exitosamente', getProducts);
       res.json({message: `Products from cart ID: ${id}`, getProducts})
     } catch (error) {
@@ -44,119 +49,124 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/:cid/purchase', async (req, res) => {
-    const { cid } = req.params;
-    const user = req.session.user
+  const { cid } = req.params;
+  const user = req.session.user;
 
-    try {
+  try {
       let email;
-  
+
       if (user) {
-        logger.debug("Usuario loggeado, se avanza con el proceso")
-        email = user.email;
+          logger.debug("Usuario loggeado, se avanza con el proceso");
+          email = user.email;
       } else {
-        logger.error("Usuario no loggeado, no se avanza")
-        return res.status(401).json({ error: 'No autenticado', message: "Error" });
+          logger.error("Usuario no loggeado, no se avanza");
+          return res.status(401).json({ error: 'No autenticado', message: "Error" });
       }
-  
+
       const cart = await cartsController.getCartById(cid);
-  
+
       if (!cart) {
-        logger.error("Carrito no encontrado, no se avanza")
-        return res.status(404).json({ error: 'Carrito no encontrado', message: "Error" });
+          logger.error("Carrito no encontrado, no se avanza");
+          return res.status(404).json({ error: 'Carrito no encontrado', message: "Error" });
       }
-  
+
+      if (cart.products.length === 0) {
+          logger.error("El carrito está vacío, no se puede realizar la compra");
+          return res.status(400).json({ error: 'El carrito está vacío', message: "Error" });
+      }
+
       let quantityOfProducts = 0;
       const ticketProducts = [];
       const productsNotPurchased = [];
-  
+
       for (let i = 0; i < cart.products.length; i++) {
-        const cartProduct = cart.products[i];
-        const productId = cartProduct.product._id;
-        const requestedQuantity = cartProduct.quantity;
-      
-        quantityOfProducts += requestedQuantity;
-      
-        const product = await productsController.getProductsById(productId);
-      
-        if (!product) {
-          return res.status(404).json({ error: 'Producto no encontrado', message: "Error" });
-        }
-      
-        if (product.stock >= requestedQuantity) {
-          logger.debug(`Antes de restar stock del producto (${productId}):`, product.stock);
-          product.stock -= requestedQuantity;
-      
-          ticketProducts.push({
-            productId: product._id,
-            price: product.price,
-            quantity: requestedQuantity,
-            productName: product.name,
-          });
-      
-          await product.save();
-      
-          logger.debug(`Después de restar stock del producto (${productId}):`, product.stock);
-      
-          cart.products.splice(i, 1);
-          i--; 
-        } else {
-          productsNotPurchased.push(productId);
-          logger.warning(`Stock insuficiente para el producto (${productId})`);
-        }
+          const cartProduct = cart.products[i];
+          const productId = cartProduct.product._id;
+          const requestedQuantity = cartProduct.quantity;
+
+          quantityOfProducts += requestedQuantity;
+
+          const product = await productsController.getProductsById(productId);
+
+          if (!product) {
+              return res.status(404).json({ error: 'Producto no encontrado', message: "Error" });
+          }
+
+          if (product.stock >= requestedQuantity) {
+              logger.debug(`Antes de restar stock del producto (${productId}):`, product.stock);
+              product.stock -= requestedQuantity;
+
+              ticketProducts.push({
+                  productId: product._id,
+                  price: product.price,
+                  quantity: requestedQuantity,
+                  productName: product.name,
+              });
+
+              await product.save();
+
+              logger.debug(`Después de restar stock del producto (${productId}):`, product.stock);
+
+              cart.products.splice(i, 1);
+              i--; 
+          } else {
+              productsNotPurchased.push(productId);
+              logger.warning(`Stock insuficiente para el producto (${productId})`);
+          }
       }
-  
+
       const generatedCode = generateRandomCode(8);
-  
+
       if (productsNotPurchased.length > 0) {
-        cart.products = cart.products.filter((cartProduct) => !productsNotPurchased.includes(cartProduct.product._id.toString()));
-        await cart.save();
-  
-        return res.status(400).json({ error: `Stock insuficiente para los productos: ${productsNotPurchased.join(', ')}`, message: "Error" });
+          cart.products = cart.products.filter((cartProduct) => !productsNotPurchased.includes(cartProduct.product._id.toString()));
+          await cart.save();
+
+          return res.status(400).json({ error: `Stock insuficiente para los productos: ${productsNotPurchased.join(', ')}`, message: "Error" });
       }
-  
+
       if (ticketProducts.length > 0) {
-        const ticketAmount = ticketProducts.reduce((total, product) => total + product.quantity * product.price, 0);
-        logger.info('Monto total del ticket:', ticketAmount);
-  
-        const ticketPurchaser = email;
-        logger.info("Email del usuario: " + ticketPurchaser);
-  
-        await ticketsController.createTicket({
-          code: generatedCode,
-          amount: ticketAmount,
-          purchaser: ticketPurchaser,
-        });
+          const ticketAmount = ticketProducts.reduce((total, product) => total + product.quantity * product.price, 0);
+          logger.info('Monto total del ticket:', ticketAmount);
+
+          const ticketPurchaser = email;
+          logger.info("Email del usuario: " + ticketPurchaser);
+
+          await ticketsController.createTicket({
+              code: generatedCode,
+              amount: ticketAmount,
+              purchaser: ticketPurchaser,
+          });
       }
-  
-      // Actualiza el carrito eliminando los productos comprados
+
       cart.products = cart.products.filter((cartProduct) => !productsNotPurchased.includes(cartProduct.product._id.toString()));
       await cart.save();
-  
+
       return res.status(200).json({ message: '¡Hecho!' });
-    } catch (error) {
-      logger.error(`Error en la ruta /: ${error.message}`)
-      return res.status(500).json('Ha habido un error en la ruta')
-    }
-  });
+  } catch (error) {
+      logger.error(`Error en la ruta /: ${error.message}`);
+      return res.status(500).json('Ha habido un error en la ruta');
+  }
+});
+
   
 
 router.delete('/:cid/products/:pid', async (req, res) => {
-    const { cid, pid } = req.params;
+  const { cid, pid } = req.params;
 
-    try {
-        const result = await cartsController.deleteProduct(cid, pid);
+  try {
+      const result = await cartsController.deleteProduct(cid, pid);
 
-        if (result === 'Producto eliminado del carrito exitosamente') {
-            return res.status(200).json({ message: result });
-        } else if (result === "Carrito no encontrado") {
-            CustomError.generateError(result, 404, ErrorsName.CART_NOT_FOUND);
-        } else {
-            CustomError.generateError(result, 404, ErrorsName.PRODUCT_NOT_FOUND);
-        }
-    } catch (error) {
-      logger.error(`Error en la ruta /: ${error.message}`)
-      return res.status(500).json('Ha habido un error en la ruta')
-    }
+      if (result === 'Producto eliminado del carrito exitosamente') {
+        return res.status(200).json({ message: result })
+      } else if (result === 'Producto no encontrado en el carrito') { 
+          return res.status(404).json({ message: result, status: "error" })
+      } else if (result === 'Carrito no encontrado') { 
+          return res.status(404).json({ message: result, status: "error" })
+      }
+  } catch (error) {
+    logger.error(`Error en la ruta /: ${error.message}`)
+    return res.status(500).json('Ha habido un error en la ruta')
+  }
 });
 
 router.delete('/:cid', async (req, res) => {
@@ -166,7 +176,7 @@ router.delete('/:cid', async (req, res) => {
         const result = await cartsController.deleteCart(cid);
 
         if (!result) {
-            CustomError.generateError(ErrorsMessage.CART_NOT_FOUND, 404, ErrorsName.CART_NOT_FOUND)
+          return res.status(404).json({message: "Carrito no encontrado", status: "error"})
         }
 
         res.json({ message: result });
@@ -178,25 +188,37 @@ router.delete('/:cid', async (req, res) => {
 });
 
 router.post('/:cid/products/:pid', async (req, res) => {
-    try {
+  try {
       const { cid, pid } = req.params;
       const { quantity } = req.body;
-      const productCheck = await productsController.getProductsById(productId)
+      const userData = req.session.user;
 
-      if (user.role === 'PREMIUM' && productCheck.owner.toString() === user.email.toString()) {
-        return res.status(403).json({ message: 'No puedes agregar tu propio producto al carrito', status: "error" });
+      if (!userData) {
+          return res.status(401).json({ message: 'Usuario no autenticado', status: "error" });
+      }
+
+      const productCheck = await productsController.getProductsById(pid);
+
+      if (!productCheck) {
+          return res.status(404).json({ message: 'Producto no encontrado', status: "error" });
+      }
+
+      if (userData.role === 'PREMIUM' && productCheck.owner.toString() === userData.email.toString()) {
+          return res.status(403).json({ message: 'No puedes agregar tu propio producto al carrito', status: "error" });
       }
 
       const result = await cartsController.updateProduct(cid, pid, quantity);
-  
+      console.log("El resultado ==> " + result)
+
       if (!result) {
-          CustomError.generateError(ErrorsMessage.CART_NOT_FOUND, 404, ErrorsName.CART_NOT_FOUND)
+          return res.status(404).json({ message: 'Carrito no encontrado', status: "error" });
       }
-  
-      res.json({ title: "¡Hecho!",  message: "El producto ha sido agregado al carrito", result: result});
-    } catch (error) {
-      
-    }
-  });
+
+      res.status(200).json({ title: "¡Hecho!", message: "El producto ha sido agregado al carrito", result: result });
+  } catch (error) {
+      return res.status(500).json('Ha habido un error en la ruta');
+  }
+});
+
 
 export default router

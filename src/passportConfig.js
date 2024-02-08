@@ -6,6 +6,7 @@ import { Strategy as googleStrategy } from "passport-google-oauth20";
 import config from "./config.js";
 import { hashData, compareData } from "./app.js";
 import { logger } from "./Fuctions/logger.js";
+import { generateToken } from "./Fuctions/jwt.js";
 
 //Local
 passport.use('signup', new localStrategy(
@@ -17,6 +18,13 @@ passport.use('signup', new localStrategy(
         try {
             const { first_name, last_name } = req.body
             let userRole = "USER"; 
+
+            const userdata = {
+                name: first_name,
+                last: last_name,
+                emailData: email,
+                passwordData: password
+            }
 
             if (!first_name || !last_name || !email || !password) {
                 return done(null, false, { message: "Debe completar todos los datos", state: "incompleted" });
@@ -85,7 +93,6 @@ passport.use('github',
             const user = await userController.findByEmail(profile._json.email);
 
             if (user) {
-                // Usuario existe, iniciar sesión
                 return done(null, user);
             } else {
                 // Usuario no existe, registrar

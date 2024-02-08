@@ -1,5 +1,7 @@
 export const authorizeAdmin = (req, res, next) => {
-    if (req.isAuthenticated() && req.user && (req.user.role === 'ADMIN' || req.user.role === 'PREMIUM')) {
+  const user = req.session.user
+  console.log(user)
+    if (user && (user.role === 'ADMIN' || user.role === 'PREMIUM')) {
         next();
     } else {
         return res.status(403).json({ message: 'Acceso prohibido para este usuario' });

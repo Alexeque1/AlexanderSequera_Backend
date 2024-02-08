@@ -7,6 +7,7 @@ import userDTO from "../DTO/userDTO.js";
 import passport from "passport";
 import { logger } from "../Fuctions/logger.js";
 import { isTokenValid } from "../Fuctions/utils.js";
+import { generateToken } from "../Fuctions/jwt.js";
 
 const router = Router();
 
@@ -25,17 +26,20 @@ router.get('/getUserName', async (req, res) => {
 router.post('/signup', (req, res, next) => {
     passport.authenticate('signup', (err, user, info) => {
         try {
+
+            console.log("Info ==> " + JSON.stringify(info))
+
             if (err) {
                 logger.error(`Error en la ruta /signup: ${err.message}`);
                 CustomError.generateError(ErrorsMessage.ERROR_SYSTEM, 500, ErrorsName.ERROR_SYSTEM);
             }
             if (!user) {
-                if (info.state === "incompleted") {
+                if (info.message === "Missing credentials") {
                     logger.error('Datos faltantes al intentar agregar un usuario');
-                    CustomError.generateError(ErrorsMessage.DATA_MISSING, 400, ErrorsName.DATA_MISSING);
+                    return res.status(400).json({ message: 'Datos faltantes al intentar agregar un usuario', error: 'DATA_MISSING' });
                 } else if (info.state === "registered") {
                     logger.error('Intento de registrar un usuario con un email ya registrado');
-                    CustomError.generateError(ErrorsMessage.USER_ALREADY_LOGGED, 400, ErrorsName.USER_ALREADY_LOGGED);
+                    return res.status(400).json({ message: 'Intento de registrar un usuario con un email ya registrado', error: 'USER_ALREADY_LOGGED' });
                 }
             }
 
@@ -59,19 +63,22 @@ router.post('/login', (req, res, next) => {
 
             if (info.state === "noregistered") {
                 logger.error('Intento de inicio de sesión con un email no registrado');
-                errorInfo = { message: 'Email no registrado', state: 'error', errorCode: 'USER_NOT_LOGGED' };
+                return res.status(401).json({ message: 'Email no registrado', state: 'error', errorCode: "USER_NOT_LOGGED" });
             } else if (info.state === "nopassword") {
                 logger.error('Intento de inicio de sesión con contraseña incorrecta');
-                errorInfo = { message: 'Contraseña incorrecta', state: 'error', errorCode: 'PASSWORD_NOT_ACCEPTED' };
+                return res.status(401).json({ message: 'Contraseña incorrecta', state: 'error', errorCode: "PASSWORD_NOT_ACCEPTED" });
             }
 
             return res.status(401).json(errorInfo);
         }
-
+        
+        const userName = user.first_name; 
+        const token = generateToken({ userName });
+    
+        req.session.user = user; 
+        res.cookie('token', token, { httpOnly: true, secure: true });
         res.cookie('email', user.email);
-        logger.info(user)
-
-        req.session.user = user
+        console.log(req.session.user)
 
         logger.info(`El email ${user.email} se ha logeado`);
         return res.status(200).json({ message: 'Usted ha ingresado con éxito', state: 'login', user: req.body, name: user.first_name });
@@ -81,11 +88,16 @@ router.post('/login', (req, res, next) => {
 router.get('/auth/github',
   passport.authenticate('github', { scope: [ 'user:email' ] }));
 
-router.get('/callback', 
+  router.get('/callback', 
   passport.authenticate('github'), (req, res) => {
+    const userName = req.user.first_name; 
+    const token = generateToken({ userName });
+
     req.session.user = req.user;
+    res.cookie('token', token, { httpOnly: true, secure: true });
     res.cookie('email', req.user.email);
-    res.redirect('http://localhost:8080/realtimeproducts')
+
+    res.redirect('http://localhost:8080/realtimeproducts');
     logger.info(`El email ${req.user.email} ha iniciado sesión`);
   });
 
@@ -114,11 +126,12 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/current', (req, res) => {
+    const user = req.session.user
     try {
-        if (req.session.user) { 
-            const userData = new userDTO(req.session.user);
+        if (user) { 
+            const userData = new userDTO(user);
             logger.info('Información de usuario obtenida exitosamente');
-            res.json({ user: userData });
+            res.status(200).json({ user: userData });
         } else {
             logger.error('Error en la ruta /current: Usuario no loggeado');
             return res.status(401).json({ error: 'Usuario no loggeado' });
@@ -150,7 +163,15 @@ router.post('/resetpassword', async (req, res) => {
             return res.redirect('http://localhost:8080/login');
         }
 
-        const passwordMatch = await compareData(newPassword, findUser.password);
+        console.log(findUser)
+        
+        let passwordMatch
+
+        if (findUser.fromGithub === true || findUser.fromGoogle === true) {
+            return res.status(401).json({ message: 'Usted se ha logeado con Github o Google.',  state: "loginservice", error: "Error"});
+        } else {
+            passwordMatch = await compareData(newPassword, findUser.password);
+        }
 
         if (passwordMatch) {
             return res.status(401).json({ message: 'La contraseña no puede ser igual a la anterior.',  state: "noPassword", error: "Error"});

@@ -1,4 +1,5 @@
 import { cartDao } from "../Dao/Mongo/cartsDao.mongo.js";
+import { logger } from "../Fuctions/logger.js";
 
 class CartsController {
   async getCartInfo() {

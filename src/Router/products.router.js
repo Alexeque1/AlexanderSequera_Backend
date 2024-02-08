@@ -25,7 +25,7 @@ router.get('/:id', async (req, res, next) => {
 
         if (!response) {
             logger.error(`Producto no encontrado con ID: ${id}`);
-            CustomError.generateError(ErrorsMessage.PRODUCT_NOT_FOUND, 404, ErrorsName.PRODUCT_NOT_FOUND);
+            return res.status(404).json({ error: 'Producto no encontrado' });
         }
 
         logger.info(`Producto con ID ${id} obtenido exitosamente`);
@@ -44,7 +44,7 @@ router.get('/code/:code', async (req, res) => {
 
         if (!response) {
             logger.error(`Producto no encontrado con código: ${code}`);
-            CustomError.generateError(ErrorsMessage.PRODUCT_NOT_FOUND, 404, ErrorsName.PRODUCT_NOT_FOUND);
+            return res.status(404).json({ error: 'Producto no encontrado' });
         }
 
         logger.info(`Producto con código ${code} obtenido exitosamente`);
@@ -58,7 +58,7 @@ router.get('/code/:code', async (req, res) => {
 router.post('/', authorizeAdmin, async (req, res) => {
     try {
         const data = req.body;
-        const user = req.user
+        const user = req.session.user
         const insertData = await productsController.addProducts(data, user);
 
         if (insertData === "missingData") {
@@ -66,7 +66,7 @@ router.post('/', authorizeAdmin, async (req, res) => {
             CustomError.generateError(ErrorsMessage.DATA_MISSING, 400, ErrorsName.DATA_MISSING);
         } else if (insertData === "alreadycode") {
             logger.error('Intento de agregar un producto con un código ya existente');
-            return res.status(400).json({ message: insertData });
+            return res.status(400).json({ message: insertData, status: "noCode" });
         } else if (insertData === "noUser") {
             logger.error('Estas intentando agregar un producto sin correo electronico');
             return res.status(400).json({ message: 'Estas intentando agregar un producto sin correo electronico', status: "noPremium" });
@@ -76,7 +76,7 @@ router.post('/', authorizeAdmin, async (req, res) => {
         }
 
         logger.info('Producto agregado exitosamente');
-        return res.json({ message: "Product added", satus: "ok", insertData });
+        return res.json({ message: "Product added", status: "ok", insertData });
     } catch (error) {
         logger.error(`Error en la ruta /: ${error.message}`);
         return res.status(500).json('Ha habido un error en la ruta');
@@ -92,7 +92,7 @@ router.put('/:id', authorizeAdmin, async (req, res) => {
 
         if (!getProduct) {
             logger.error(`Producto no encontrado con ID: ${id} al intentar actualizar`);
-            CustomError.generateError(ErrorsMessage.PRODUCT_NOT_FOUND, 404, ErrorsName.PRODUCT_NOT_FOUND);
+            return res.status(400).json({ message: 'Producto no encontrado con ID: ${id} al intentar actualizar', status: "noProduct" });
         }
 
         logger.info(`Producto con ID ${id} actualizado exitosamente`);
@@ -105,7 +105,6 @@ router.put('/:id', authorizeAdmin, async (req, res) => {
 
 router.delete('/:id', authorizeAdmin, async (req, res) => {
     const { id } = req.params;
-    const user = req.user
 
     try {
         const findProduct = await productsController.getProductsById(id)
@@ -113,10 +112,6 @@ router.delete('/:id', authorizeAdmin, async (req, res) => {
         if (!findProduct) {
             return res.status(404).json({ message: 'Producto no encontrado' });
         }
-
-        if (user.role === 'PREMIUM' && product.owner.toString() !== user.email.toString()) {
-            return res.status(403).json({ message: 'No tienes permisos para eliminar este producto' });
-          }
 
         const removeData = await productsController.removeProduct(id);
 

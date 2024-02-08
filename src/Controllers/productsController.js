@@ -1,4 +1,5 @@
 import { productDao } from "../Dao/Mongo/productsDao.mongo.js";
+import { logger } from "../Fuctions/logger.js";
 
 class ProductsController {
   async getProducts(obj) {
@@ -27,7 +28,7 @@ class ProductsController {
       return response;
     } catch (error) {
       logger.error(`Error en ProductsController (getProductsById): ${error.message}`);
-      throw new Error(`Error en el controlador al obtener productos por ID: ${error.message}`);
+      throw new Error(`Error en el controlador al obtener productos por ID: ${idProducto}. Error: ${error.message}`);
     }
   }
 

@@ -115,11 +115,18 @@ form.onsubmit = (event) => {
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
-                        if (data !== "ok") {
+                        if (data.status !== "ok") {
                             Swal.fire({
                                 icon: "error",
                                 title: "Error",
                                 text: data.message,
+                                timer: 3000
+                              })
+                        } else if (data.status == "ok") {
+                            Swal.fire({
+                                icon: "success",
+                                title: "¡Hecho!",
+                                text: "Producto agregado",
                                 timer: 3000
                               })
                         }
