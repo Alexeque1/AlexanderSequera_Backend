@@ -1,5 +1,6 @@
 import supertest from "supertest";
 import { expect } from "chai";
+import { generateToken } from "../src/Fuctions/jwt.js";
 
 
 const request = supertest('http://localhost:8080');
@@ -168,25 +169,51 @@ describe("Testing routing de Sessions", () => {
                 expect(loginResponse.body.errorCode).to.equal('PASSWORD_NOT_ACCEPTED');
             });
         })
-    })
 
-    describe("Test de registro de log out", () => {
-        it("El endpoint GET /api/sessions/logout debería cerrar sesión exitosamente", async () => {
-            const authenticatedUser = { email: 'premium@premium.com', password: '123456' };
+        describe("Test de registro de log out", () => {
+            it("El endpoint GET /api/sessions/logout debería cerrar sesión exitosamente", async () => {
+                const authenticatedUser = { email: 'premium@premium.com', password: '123456' };
+    
+                const loginResponse = await request
+                    .post('/api/sessions/login')
+                    .send(authenticatedUser)
+                    .set('Content-Type', 'application/json');
+    
+                expect(loginResponse.status).to.equal(200);
+    
+                const response = await request
+                    .get('/api/sessions/logout')
+    
+                expect(loginResponse.status).to.equal(200);
+                expect(response.body.message).to.equal('Se ha deslogeado con exito');
+                expect(response.body.state).to.equal('logout');
+            })
+        })
 
-            const loginResponse = await request
-                .post('/api/sessions/login')
-                .send(authenticatedUser)
-                .set('Content-Type', 'application/json');
+        describe("Tes de recuperación de contraseña", () => {
+            it("Debería restablecer la contraseña con éxito", async () => {
+                const user = {
+                    email: 'hola@gmail.com',
+                    newPassword: '123456',
+                  };
 
-            expect(loginResponse.status).to.equal(200);
+                  const generatedToken = generateToken(user);
+                  const tokenData = {
+                    token: generatedToken,
+                    user: "65d13fd79367f6d8e132766c",
+                    createdAt: new Date()
+                  }
 
-            const response = await request
-                .get('/api/sessions/logout')
-
-            expect(loginResponse.status).to.equal(200);
-            expect(response.body.message).to.equal('Se ha deslogeado con exito');
-            expect(response.body.state).to.equal('logout');
+                  const response = await request
+                  .post('/api/sessions/resetpassword')
+                  .send(user)
+                  .set('Cookie', `token=${JSON.stringify(tokenData)}`)
+                  
+                  const result = response.body.message
+                  console.log(result)
+                  expect(response.status).to.equal(200);
+                  expect(response.body.message).to.equal('Contraseña restablecida con éxito.');
+            })
         })
     })
 })

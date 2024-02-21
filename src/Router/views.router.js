@@ -109,4 +109,18 @@ router.get('/resetpassword', async (req, res) => {
     }
 });
 
+router.get('/profile', async (req, res) => {
+    const user = req.session.user
+    try {
+        if (user) {
+            res.render("profile", { layout: 'mainlogin' });
+        } else {
+            res.redirect("/realtimeproducts");
+        }
+    } catch (error) {
+        logger.error(`Error en la ruta /login: ${error.message}`);
+        return res.status(500).json('Ha habido un error en la ruta');
+    }
+});
+
 export default router;

@@ -34,6 +34,22 @@ const userSchema = new mongoose.Schema({
     fromGoogle: {
         type: Boolean,
         default: false,
+    },
+    documents: [
+        {
+            name: {
+                type: String,
+                default: "Unknown"
+            },
+            document: {
+                type: String,
+                required: true
+            }
+        }
+    ],
+    last_conection: {
+        type: Date, 
+        default: Date.now 
     }
 })
 

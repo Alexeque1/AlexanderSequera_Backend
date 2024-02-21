@@ -1,0 +1,112 @@
+<div>
+    <div class="profileFullBox">
+        <div class="profileBox_header">
+            <div class="profileBox_header_photoBox">
+                <picture class="profileBox_header_photo">
+                    <img id="profileImage" src="/IMG/userNotLogged.png" alt="" />
+                </picture>
+                <buttom class="profileBox_header_photoUpload" id="uploadPhoto">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M11 16V7.85l-2.6 2.6L7 9l5-5l5 5l-1.4 1.45l-2.6-2.6V16zm-5 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
+                    </svg>
+                </buttom>
+            </div>
+            <div class="profileBox_header_identification">
+                <div class="profileBox_nameBox">
+                    <h2 class="profileBox_name" id="profileBox_name"></h2>
+                </div>
+                <div class="profileBox_accountTypeBox">
+                    <p class="profileBox_accountType" id="profileBox_accountType"></p>
+                </div>
+                <div class="profileBox_buttonsBox">
+                    <div class="profileBox_buttons">
+                        <button class="btn" id="toCartProfile">
+                            Ver carrito
+                        </button>
+                        <a href="http://localhost:8080/chat">
+                            <button class="btn">
+                                Ir al chat
+                            </button>
+                        </a>
+                        <a href="">
+                            <button class="btn" id="toChangeRole">
+                                Cambiar role
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- UPLOAD DODUCMENTS -->
+        <div class="profileBox_data">
+            <div class="profileBox_data_header">
+                <div class="profileBox_data_header_uploadTitle">
+                    <h3>Subir data</h3>
+                </div>
+                <div class="profileBox_data_header_uploadType uploadTitle">
+                    <label for="tipoDocumento">Tipo de documento:</label>
+                    <select id="tipoDocumento" name="tipoDocumento">
+                        <option value="identificacion">Identificación</option>
+                        <option value="comprobanteDomicilio">Comprobante de domicilio</option>
+                        <option value="comprobanteEstadoCuenta">Comprobante de estado de cuenta</option>
+                    </select>
+                </div>
+                <div class="profileBox_data_header_upload uploadTitle">
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <div class="profileBox_data_header_upload_file">
+                            <input type="file" id="documentoEnviar" name="documents" accept=".pdf,.doc,.docx">
+                            <span>Seleccionar archivo</span>
+                        </div>
+                        <button class="btn" type="submit">
+                            Enviar
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="profileBox_data_uploaded">
+                <div class="profileBox_data_uploadedTitle">
+                    <h3>Archivos subidos</h3>
+                </div>
+                <div class="profileBox_data_uploaded_verify">
+                    <p>Identificación</p>
+                    <div id="identificationVerification"></div>
+                </div>
+                <div class="profileBox_data_uploaded_verify">
+                    <p>Comprobante de domicilio</p>
+                    <div id="addressVerification"></div>
+                </div>
+                <div class="profileBox_data_uploaded_verify">
+                    <p>Comprobante de estado de cuenta</p>
+                    <div id="accountVerification"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOTO DEPERFIL -->
+    <div class="divUploadPhoto" id="uploadPhotoDivBox">
+        <div class="divUploadPhoto_box">
+            <div class="divUploadPhoto_box_title">
+                <h3>Subir foto de perfil</h3>
+            </div>
+            <div class="divUploadPhoto_box_buttonsData">
+                <form id="uploadPhotoForm" enctype="multipart/form-data">
+                    <div class="profileBox_data_header_upload_file">
+                        <input type="file" id="photoEnviar" name="profileImage" accept="image/*">
+                        <span>Seleccionar archivo</span>
+                    </div>
+                    <button class="btn" type="submit" id="photoEnviarButtonDone">
+                        Enviar
+                    </button>
+                    <button class="btn" type="button" id="photoEnviarButtonClose">
+                        Cerrar
+                    </button>
+                </form>
+                <div id="selectedFileMessage"></div>
+            </div>
+        </div>
+    </div>
+</div>

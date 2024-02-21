@@ -17,7 +17,7 @@ export const authorizePremium = (req, res, next) => {
 };
 
 export const authorizeUser = (req, res, next) => {
-    if (req.isAuthenticated() && req.user.role === 'USER') {
+    if (req.isAuthenticated() || req.session.user.role === 'USER') {
       next();
     } else {
       res.status(403).json({ error: 'Acceso prohibido para este usuario' });

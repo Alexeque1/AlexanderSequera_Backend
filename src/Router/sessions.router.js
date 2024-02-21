@@ -8,6 +8,7 @@ import passport from "passport";
 import { logger } from "../Fuctions/logger.js";
 import { isTokenValid } from "../Fuctions/utils.js";
 import { generateToken } from "../Fuctions/jwt.js";
+import { format } from "date-fns";
 
 const router = Router();
 
@@ -75,9 +76,11 @@ router.post('/login', (req, res, next) => {
         const userName = user.first_name; 
         const token = generateToken({ userName });
     
-        req.session.user = user; 
+        req.session.user = user;
         res.cookie('token', token, { httpOnly: true, secure: true });
         res.cookie('email', user.email);
+        const userDataToCookies = new userDTO(user)
+        res.cookie('user', userDataToCookies)
         console.log(req.session.user)
 
         logger.info(`El email ${user.email} se ha logeado`);
@@ -96,6 +99,9 @@ router.get('/auth/github',
     req.session.user = req.user;
     res.cookie('token', token, { httpOnly: true, secure: true });
     res.cookie('email', req.user.email);
+    const userDataToCookies = new userDTO(req.user)
+    console.log(userDataToCookies)
+    res.cookie('user', userDataToCookies)
 
     res.redirect('http://localhost:8080/realtimeproducts');
     logger.info(`El email ${req.user.email} ha iniciado sesión`);
@@ -113,17 +119,30 @@ router.get('/auth/google/callback',
     logger.info(`El email ${req.user.email} ha iniciado sesión`);
   });
 
-router.get('/logout', (req, res) => {
+  router.get('/logout', async (req, res) => {
+    const userEmail = req.cookies.email; 
+    console.log(userEmail)
+    const now = new Date();
+
+    const user = await userController.findByEmail(userEmail); 
+
+    user.last_conection = now;
+    await user.save(); // Uso de await dentro de una función asíncrona
+
+    res.clearCookie('email');
+    res.clearCookie('user');
+    res.clearCookie('token'); 
+
     req.session.destroy((err) => {
         if (err) {
             console.error('Error al destruir la sesión:', err);
             CustomError.generateError(ErrorsMessage.USER_NOT_LOGOUT, 500, ErrorsName.USER_NOT_LOGOUT);
         }
-
         logger.info('Usuario ha cerrado sesión exitosamente');
         return res.status(200).json({ message: 'Se ha deslogeado con exito', state: 'logout' });
     });
 });
+
 
 router.get('/current', (req, res) => {
     const user = req.session.user
@@ -162,8 +181,6 @@ router.post('/resetpassword', async (req, res) => {
         if (!isTokenValid(token, createdAt)) {
             return res.redirect('http://localhost:8080/login');
         }
-
-        console.log(findUser)
         
         let passwordMatch
 

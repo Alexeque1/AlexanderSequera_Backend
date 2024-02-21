@@ -1,0 +1,275 @@
+/* HEADER */
+
+.profileFullBox {
+    display: flex;
+    flex-direction: column;
+    margin: 25px auto;
+    max-width: 700px;
+    background-color: azure;
+    border-radius: 20px;
+}
+
+.profileBox_header {
+    display: flex;
+    width: 90%;
+    height: 180px;
+    margin: 10px auto;
+    padding: 10px;
+    background-color: rgb(194, 194, 230);
+    border-radius: 20px;
+}
+
+.profileBox_header_photoBox {
+    width: 200px;
+    height: 100%;
+    position: relative;
+}
+
+.profileBox_header_photoBox img{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+
+.profileBox_header_photoUpload {
+    display: flex;
+    position: absolute;
+    top: -3px;
+    left: 145px;
+    background-color: white;
+    padding: 2px;
+    border-radius: 5px;
+}
+
+.profileBox_header_photoUpload svg {
+    margin: 0px 2px;
+    cursor: pointer;
+}
+
+.profileBox_header_identification {
+    margin-left: 20px;
+    width: 400px;
+    height: 100%;
+}
+
+.profileBox_nameBox {
+    height: 30%;
+}
+
+.profileBox_name {
+    font-family: 'Saira Stencil One', cursive;
+    font-size: 2em;
+    text-align: center;
+    color: rgba(67, 23, 93, 0.988);
+}
+
+.profileBox_accountTypeBox {
+    height: 20%;
+    justify-content: center;
+}
+
+.profileBox_accountType {
+    height: 20px;
+    text-align: center;
+}
+
+.profileBox_accountType {
+    font-family: 'Snippet', sans-serif;
+    font-weight: 700;
+    text-align: center;
+}
+
+.profileBox_buttonsBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60%;
+}
+
+.profileBox_buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.profileBox_buttons a {
+    text-decoration: none;
+    margin: 0 5px; /* Añade margen horizontal entre los botones */
+}
+
+/* PROFILE DATA */
+
+.profileBox_data {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 100%;
+    margin: 10px auto;
+    padding: 10px;
+    background-color: rgb(152, 107, 214);
+    border-radius: 20px;
+}
+
+.profileBox_data_header {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 140px;
+    margin: auto;
+    background-color: rgb(240, 239, 242);
+    border-radius: 20px;
+    text-align: center;
+    padding: 10px;
+}
+
+.profileBox_data_header_uploadTitle {
+    margin-bottom: 5px;
+    font-family: 'Saira Stencil One', cursive;
+    font-size: 1.5em;
+    text-align: center;
+    color: rgba(67, 23, 93, 0.988);
+}
+
+.uploadTitle label {
+    font-family: 'Snippet', sans-serif;
+    font-weight: 700;
+    text-align: center;
+}
+
+.uploadTitle input {
+    border-radius: 10px;
+    height: 30px;
+}
+
+#uploadForm {
+    display: flex;
+}
+
+#tipoDocumento {
+    border-radius: 10px;
+    height: 30px;
+}
+
+.profileBox_data_header_upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.profileBox_data_header_upload_file {
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.profileBox_data_header_upload_file input[type="file"] {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    font-size: 70px; /* Ajusta el tamaño del botón a tu gusto */
+    cursor: pointer;
+    opacity: 0; 
+}
+
+.profileBox_data_header_upload_file span {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #c4cfda; /* Cambia el color de fondo a tu gusto */
+    color: #fff; /* Cambia el color del texto a tu gusto */
+    border-radius: 5px; /* Ajusta el radio de borde a tu gusto */
+    cursor: pointer;
+}
+
+.profileBox_data_header_upload_file span:hover {
+    background-color: #183b60; /* Cambia el color de fondo en el hover a tu gusto */
+}
+
+/* UPLOADED */
+
+.profileBox_data_uploaded {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 100%;
+    margin: 10px auto;
+    background-color: rgb(240, 239, 242);
+    border-radius: 20px;
+    text-align: center;
+    padding: 10px;
+}
+
+.profileBox_data_uploadedTitle {
+    font-family: 'Saira Stencil One', cursive;
+    font-size: 1.5em;
+    text-align: center;
+    color: rgba(67, 23, 93, 0.988);
+}
+
+.profileBox_data_uploaded_verify {
+    display: flex;
+    margin: 10px auto;
+    text-align: center;
+    align-items: center;
+    font-family: 'Snippet', sans-serif;
+    font-weight: 700;
+    text-align: center;
+}
+
+.profileBox_data_uploaded_verify svg {
+    margin-left: 10px;
+}
+
+/* DIV UPLOAD PHOTO */
+
+.divUploadPhoto {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 999;
+    position: fixed;
+    width: 100%;
+    height: 100%; 
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7); 
+}
+
+.divUploadPhoto_box {
+    max-width: 400px;
+    background-color: rgb(165, 148, 227);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.divUploadPhoto_box h3 {
+    font-family: 'Saira Stencil One', cursive;
+    font-size: 1.5em;
+    text-align: center;
+    color: rgba(67, 23, 93, 0.988);
+}
+
+#uploadPhotoForm {
+    display: flex;
+}
+
+.divUploadPhoto_box_buttonsData {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.textPhotoSelected {
+    font-family: 'Snippet', sans-serif;
+    font-weight: 700;
+}
+
+.textPhotoSelectedSpan {
+    color: rgb(78, 5, 102);
+}
