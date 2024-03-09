@@ -28,6 +28,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 
 const app = express();
 const SECRET_KEY = config.secret_key;
+const PORT = config.port || 8080
 
 // Dirname
 import { dirname } from 'path';
@@ -72,8 +73,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
-const httpServer = app.listen(config.port, () => {
-    logger.info(`Server is running on port ${config.port}`);
+const httpServer = app.listen(PORT, () => {
+    logger.info(`Server is running on port ${PORT}`);
 });
 
 // Cookies

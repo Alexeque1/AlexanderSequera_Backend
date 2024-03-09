@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
+import config from "../config.js";
 
-const URI = "mongodb+srv://alexeque1:alex15981478sequera@ecommerce.dvv9u6y.mongodb.net/CoderHouse_backend?retryWrites=true&w=majority"
-
-mongoose.connect(URI)
+mongoose.connect(config.mongo_uri)
 .then(() => {
     console.log("Conectado")
 })

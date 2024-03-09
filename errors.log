@@ -962,3 +962,4 @@
 {"level":"error","message":"Error en ProductsController (addProducts): Products validation failed: owner: Cast to ObjectId failed for value \"alexandersequera97@gmail.com\" (type string) at path \"owner\" because of \"BSONError\""}
 {"level":"error","message":"Error en la ruta /: Error en el controlador al agregar productos: Products validation failed: owner: Cast to ObjectId failed for value \"alexandersequera97@gmail.com\" (type string) at path \"owner\" because of \"BSONError\""}
 {"level":"error","message":"Error en la ruta /: user is not defined"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
