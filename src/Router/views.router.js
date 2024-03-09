@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { productsController } from "../Controllers/productsController.js";
+import { userController } from "../Controllers/userController.js";
 import { cartsController } from "../Controllers/cartController.js";
-import { authorizeUser } from "../middlewares/Authorize.middleware.js";
+import { authorizeAdmin, authorizeUser } from "../middlewares/Authorize.middleware.js";
 import { logger } from "../Fuctions/logger.js";
 import { isTokenValid } from "../Fuctions/utils.js";
+import { getProfilePhoto } from "../Fuctions/utils.js";
 
 const router = Router();
 
@@ -119,6 +121,55 @@ router.get('/profile', async (req, res) => {
         }
     } catch (error) {
         logger.error(`Error en la ruta /login: ${error.message}`);
+        return res.status(500).json('Ha habido un error en la ruta');
+    }
+});
+
+router.get('/profile/user/:id', authorizeAdmin, async (req, res) => {
+    const {id} = req.params
+    const user = req.session.user
+    const userFounded = []
+    try {
+        if (user) {
+            const finduser = await userController.findUserById(id)
+            
+            userFounded.push(finduser)
+            userFounded[0].profilePhoto = getProfilePhoto(finduser.documents);
+            
+            res.render("profileUser", { userProfileResult: userFounded, layout: 'mainlogin' });
+        } else {
+            res.redirect("/realtimeproducts");
+        }
+
+        console.log(userFounded[0].pro)
+
+    } catch (error) {
+        logger.error(`Error en la ruta /profile/user/:id: ${error.message}`);
+        return res.status(500).json('Ha habido un error en la ruta');
+    }
+});
+
+
+
+router.get('/manageusers', async (req, res) => {
+    try {
+        if (!req.session.user) {
+            return res.redirect("/realtimeproducts");
+        }
+
+        const userlogged = req.cookies.email;
+
+        const users = await userController.getUserInfo();
+        const usersNoAdmin = users.filter(user => user.email !== userlogged);
+
+        for (let i = 0; i < usersNoAdmin.length; i++) {
+            const user = usersNoAdmin[i];
+            user.profilePhoto = getProfilePhoto(user.documents);
+        }
+
+        res.render("usersAdmin", { usersResult: usersNoAdmin, layout: 'mainlogin' });
+    } catch (error) {
+        logger.error(`Error en la ruta /manageusers: ${error.message}`);
         return res.status(500).json('Ha habido un error en la ruta');
     }
 });

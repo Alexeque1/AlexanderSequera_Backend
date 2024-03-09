@@ -844,3 +844,121 @@
 {"level":"error","message":"Error en la ruta /resetpassword: Unexpected token 'e', \"eyJhbGciOi\"... is not valid JSON"}
 {"level":"error","message":"Error en la ruta /resetpassword: Unexpected token 'e', \"eyJhbGciOi\"... is not valid JSON"}
 {"level":"error","message":"Error en la ruta /resetpassword: \"[object Object]\" is not valid JSON"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: userController.getAllUsers is not a function"}
+{"level":"error","message":"Error en la ruta /getUserName: userController.getAllUsers is not a function"}
+{"level":"error","message":"Error en la ruta /getUserName: Class constructor userDTOAPI cannot be invoked without 'new'"}
+{"level":"error","message":"Error en la ruta /getUserName: usersDAO is not defined"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /manageusers: Cannot read properties of undefined (reading '_id')"}
+{"level":"error","message":"Error en la ruta /manageusers: Cannot read properties of undefined (reading '_id')"}
+{"level":"error","message":"Error en la ruta /manageusers: Cannot read properties of undefined (reading '_id')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /manageusers: getProfilePhoto is not defined"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /login: logger is not defined"}
+{"level":"error","message":"Error en la ruta /login: logger is not defined"}
+{"level":"error","message":"Error en la ruta /login: logger is not defined"}
+{"level":"error","message":"Error en la ruta /login: Cannot set properties of undefined (setting 'profilePhoto')"}
+{"level":"error","message":"Error en la ruta /login: Cannot set properties of undefined (setting 'profilePhoto')"}
+{"level":"error","message":"Error en la ruta /login: Cannot set properties of undefined (setting 'profilePhoto')"}
+{"level":"error","message":"Error en la ruta /login: Cannot set properties of undefined (setting 'profilePhoto')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: logger is not defined"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: logger is not defined"}
+{"level":"error","message":"Error en la ruta /getUserName: logger is not defined"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: logger is not defined"}
+{"level":"error","message":"Error en la ruta /getUserName: logger is not defined"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: logger is not defined"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: logger is not defined"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: logger is not defined"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /profile/user/:id: Cannot read properties of null (reading 'documents')"}
+{"level":"error","message":"Error en la ruta /getUserName: logger is not defined"}
+{"level":"error","message":"Error en la ruta /profile/user/:id: Cannot read properties of null (reading 'documents')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /profile/user/:id: Cannot read properties of null (reading 'documents')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Intento de registrar un usuario con un email ya registrado"}
+{"level":"error","message":"Intento de registrar un usuario con un email ya registrado"}
+{"level":"error","message":"Intento de registrar un usuario con un email ya registrado"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Intento de registrar un usuario con un email ya registrado"}
+{"level":"error","message":"Intento de registrar un usuario con un email ya registrado"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: logger is not defined"}
+{"level":"error","message":"Error en la ruta /api/user/:id: logger is not defined"}
+{"level":"error","message":"Error en la ruta /api/user/:id logger is not defined"}
+{"level":"error","message":"Error en la ruta /api/user/:id logger is not defined"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /api/user/:id logger is not defined"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en la ruta /getUserName: Cannot read properties of undefined (reading 'first_name')"}
+{"_message":"Products validation failed","errors":{"owner":{"kind":"ObjectId","message":"Cast to ObjectId failed for value \"alexandersequera97@gmail.com\" (type string) at path \"owner\" because of \"BSONError\"","name":"CastError","path":"owner","reason":{},"stringValue":"\"alexandersequera97@gmail.com\"","value":"alexandersequera97@gmail.com","valueType":"string"}},"level":"error","message":"Hubo un error en DAO:  Products validation failed: owner: Cast to ObjectId failed for value \"alexandersequera97@gmail.com\" (type string) at path \"owner\" because of \"BSONError\"","stack":"ValidationError: Products validation failed: owner: Cast to ObjectId failed for value \"alexandersequera97@gmail.com\" (type string) at path \"owner\" because of \"BSONError\"\n    at Document.invalidate (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\mongoose\\lib\\document.js:3173:32)\n    at model.$set (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\mongoose\\lib\\document.js:1453:12)\n    at model.set [as owner] (C:\\Users\\alexa\\Backend_Ofic\\node_modules\\mongoose\\lib\\helpers\\document\\compile.js:205:19)\n    at productsDao.addProducts (file:///C:/Users/alexa/Backend_Ofic/src/Dao/Mongo/productsDao.mongo.js:158:28)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async ProductsController.addProducts (file:///C:/Users/alexa/Backend_Ofic/src/Controllers/productsController.js:57:24)\n    at async file:///C:/Users/alexa/Backend_Ofic/src/Router/products.router.js:63:28"}
+{"level":"error","message":"Error en ProductsController (addProducts): Products validation failed: owner: Cast to ObjectId failed for value \"alexandersequera97@gmail.com\" (type string) at path \"owner\" because of \"BSONError\""}
+{"level":"error","message":"Error en la ruta /: Error en el controlador al agregar productos: Products validation failed: owner: Cast to ObjectId failed for value \"alexandersequera97@gmail.com\" (type string) at path \"owner\" because of \"BSONError\""}
+{"level":"error","message":"Error en la ruta /: user is not defined"}

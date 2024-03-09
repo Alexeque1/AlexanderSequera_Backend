@@ -1,0 +1,150 @@
+.searchUserContainer {
+    max-width: 500px;
+    margin: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.searchUserContainer h2 {
+    font-family: 'Saira Stencil One', cursive;
+    font-size: 2em;
+    color: rgba(67, 23, 93, 0.988);
+}
+
+.searchUserContainer_input input {
+    border-radius: 10px;
+    width: 400px;
+    height: 30px;
+    text-align: center;
+}
+
+.listUsersContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.listUsersContainer_list {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center; /* Para centrar horizontalmente */
+}
+
+.listUsersContainer_box {
+    width: 200px;
+    height: 300px;
+    background-color: #e6e6fa; /* Color lila */
+    border-radius: 20px;
+    margin: 10px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.listUsersContainer_box_title {
+    max-height: 60px; /* Altura máxima del título */
+    overflow: hidden; /* Oculta el texto que excede la altura máxima */
+}
+
+.listUsersContainer_box_title h2 {
+    margin: 0; /* Elimina el margen predeterminado del h2 */
+}
+
+.listUsersContainer_box_photo {
+    width: 100%;
+    height: 55%;
+    padding: 2px;
+    display: flex;
+    justify-content: center;
+}
+
+.listUsersContainer_box_photo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+    .listUsersContainer_list {
+        width: 100%;
+    }
+}
+
+.listUsersContainer_box_buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+/* USER DATA */
+
+.userDataContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 999;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.userDataContainer_box {
+    max-width: 800px;
+    background-color: rgb(165, 148, 227);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.manageUsersBack {
+    text-align: center;
+}
+
+/* PROFILE USER */
+
+.changeRoleContainer {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 999;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.changeRoleContainer_box {
+    min-width: 300px;
+    background-color: rgb(165, 148, 227);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.changeRoleContainer_box_title {
+    font-family: 'Saira Stencil One', cursive;
+    font-size: 1.5em;
+    text-align: center;
+    color: rgba(67, 23, 93, 0.988);
+    margin-bottom: 10px;
+}
+
+.changeRoleContainer_box_options select {
+    border-radius: 10px;
+    height: 30px;
+}

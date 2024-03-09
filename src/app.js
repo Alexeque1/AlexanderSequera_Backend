@@ -9,6 +9,8 @@ import userRouter from './Router/user.router.js';
 import MockingRouter from './Router/mocking.router.js';
 import LoggerTest from './Router/loggertest.router.js';
 import { engine } from 'express-handlebars';
+import Handlebars from 'handlebars';
+import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
 import { Server } from 'socket.io';
 import "./Models/configDB.js";
 import session from 'express-session';
@@ -53,7 +55,16 @@ export const generateToken = (user) => {
 };
  
 // Handlebars
-app.engine('handlebars', engine());
+const options = {
+  allowProtoMethodsByDefault: true,
+  allowProtoPropertiesByDefault: true
+};
+
+
+app.engine('handlebars', engine({
+  handlebars: allowInsecurePrototypeAccess(Handlebars), 
+  ...options 
+}));
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 

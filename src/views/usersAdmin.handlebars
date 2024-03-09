@@ -1,0 +1,30 @@
+<div class="searchUserContainer">
+    <h2>Busqueda de usuario</h2>
+    <div class="searchUserContainer_input">
+        <input type="text" placeholder="Ingrese el nombre" id="searchUsers">
+    </div>
+</div>
+<div class="listUsersContainer">
+    <ul class="listUsersContainer_list" id="userListContainer">
+        {{#each usersResult}}
+        <div class="listUsersContainer_box" data-user-id="{{_id}}">
+            <div class="listUsersContainer_box_title">
+                <h2>{{first_name}} {{last_name}}</h2>
+            </div>
+            <div class="listUsersContainer_box_photo">
+                <picture>
+                    <img src="{{profilePhoto}}" alt="">
+                </picture>
+            </div>
+            <div class="listUsersContainer_box_buttons">
+                <button class="btn showProfileData">
+                    Ver perfil
+                </button>
+                <button class="btn" id="toRemoveUserProfile">
+                    Eliminar
+                </button>
+            </div>
+        </div>
+        {{/each}}
+    </ul>
+</div>

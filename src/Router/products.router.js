@@ -4,6 +4,8 @@ import { authorizeAdmin } from "../middlewares/Authorize.middleware.js";
 import CustomError from "../Errors/customErrors.js";
 import { ErrorsMessage, ErrorsName } from "../Errors/error.enum.js";
 import { logger } from "../Fuctions/logger.js";
+import { userController } from "../Controllers/userController.js";
+import { transport } from "../app.js";
 
 const router = Router();
 
@@ -103,7 +105,7 @@ router.put('/:id', authorizeAdmin, async (req, res) => {
     }
 });
 
-router.delete('/:id', authorizeAdmin, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -113,7 +115,83 @@ router.delete('/:id', authorizeAdmin, async (req, res) => {
             return res.status(404).json({ message: 'Producto no encontrado' });
         }
 
-        const removeData = await productsController.removeProduct(id);
+        let removeData
+        const userOwner = findProduct.owner
+        const findUser = await userController.findByEmail(userOwner)
+        const userRole = findUser.role
+        
+        if(!findUser) {
+            removeData = await productsController.removeProduct(id);
+            return "done"
+        } else if (userRole == "PREMIUM") {
+            let mailOptions = {
+                from: 'AlexBackend <alexandersequera97@gmail.com>',
+                to: findUser.email,
+                subject: "Restaurar contraseña",
+                html: `
+                    <html>
+                        <head>
+                            <style>
+                                body {
+                                    font-family: 'Arial', sans-serif;
+                                    background-color: #f4f4f4;
+                                    color: #333;
+                                    margin: 0; 
+                                    padding: 0; 
+                                }
+                                header {
+                                    background-color: #007bff;
+                                    padding: 20px;
+                                    color: #fff;
+                                    text-align: center;
+                                    width: 100%; 
+                                }
+                                main {
+                                    max-width: 600px; 
+                                    margin: 20px auto; 
+                                }
+                                button {
+                                    background-color: rgb(191, 184, 184);
+                                    padding: 10px;
+                                    font-family: 'Saira Stencil One', cursive;
+                                    font-size: 1em;
+                                    border-radius: 10px;
+                                    cursor: pointer;
+                                    text-align: center;
+                                    display: block; 
+                                    margin: 10px auto; 
+                                }
+                                footer {
+                                    background-color: #f4f4f4;
+                                    padding: 10px;
+                                    text-align: center;
+                                    font-size: 12px;
+                                    width: 100%; 
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <header>
+                                <h1>Funko Pop - Eliminación de la cuenta</h1>
+                            </header>
+                            <main>
+                                <p>¡Hola, <b>${findUser.first_name}<b>!</p>
+                                <p>El producto ${findProduct.title} ha sido eliminado.</p>
+                                <p>Gracias por utilizar nuestros servicios.</p>
+                            </main>
+                            <footer>
+                                <p>Este es un mensaje automático. Por favor, no responda a este correo electrónico.</p>
+                                <p>&copy; 2024 Funko Pop Argentina</p>
+                            </footer>
+                        </body>
+                    </html>
+                `
+            };
+            
+            await transport.sendMail(mailOptions);
+
+            removeData = await productsController.removeProduct(id);
+        }
 
         logger.info(`Producto con ID ${id} eliminado exitosamente`);
         return res.json({ message: removeData });

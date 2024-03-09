@@ -36,3 +36,21 @@ export const isTokenValid = (token, createdAt) => {
   // El token es válido
   return true;
 };
+
+export function getProfilePhoto(documents) {
+  if (!documents || documents.length === 0) {
+      return "/IMG/userNotLogged.png";
+  }
+
+  const profileImage = documents.find(document => document.name === "profileImage");
+  return profileImage ? profileImage.document : "/IMG/userNotLogged.png";
+}
+
+export function documentsVerifier(documents) {
+  if (!documents || documents.length === 0) {
+      return "/IMG/userNotLogged.png";
+  }
+
+  const profileImage = documents.find(document => document.name === "profileImage");
+  return profileImage ? profileImage.document : "/IMG/userNotLogged.png";
+}
