@@ -9,6 +9,15 @@ import { getProfilePhoto } from "../Fuctions/utils.js";
 
 const router = Router();
 
+router.get('/', async (req, res) => {
+    try {
+        res.redirect("/realtimeproducts");
+    } catch (error) {
+        logger.error(`Error en la ruta /realtimeproducts: ${error.message}`);
+        return res.status(500).json('Ha habido un error en la ruta');
+    }
+});
+
 router.get('/realtimeproducts', async (req, res) => {
     try {
         const products = await productsController.getProducts(req.query);
