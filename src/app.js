@@ -39,7 +39,7 @@ export default __dirname
 // Session
 app.use(session({
   store: new MongoStore({
-    mongoUrl: config.port
+    mongoUrl: config.mongo_uri
   }),
   secret: "secretSession",
   cookie: { maxAge: 1800000 }
